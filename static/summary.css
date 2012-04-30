@@ -1,0 +1,103 @@
+body {
+	margin: 0;
+/*	padding: 14px 20px 10px 10px; */
+	padding: 0;
+	overflow: hidden;
+}
+
+h2 {
+	margin: 10px 0;
+}
+
+#base {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+#filterContainer {
+	background: RGB(240,240,240) url(../images/filter_bg.png) repeat-x scroll 0 0;
+	padding-bottom: 4px;
+	padding-top: 5px;
+}
+
+.classList {
+	font-family: arial, sans-serif;
+	font-size: 12px;
+	white-space: nowrap;
+	padding: 3px 3px 3px 6px;
+}
+
+#classListFrame {
+	position: relative;
+	background-color:#ffffff;
+	border-top:1px solid RGB(180,180,180);
+	width:100%;
+	overflow:auto;
+/*	margin-top: 4px; */
+}
+
+.itemName {
+	font-size: 12px;
+	line-height: 15px;
+}
+
+.itemName a {
+	line-height: 15px;
+}
+
+.classSummary {
+/*	background-color: #ffcccc; */
+	position:relative;
+	margin-top: 1px;
+}
+
+.smryClassMemberBox {
+	margin-left: 15px;
+	display: none;
+}
+
+.smryMemberName {
+/*	display: block; */
+	font-size: 12px;
+}
+
+#filterCaption {
+	float: left;
+	width: 45px;
+	padding: 3px 0;
+	text-align: right;
+}
+
+#filterConfig {
+	margin: 4px 4px 0px 5px;
+	border: 1px solid RGB(180,180,180);
+	padding: 4px;
+	display: none;
+	background-color: RGB(250,250,210);
+}
+
+#filterWord {
+	position: absolute;
+	color: RGB(170,170,170);
+	left: 5px;
+	top: 0px;
+}
+
+#caseSensitive, #mtypePrefix  {
+	margin-left: 0;
+}
+
+#filter {
+	position: relative;
+	margin:0px 2px 0 0px;
+	height:21px;
+	overflow: hidden;
+/*	padding-bottom: 4px */;
+}
+
+#filterConfigBtn {
+	position: absolute;
+	top: 0px;
+}
+

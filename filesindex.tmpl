@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{+Kw.lang+}" lang="{+Kw.lang+}">
+<head>
+<meta http-equiv="content-type" content="text/html; charset={+IO.encoding+}"" />
+<title>{+publish.docTitle+} - {+Kw.filesIndex.title+}</title>
+<meta name="generator" content="JsDoc Toolkit" />
+<link rel="stylesheet" type="text/css" href="./css/common.css" />
+<link rel="stylesheet" type="text/css" href="./css/filesindex.css" />
+<if test="publish.hasUserCSS"><link rel="stylesheet" type="text/css" href="./css/user_css.css" /></if>
+<script type="text/javascript" src="./js/utils.js" ></script>
+<script type="text/javascript" src="./js/filesindex.js" ></script>
+<script type="text/javascript" >
+PageOperator.files = {+ makePropertyValueArray(data, "outAlias") +};
+PageOperator.msgOpenAllBtn  = "{+ Kw.filesIndex.msgOpenAllBtn +}";
+PageOperator.msgCloseAllBtn = "{+ Kw.filesIndex.msgCloseAllBtn +}";
+PageOperator.msgOpenBtn  = "{+ Kw.filesIndex.msgOpenBtn +}";
+PageOperator.msgCloseBtn = "{+ Kw.filesIndex.msgCloseBtn +}";
+
+{+ writeKeywords() +}
+</script>
+</head>
+<body>
+<div id="content" >
+
+<div class="titleContainer" >
+	<div class="indexLink" >
+		<a id="linkNewWnd" href="#" target="_blank" >{+Kw.clas.linkNoFrame+}</a> |
+		<if test="publish.hasOverview">
+		{+new Link().toFile("overview.html").withText(Kw.summary.overview).target("detail")+} |
+		</if>
+		{+new Link().toFile("classesindex.html").withText(Kw.summary.classIndex).target("detail")+} |
+		<span class="disabledLink" >{+Kw.summary.fileIndex+}</span>
+	</div>
+	<div class="title classNormal aliasFont">{+Kw.filesIndex.caption+}</div>
+</div>
+
+<a href="javascript:void(0)" id="openAllBtn" >&nbsp;</a>
+
+<for each="item" in="data">
+<div class="itemContainer" >
+	<div class="relative fileNameContainer" >
+		<if test="item.hasComment || item.defines.length"><div class="arrowBtn arrowBtn_close" id="arw_{+ item.outAlias +}" ></div></if>
+		<div class="className itemName fileIcon floatLeft aliasFont" >
+			{+new Link().toSrc(item.alias).withText(item.fileName).cssClass("classNormal")+}
+		</div>
+		<span class="filePath" >{+ item.dispPath +}</span>
+		<div class="clearBoth" ></div>
+	</div>
+	<div id="mem_{+ item.outAlias +}" class="itemDesc" >
+	<if test="item.hasComment || item.defines.length">
+		<div id="mem_smp_{+ item.outAlias +}" ><if test="item.hasDesc"><div>{+ resolveLinks(item.summarizedDesc) +}</div></if></div>
+		<div id="mem_dtl_{+ item.outAlias +}" style="display:none;" ><if test="item.hasDesc"><div>{+ resolveLinks(item.desc) +}</div></if>
+			<if test="file.hasMember || item.defines.length">
+				<table class="descTable" cellspacing="0" >
+				<if test="item.author">
+				<tr><th class="caption descCaption">{+Kw.filesIndex.author+}</th><td>{+resolveLinks(item.author)+}</td></tr>
+				</if>
+				<if test="item.version">
+				<tr><th class="caption descCaption">{+Kw.filesIndex.version+}</th><td>{+resolveLinks(item.version)+}</td></tr>
+				</if>
+				<if test="item.locations.length">
+				<tr><th class="caption descCaption">{+Kw.filesIndex.location+}</th><td>
+				{+ item.locations.map(function($){ return "<a href='"+$+"'>"+$+"</a>"; }).join("<br>") +}
+				</td></tr>
+				</if>
+				<if test="item.defines.length">
+				<tr><th class="caption descCaption">{+Kw.filesIndex.defines+}</th><td>
+				{+ item.defines.map(function($){ return resolveLinks($) }).join(", ") +}
+				</td></tr>
+				</if>
+				</table>
+			</if>
+		</div>
+	</if>
+	</div>
+</div>
+<div class="border"></div>
+</for>
+
+<div class="fineprint" >
+{+ fineprint() +}
+</div>
+
+</div>
+</body>
+</html>

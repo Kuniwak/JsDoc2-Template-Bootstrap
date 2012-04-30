@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{+Kw.lang+}" lang="{+Kw.lang+}">
+<head>
+<meta http-equiv="content-type" content="text/html; charset={+IO.encoding+}" />
+
+<title>{+(JSDOC.opt.D.title?JSDOC.opt.D.title:"API")+} {+Kw.summary.title+}</title>
+<meta name="generator" content="JsDoc Toolkit" />
+<script type="text/javascript" src="./js/utils.js" ></script>
+<script type="text/javascript" src="./js/summary.js" ></script>
+<script type="text/javascript" src="./js/symbolobjects.js" ></script>
+<link rel="stylesheet" type="text/css" href="./css/common.css" />
+<link rel="stylesheet" type="text/css" href="./css/summary.css" />
+<if test="publish.hasUserCSS"><link rel="stylesheet" type="text/css" href="./css/user_css.css" /></if>
+<script type="text/javascript" >
+TreeOperator.classes = {+ publish.classAliasArrayString +};
+TreeOperator.filterCaption = "{+Kw.summary.filterCaption+}";
+TreeOperator.msgOpenConfigBtn = "{+ Kw.summary.msgOpenConfigBtn +}";
+TreeOperator.msgCloseConfigBtn = "{+ Kw.summary.msgCloseConfigBtn +}";
+TreeOperator.msgOpenClassBtn = "{+ Kw.summary.msgOpenClassBtn +}";
+TreeOperator.msgCloseClassBtn = "{+ Kw.summary.msgCloseClassBtn +}";
+</script>
+</head>
+<body>
+<div id="base">
+<div id="filterContainer" >
+	<div id="filter" >
+		<input type="text" id="filterWord" class="textBox" />
+		<div id="filterConfigBtn" class="expandBtn expandBtn_close" ></div>
+
+<!--	<br/>debug:<textarea id="filterResult" style="width:150px;height:300px;font-size:12px;" ></textarea>-->
+	</div>
+
+	<div id="filterConfig" >
+		<input type="checkbox" id="caseSensitive" />{+Kw.summary.filterCaseSensitive+}<br />
+		<input type="radio" name="matchType" id="mtypePrefix"  />{+Kw.summary.prefixMatch+}&nbsp;
+		<input type="radio" name="matchType" id="mtypePertial"  />{+Kw.summary.partialMatch+}
+	</div>
+</div>
+<div id="classListFrame" >
+	<div class="classList">
+		<for each="thisClass" in="data">
+			{+ writeClassSummary(thisClass) +}
+		</for>
+	</div>
+</div>
+</div>
+</body>
+</html>

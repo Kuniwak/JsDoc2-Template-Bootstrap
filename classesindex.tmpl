@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{+Kw.lang+}" lang="{+Kw.lang+}">
+<head>
+<meta http-equiv="content-type" content="text/html; charset={+IO.encoding+}" />
+<title>{+publish.docTitle+} - {+Kw.classesIndex.title+}</title>
+<meta name="generator" content="JsDoc Toolkit" />
+<link rel="stylesheet" type="text/css" href="./css/common.css" />
+<link rel="stylesheet" type="text/css" href="./css/classesindex.css" />
+<if test="publish.hasUserCSS"><link rel="stylesheet" type="text/css" href="./css/user_css.css" /></if>
+<script type="text/javascript" src="./js/utils.js" ></script>
+<script type="text/javascript" src="./js/classesindex.js" ></script>
+<script type="text/javascript" >
+PageOperator.classes = {+ publish.classAliasArrayString +};
+PageOperator.msgOpenAllBtn  = "{+ Kw.classesIndex.msgOpenAllBtn +}";
+PageOperator.msgCloseAllBtn = "{+ Kw.classesIndex.msgCloseAllBtn +}";
+PageOperator.msgOpenBtn  = "{+ Kw.classesIndex.msgOpenBtn +}";
+PageOperator.msgCloseBtn = "{+ Kw.classesIndex.msgCloseBtn +}";
+
+{+ writeKeywords() +}
+</script>
+<style type="text/css" >
+{+ srcHilite.css +}
+</style>
+</head>
+<body>
+<div id="content" >
+
+<div class="titleContainer" >
+	<div class="indexLink" >
+		<a id="linkNewWnd" href="#" target="_blank" >{+Kw.clas.linkNoFrame+}</a> |
+		<if test="publish.hasOverview">
+		{+new Link().toFile("overview.html").withText(Kw.summary.overview).target("detail")+} |
+		</if>
+		<span class="disabledLink" >{+Kw.summary.classIndex+}</span> |
+		{+new Link().toFile("filesindex.html").withText(Kw.summary.fileIndex).target("detail")+}
+	</div>
+	<div class="title classNormal aliasFont">{+Kw.classesIndex.caption+}</div>
+</div>
+
+<a href="javascript:void(0)" id="openAllBtn" >&nbsp;</a>
+
+<for each="item" in="data">
+{!
+	var isGlobal = (item.alias == "_global_");
+	var link;
+	var classStyle = "classNormal";
+	if (item.deprecated) {
+		classStyle = "deprecated";
+	}
+	else {
+		if (item.isNamespace) classStyle = "namespace";
+		if (item.isInterface) classStyle = "interface";
+		if (item.isStaticClass) classStyle = "classStatic";
+		if (item.isAbstractClass) classStyle = "classAbstract";
+		if (item.isVirtualClass) classStyle = "classVirtual";
+	}
+
+	var link = new Link().toSymbol(item.alias).cssClass(classStyle);
+	if (isGlobal) {
+		link.italic(true);
+	}
+!}
+<div class="itemContainer" >
+	<div class="relative" >
+		<if test="!isGlobal"><div class="arrowBtn arrowBtn_close" id="arw_{+ item.alias +}" ></div></if>
+		<div class="className itemName aliasFont {+ classStyle +} {+ resolveClassCSSClass(item) +}" >
+			{+link+}
+		</div>
+		<div class="clearBoth" ></div>
+	</div>
+	<if test="!isGlobal">
+
+	<div id="mem_{+ item.alias +}" class="itemDesc" >
+		<div id="mem_smp_{+ item.alias +}" ><div>{+ convInlineCodes(resolveLinks(item.summarizedClassDesc)) +}</div></div>
+		<div id="mem_dtl_{+ item.alias +}" style="display:none;" ><div>{+ convInlineCodes(resolveLinks(item.classDesc)) +}</div>
+			<table class="descTable" cellspacing="0" >
+				<if test="item.out.namespace">
+					<tr><th class="descCaption" >{+Kw.clas.namespace+}</th><td>{+new Link().toSymbol(item.out.namespace)+}</td></tr>
+				</if>
+
+				<if test="item.hasInheritance">
+					<tr><th class="descCaption" >{+Kw.clas.inheritance+}</th><td>
+					{+makeInheritanceLine(item, classStyle)+}
+					</td></tr>
+				</if>
+
+				<if test="(item.interfaces && item.inheritedInterfaces) && (item.interfaces.length || item.inheritedInterfaces.length)">
+					<tr><th class="descCaption" >{+Kw.clas.interfaces+}</th><td>
+					<if test="item.interfaces.length">
+					{+item.interfaces.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
+					</if>
+					<if test="item.interfaces.length && item.inheritedInterfaces.length"><br /></if>
+					<if test="item.inheritedInterfaces.length">
+					{+Kw.clas.interfacesFromAugments+}:
+					{+item.inheritedInterfaces.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
+					</if>
+					</td></tr>
+				</if>
+
+				<if test="item.isInterface">
+					<tr><th class="descCaption" >{+Kw.clas.implementers+}</th><td>
+					{+item.implementers.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
+					</td></tr>
+				</if>
+
+				<if test="item.requires.length">
+					<tr><th class="descCaption" >{+Kw.clas.requires+}</th><td>
+					{+item.requires.map(function($){ return new Link().toSymbol($) }).join(", ")+}
+					</td></tr>
+				</if>
+				<if test="item.see.length">
+					<tr><th class="descCaption" >{+Kw.clas.see+}</th><td>{+writeListItems(item.see)+}</td></tr>
+				</if>
+				<if test="item.author">
+					<tr><th class="descCaption" >{+Kw.clas.author+}</th><td>{+item.author+}</td></tr>
+				</if>
+				<if test="item.version">
+					<tr><th class="descCaption" >{+Kw.clas.version+}</th><td>{+resolveLinks(item.version)+}</td></tr>
+				</if>
+				<if test="item.since">
+					<tr><th class="descCaption" >{+Kw.clas.since+}</th><td>{+item.since+}</td></tr>
+				</if>
+				<if test="item.example.length">
+					{! var num = item.example.length>1?1:""; !}
+					<for each="example" in="item.example">
+					<tr><td class="descCaption">{+ (Kw.clas.example+" "+num) +}</td><td>{+ writeExample(example) +}</td></tr>
+					{! num++; !}
+					</for>
+				</if>
+				<if test="item.todos && item.todos.length">
+					<tr><th class="descCaption" >{+Kw.clas.todo+}</th><td>{+writeListItems(item.todos)+}</td></tr>
+				</if>
+				<if test="item.srcFile">
+					<tr><th class="descCaption" >{+Kw.clas.file+}</th><td>{+new Link().toSrc(item.srcFile).inner(item.srcAnchor)+}</td></tr>
+				</if>
+			</table>
+		</div>
+	</div>
+
+	</if>
+</div>
+<div class="border"></div>
+</for>
+
+<div class="fineprint" >
+{+ fineprint() +}
+</div>
+
+</div>
+</body>
+</html>

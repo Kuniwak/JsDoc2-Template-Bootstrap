@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{+Kw.lang+}" lang="{+Kw.lang+}">
+<head>
+<meta http-equiv="content-type" content="text/html;charset={+IO.encoding+}" />
+<title>{+publish.docTitle+}</title>
+<script type="text/javascript" >
+
+var hasOverview = {+ publish.hasOverview +};
+window.onload = function() {
+	var page = location.search.replace(/^\\?/,"");
+	var fraSrc = "";
+	switch(page) {
+		case "":              fraSrc = hasOverview?"overview":"classesindex"; break;
+		case ".overview":     fraSrc = "overview"; break;
+		case ".classesindex": fraSrc = "classesindex"; break;
+		case ".filesindex":   fraSrc = "filesindex"; break;
+		default:              fraSrc = "symbols/" + page;
+	}
+	document.getElementsByName("detail").item(0).src = fraSrc + ".html"+location.hash;
+};
+
+window.onresize = function() {
+	if (window.frames[0]) {
+		window.frames[0].doresize();
+	}
+};
+
+</script>
+</head>
+<frameset cols="245px,*" >
+	<frame src="summary.html" name="summary" />
+	<frame name="detail" />
+	<noframes>
+		<body>
+		<p>
+		This document is designed to be viewed using the frames feature. If you see this message, you are using a non-frame-capable web client.
+		</p>
+		</body>
+	</noframes>
+</frameset>
+</html>

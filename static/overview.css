@@ -1,0 +1,16 @@
+.docOverview {
+	margin-top: 30px;
+	margin-left: 10px;
+}
+
+.footerPadding {
+	margin-top: 40px;
+}
+
+#namespaces td {
+	padding: 2px;
+}
+
+.nsDesc {
+	padding: 0 0 4px 12px;
+}

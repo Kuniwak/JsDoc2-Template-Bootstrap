@@ -1,0 +1,302 @@
+/*
+.className {
+	background-position: 0px 3px;
+}
+*/
+
+#title {
+/*	padding: 4px 8px 2px; */
+	border-bottom: 1px solid RGB(180,180,180);
+	margin-bottom: 5px;
+	width: 100%;
+}
+
+.titleBg_class {
+	background: transparent url(../images/title_class.png) repeat-x;
+}
+
+.titleBg_staticclass {
+	background: transparent url(../images/title_staticclass.png) repeat-x;
+}
+
+.titleBg_abstractclass {
+	background: transparent url(../images/title_abstractclass.png) repeat-x;
+}
+
+.titleBg_virtualclass {
+	background: transparent url(../images/title_virtualclass.png) repeat-x;
+}
+
+.titleBg_namespace {
+	background: transparent url(../images/title_namespace.png) repeat-x;
+}
+
+.titleBg_interface {
+	background: transparent url(../images/title_interface.png) repeat-x;
+}
+
+.titleBg_deprecated {
+	background: transparent url(../images/title_deprecated.png) repeat-x;
+}
+
+#classAlias {
+	margin-top: 4px;
+	font-size:20px;
+	line-height:24px;
+	vertical-align: bottom;
+	font-weight: bold;
+	z-index: 1;
+}
+
+.classType {
+	font-size:16px;
+/*	background-position:0 4px; */
+	margin-right:8px;
+	margin-left: 2px;
+}
+
+.titleIcon_class {
+	background-position: 0 2px;
+}
+
+.titleIcon_abstractclass {
+	background-position: 0 -16px;
+}
+
+.titleIcon_staticclass {
+	background-position: 0 -34px;
+}
+
+.titleIcon_virtualclass {
+	background-position: 0px -52px;
+}
+
+.titleIcon_interface {
+	background-position: 0px -70px;
+}
+
+.titleIcon_class_dep, .titleIcon_abstractclass_dep, .titleIcon_staticclass_dep,
+.titleIcon_virtualclass_dep, .titleIcon_interface_dep {
+	background-position: 0px -88px;
+}
+
+.titleIcon_namespace {
+	background-position: 0px -106px;
+}
+
+.titleIcon_namespace_dep {
+	background-position: 0px -126px;
+}
+
+
+.description {
+	padding: 2px 4px 0 10px;
+	text-align: left;
+	clear: both;
+}
+
+
+/* Category Title */
+table.categoryTitle {
+	margin: 3px 0 3px 0;
+	width: 100%;
+}
+
+table.categoryTitle th {
+	padding: 1px 1px 0 1px;
+	border: 1px solid RGB(180,180,180);
+	background-color: RGB(223,233,254);
+	width: 80px;
+}
+
+table.categoryTitle th div {
+	font-size: 15px;
+	padding: 3px 4px 5px 4px;
+	color: RGB(116,116,192);
+	font-weight: normal;
+	width: auto;
+	height: auto;
+	background: RGB(231,232,255) url(../images/caption_bg.png) repeat-x;
+}
+
+table.categoryTitle td {
+	border-bottom: 1px solid RGB(180,180,180);
+	text-align: right;
+	vertical-align: bottom;
+	padding: 0 2px 2px 0;
+/*	color: RGB(180,180,180); */
+}
+
+/*
+table.categoryTitle .disabledLink {
+	color: RGB(190,190,190);
+}
+*/
+
+/* Summary Table */
+.summaryTable {
+	width: 100%;
+	margin-bottom: 8px;
+}
+
+.summaryTable caption, div.sectionTitle {
+	padding: 1px 1px 0 1px;
+	border: 1px RGB(180,180,180) solid;
+	background-color: RGB(231,232,255);
+}
+
+.summaryTable caption div , div.sectionTitle div {
+	background: RGB(231,232,255) url(../images/caption_bg.png) repeat-x;
+	color: RGB(116,116,192);
+	padding: 2px 6px 2px 6px;
+	width: auto;
+	height: 15px;
+}
+
+.summaryTable caption div span , .sectionTitle div span {
+	background: transparent;
+	float: left;
+	font-size:13px;
+	width: auto;
+	line-height:14px;
+}
+
+
+.summaryTable caption div .upArrow, .sectionTitle div .upArrow {
+/*	color: #FFFFFF; */
+	color: RGB(116,116,192);
+	margin-right: 0;
+	line-height: 14px;
+	clear:Å@right;
+}
+
+.summaryTable thead { display: none; }
+
+.summaryTable th, .summaryTable td {
+	vertical-align: top;
+	padding: 4px;
+	border-bottom: 1px RGB(180,180,180) solid;
+	border-right: 1px RGB(180,180,180) solid;
+	font-weight: normal;
+}
+
+.summaryTable td div {
+	position: relative;
+}
+
+.summaryTable .isInherited {
+/*	background-color: RGB(245,245,255); */
+}
+
+
+td.attributes {
+	border-left: 1px RGB(180,180,180) solid;
+	width: 100px;
+	text-align: right;
+	line-height: 13px;
+}
+
+.viewOptions {
+	margin-top: 4px;
+}
+
+.viewOptions input {
+	margin:0 3px 1px 1px;
+}
+
+.lendClassName {
+	border-left: 1px RGB(180,180,180) solid;
+	width: 100px;
+	text-align: left;
+}
+
+
+div.sectionTitle {
+	margin-bottom: 8px;
+}
+
+.detailItemTable {
+	width: 100%;
+	clear: both;
+	margin: 7px 0 2px 0;
+}
+
+.detailItemTable td {
+	vertical-align: top;
+	padding: 4px;
+}
+
+.detailItemTable td.detailCaption {
+	width: 57px;
+	white-space: nowrap;
+}
+
+.memberDesc {
+	clear: both;
+	padding: 4px 0 0 15px;
+}
+
+.paramTable {
+	width: 100%;
+}
+
+.paramTable .paramAttr {
+	width: 5px;
+	padding: 2px 8px 2px 0;
+}
+
+.paramTable .paramName {
+	width: 5px;
+	padding: 0 10px 2px 0;
+	white-space: nowrap;
+}
+
+.paramTable .paramDesc {
+	padding:0 4px 0 0;
+}
+
+.isInherited .orgClass {
+	float: right;
+	width: auto;
+	text-align: right;
+}
+
+.isInherited .orgClass, .isInherited .orgClass a {
+	font-size: 10px;
+	margin-left: 5px;
+}
+
+td.attributes, td.attributes a, .attr, .attr a {
+	color: #606060;
+	font-size: 11px;
+	line-height: 13px;
+	white-space: nowrap;
+}
+
+.constantValue {
+	font-size: 10px;
+	margin-left: 20px;
+	line-height: 14px;
+/*	vertical-align:top; */
+	position: absolute;
+	left: 350px;
+	white-space: nowrap;
+}
+
+.smallIndent {
+	margin-left: 4px;
+}
+
+.upArrow, .fixedFont .upArrow {
+	float:right;
+	display:inline;
+	width:10px;
+	font-size:9px;
+	text-align:right;
+	margin-right:8px;
+	color: RGB(0,120,180);
+}
+
+#inheritConstants, #inheritProperties, #inheritMethods, #inheritEvents {
+	display: none;
+}
