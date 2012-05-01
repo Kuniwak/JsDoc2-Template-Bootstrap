@@ -1,0 +1,982 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{!
+	var contributers = data.out.contributers;
+	var constants = data.out.constants;
+	var properties = data.out.properties;
+	var methods = data.out.methods;
+	var events = data.out.events;
+
+	var memNamespaces = data.out.namespaces;
+	var memClasses = data.out.classes;
+
+	var inheritedConstants = data.out.inheritedConstants;
+	var inheritedProperties = data.out.inheritedProperties;
+	var inheritedMethods = data.out.inheritedMethods;
+	var inheritedEvents = data.out.inheritedEvents;
+
+	var hasInherited = data.out.hasInherited;
+!}
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{+Kw.lang+}" lang="{+Kw.lang+}">
+<head>
+<meta http-equiv="content-type" content="text/html; charset={+IO.encoding+}" />
+<meta name="generator" content="JsDoc Toolkit" />
+<title>{+publish.docTitle+} - {+data.alias+}</title>
+
+<script type="text/javascript" src="../js/utils.js" ></script>
+<script type="text/javascript" src="../js/class.js" ></script>
+<script type="text/javascript" >
+var constCntTotal = {+ constants.length +};
+var constCntInterit = {+ data.out.inheritedConstCount +};
+var constCntPrivate = {+ data.out.privateConstCount +};
+var propCntTotal = {+ properties.length +};
+var propCntInterit = {+ data.out.inheritedPropCount +};
+var propCntPrivate = {+ data.out.privatePropCount +};
+var methodCntTotal = {+ methods.length +};
+var methodCntInterit = {+ data.out.inheritedMethodCount +};
+var methodCntPrivate = {+ data.out.privateMethodCount +};
+var eventCntTotal = {+ events.length +};
+var eventCntInterit = {+ data.out.inheritedEventCount +};
+var eventCntPrivate = {+ data.out.privateEventCount +};
+
+var symbolAlias = "{+ data.alias +}";
+
+{+ writeKeywords() +}
+</script>
+<link rel="stylesheet" type="text/css" href="../css/common.css" />
+<link rel="stylesheet" type="text/css" href="../css/class.css" />
+<if test="publish.hasUserCSS"><link rel="stylesheet" type="text/css" href="../css/user_css.css" /></if>
+<style type="text/css" >
+{+ srcHilite.css +}
+</style>
+</head>
+<body>
+{!
+	var classType="", classStyle, classIcon, bgStyle;
+
+	if (data.isBuiltin()) {
+		classType = Kw.clas.typeBuiltIn;
+	}
+
+	if (data.isNamespace) {
+		if (data.is("FUNCTION")) {
+			classType += Kw.clas.typeFunction;
+		}
+		else {
+			classType += Kw.clas.typeNamespace;
+		}
+		classStyle = "namespace";
+		classIcon = "titleIcon_namespace";
+		bgStyle = "titleBg_namespace";
+	}
+	else if (data.isInterface) {
+		classType += Kw.clas.typeInterface;
+		classStyle = "interface";
+		classIcon = "titleIcon_interface";
+		bgStyle = "titleBg_interface";
+	}
+	else if (data.isStaticClass) {
+		classType += Kw.clas.typeStaticClass;
+		classStyle = "classStatic";
+		classIcon = "titleIcon_staticclass";
+		bgStyle = "titleBg_staticclass";
+	}
+	else if (data.isAbstractClass) {
+		classType += Kw.clas.typeAbstractClass;
+		classStyle = "classAbstract";
+		classIcon = "titleIcon_abstractclass";
+		bgStyle = "titleBg_abstractclass";
+	}
+	else if (data.isVirtualClass) {
+		classType += Kw.clas.typeVirtualClass;
+		classStyle = "classVirtual";
+		classIcon = "titleIcon_virtualclass";
+		bgStyle = "titleBg_virtualclass";
+	}
+	else {
+		classType += Kw.clas.typeNormal;
+		classStyle = "classNormal";
+		classIcon = "titleIcon_class";
+		bgStyle = "titleBg_class";
+	}
+
+	if (data.deprecated) {
+		classType = Kw.clas.typeDeprecated + classType;
+		classStyle = "deprecated";
+		classIcon += "_dep";
+		bgStyle = "titleBg_deprecated";
+	}
+!}
+<div id="content" ><div id="contentBase" >
+
+<!-- ============================== class title ============================ -->
+<div id="title" >
+	<div class="indexLink" >
+		<a id="linkNewWnd" href="#" target="_blank" >{+Kw.clas.linkNoFrame+}</a> |
+		<if test="publish.hasOverview">
+		{+new Link().toFile("overview.html").withText(Kw.summary.overview).target("detail")+} |
+		</if>
+		{+new Link().toFile("classesindex.html").withText(Kw.summary.classIndex).target("detail")+} |
+		{+new Link().toFile("filesindex.html").withText(Kw.summary.fileIndex).target("detail")+}
+	</div>
+	<div id="classAlias" class="aliasFont {+classStyle+} {+bgStyle+}">
+		<span class="className classType {+ classIcon +} {+ resolveClassCSSClass(data) +}">{+classType+}</span><span {+data.alias==="_global_"?"class='italic'":""+}>{+data.alias+}</span>
+	</div>
+</div>
+
+<!-- ============================== class summary ========================== -->
+	<div class="description">
+		<div class="classDesc" >
+			{+convInlineCodes(data.linkedClassDesc)+}
+			<if test="data.deprecated">
+				<br /><span class="deprecatedDesc">{+Kw.clas.deprecated+}: {+resolveLinks(data.deprecated)+}</span>
+			</if>
+		</div>
+
+		<table class="descTable" cellspacing="0" >
+			<if test="data.out.namespace">
+				<tr><th class="descCaption" >{+Kw.clas.namespace+}</th><td>{+new Link().toSymbol(data.out.namespace)+}</td></tr>
+			</if>
+
+			<if test="data.hasInheritance">
+				<tr><th class="descCaption" >{+Kw.clas.inheritance+}</th><td>
+				{+makeInheritanceLine(data, classStyle)+}
+				</td></tr>
+			</if>
+
+			<if test="(data.interfaces && data.inheritedInterfaces) && (data.interfaces.length || data.inheritedInterfaces.length)">
+				<tr><th class="descCaption" >{+Kw.clas.interfaces+}</th><td>
+				<if test="data.interfaces.length">
+				{+data.interfaces.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
+				</if>
+				<if test="data.interfaces.length && data.inheritedInterfaces.length"><br /></if>
+				<if test="data.inheritedInterfaces.length">
+				{+Kw.clas.interfacesFromAugments+}:
+				{+data.inheritedInterfaces.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
+				</if>
+				</td></tr>
+			</if>
+
+			<if test="data.isInterface">
+				<tr><th class="descCaption" >{+Kw.clas.implementers+}</th><td>
+				{+data.implementers.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
+				</td></tr>
+			</if>
+
+			<if test="data.requires.length">
+				<tr><th class="descCaption" >{+Kw.clas.requires+}</th><td>
+				{+data.requires.map(function($){ return new Link().toSymbol($) }).join(", ")+}
+				</td></tr>
+			</if>
+			<if test="data.see.length">
+				<tr><th class="descCaption" >{+Kw.clas.see+}</th><td>{+writeListItems(data.see)+}</td></tr>
+			</if>
+			<if test="data.author">
+				<tr><th class="descCaption" >{+Kw.clas.author+}</th><td>{+data.author+}</td></tr>
+			</if>
+			<if test="data.version">
+				<tr><th class="descCaption" >{+Kw.clas.version+}</th><td>{+resolveLinks(data.version)+}</td></tr>
+			</if>
+			<if test="data.since">
+				<tr><th class="descCaption" >{+Kw.clas.since+}</th><td>{+data.since+}</td></tr>
+			</if>
+			<if test="data.example.length">
+				{! var num = data.example.length>1?1:""; !}
+				<for each="example" in="data.example">
+				<tr><th class="descCaption">{+ (Kw.clas.example+" "+num) +}</th><td>{+ writeExample(example) +}</td></tr>
+				{! num++; !}
+				</for>
+			</if>
+			<if test="data.todos && data.todos.length">
+				<tr><th class="descCaption" >{+Kw.clas.todo+}</th><td>{+writeListItems(data.todos)+}</td></tr>
+			</if>
+			<if test="data.srcFile">
+				<tr><th class="descCaption" >{+Kw.clas.file+}</th><td>{+new Link().toSrc(data.srcFile).inner(data.srcAnchor)+}</td></tr>
+			</if>
+		</table>
+		
+		<div class="viewOptions">
+			<if test="!data.isNamespace && !data.isStaticClass && !data.isBuiltin()">
+			<input type="checkbox" id="minimizeInrerits" />{+Kw.clas.collapseInherits+}
+			<if test="JSDOC.opt.p"><br /></if>
+			</if>
+			<if test="JSDOC.opt.p">
+			<input type="checkbox" id="hidePrivates" />{+Kw.clas.hidePrivates+}
+			</if>
+		</div>
+	</div>
+
+<!-- ============================== category title 'summary' ==================== -->
+	<div class="spacer" ></div>
+	<table id="smryTop" class="categoryTitle" cellpadding="0" cellspacing="0" ><tr><th><div>{+Kw.clas.titleSummary+}</div></th><td>
+		<if test="data.isNamespace">
+		{! output += (memNamespaces.length?'<a href="#smryNamespaceTop" >'+Kw.clas.linkToNamespaces+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToNamespaces+'</span>')+" |" !}
+		{! output += (memClasses.length?'<a href="#smryClassTop" >'+Kw.clas.linkToClasses+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToClasses+'</span>')+" |" !}
+		</if>
+		<if test="data.hasConstructor"><a href="#smryConstructorTop" >{+Kw.clas.linkToConstructor+}</a> |</if>
+		{! output += (constants.length?'<a href="#smryConstantTop" >'+Kw.clas.linkToConstants+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToConstants+'</span>')+" |" !}
+		{! output += (properties.length?'<a href="#smryPropertyTop" >'+Kw.clas.linkToProperties+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToProperties+'</span>')+" |" !}
+		{! output += (methods.length?'<a href="#smryMethodTop" >'+Kw.clas.linkToMethods+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToMethods+'</span>')+" |" !}
+		{! output += (events.length?'<a href="#smryEventTop" >'+Kw.clas.linkToEvents+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToEvents+'</span>')+" |" !}
+		<a href="#dtlTop" >{+Kw.clas.linkToDetailTop +}</a> | <a href="#" >{+Kw.clas.linkToPageTop+}</a>
+	</td></tr></table>
+
+<!-- ============================== constructor summary ==================== -->
+	<if test="data.hasConstructor">
+		<a id="smryConstructorTop" ></a>
+		<table class="summaryTable" cellspacing="0">
+			<caption><div>
+				<span>{+Kw.clas.captionConstructor+}</span>
+				<a href="#smryTop" class="upArrow" title="{+Kw.clas.moveToSummaryTop+}" >{+Kw.clas.arrowUp+}</a>
+			</div></caption>
+			<tbody>
+				<tr>
+					<td class="attributes">{+makeAttribute(data, "", "&nbsp;", true)+}</td>
+					<td class="nameDescription" {!if (data.comment.getTag("hilited").length){output += 'style="color: red"'}!}>
+						<div class="floatLeft className fixedFont aliasFont {+ resolveClassCSSClass(data) +}">
+							<a id="smry_constructor" class="bold" href="#constructor" title="{+escapeHTML(data.summarizedDesc)+}" >{+data.alias+}</a><if test="!data.isNamespace">{+ makeSignature(data.params) +}</if>
+						</div>
+						{+writeSrcFileLink(data, "floatLeft")+}
+						<div class="description">{+convInlineCodes(data.linkedSummarizedDesc)+}</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</if>
+
+<!-- ============================== Namespaces summary (Namespace only) ===================== -->
+	<if test="memNamespaces && memNamespaces.length">
+		<a id="smryNamespaceTop" ></a>
+		<table id="namespaceSummary" class="summaryTable" cellspacing="0" >
+			<caption><div>
+				<span>{+Kw.clas.captionNamespaces+}</span>
+				<a href="#smryTop" class="upArrow" title="{+Kw.clas.moveToSummaryTop+}" >{+Kw.clas.arrowUp+}</a>
+			</div></caption>
+			<tbody>
+			<for each="mem" in="memNamespaces">
+				<tr>
+					<td class="attributes">&lt;Namespace&gt;</td>
+					<td class="nameDescription" {!if (mem.comment.getTag("hilited").length){output += 'style="color: red"'}!}>
+						<div class="floatLeft className fixedFont aliasFont bold {+ resolveClassCSSClass(mem) +}">
+							{+ new Link().toSymbol(mem.alias) +}
+						</div>
+						{+writeSrcFileLink(mem, "floatLeft")+}
+						<div class="description">{+mem.linkedSummarizedDesc+}</div>
+					</td>
+				</tr>
+			</for>
+			</tbody>
+		</table>
+	</if>
+
+<!-- ============================== Classes summary (Namespace only) ===================== -->
+	<if test="memClasses && memClasses.length">
+		<a id="smryClassTop" ></a>
+		<table id="classSummary" class="summaryTable" cellspacing="0" >
+			<caption><div>
+				<span>{+Kw.clas.captionClasses+}</span>
+				<a href="#smryTop" class="upArrow" title="{+Kw.clas.moveToSummaryTop+}" >{+Kw.clas.arrowUp+}</a>
+			</div></caption>
+			<tbody>
+			<for each="mem" in="memClasses">
+				<tr>
+					<td class="attributes">{+ writeClassTypeAttr(mem) +}</td>
+					<td class="nameDescription" {!if (mem.comment.getTag("hilited").length){output += 'style="color: red"'}!}>
+						<div class="floatLeft className fixedFont aliasFont bold {+ resolveClassCSSClass(mem) +}">
+							{+ new Link().toSymbol(mem.alias) +}
+						</div>
+						{+writeSrcFileLink(mem, "floatLeft")+}
+						<div class="description">{+ resolveLinks(mem.summarizedClassDesc) +}</div>
+					</td>
+				</tr>
+			</for>
+			</tbody>
+		</table>
+	</if>
+
+<!-- ============================== constants summary ===================== -->
+	<if test="constants.length">
+		<a id="smryConstantTop" ></a>
+		<table id="constantSummary" class="summaryTable" cellspacing="0" >
+			<caption><div>
+				<span>{+Kw.clas.captionConstants+}</span>
+				<a href="#smryTop" class="upArrow" title="{+Kw.clas.moveToSummaryTop+}" >{+Kw.clas.arrowUp+}</a>
+			</div></caption>
+			<tbody>
+			<for each="mem" in="constants">
+				{! var isInherited = (mem.memberOf!=data.alias); !}
+
+				<tr class="{+ writeClassAttributeCSS(mem, isInherited) +}" >
+					<td class="attributes">{+makeAttribute(mem, "<br />", "unknown", true)+}</td>
+					<td>
+						<div class="floatLeft fixedFont aliasFont {+ resolveFixedFontClass(mem) +} symicon {+ resolveClassMemberIcon(mem,"constant",isInherited) +}">
+						{+ writeSummaryMemberName(mem, data.alias) +}
+						<if test="mem.constantValue"><span class="constantValue" >[ {+mem.constantValue+} ]</span></if>
+						</div>
+						{+writeSrcFileLink(mem, "floatLeft")+}
+						<if test="isInherited"><span class="orgClass" >{+Kw.clas.arrowRight+}{+new Link().toSymbol(mem.memberOf)+}</span></if>
+
+						<div class="description">{+convInlineCodes(mem.linkedSummarizedDesc)+}
+						<if test="mem.deprecated"><br /><span class="deprecatedDesc">{+Kw.clas.deprecated+}: {+resolveLinks(mem.deprecated)+}</span></if>
+						</div>
+					</td>
+				</tr>
+			</for>
+			</tbody>
+		</table>
+
+		<if test="hasInherited.constant">
+			<table id="inheritConstants" class="summaryTable" cellspacing="0" >
+				<caption><div>
+					<span>{+Kw.clas.captionInheritedConstants+}</span>
+					<a href="#smryTop" class="upArrow" title="{+Kw.clas.moveToSummaryTop+}" >{+Kw.clas.arrowUp+}</a>
+				</div></caption>
+				<tbody>
+				<for each="mem" in="contributers">
+					<if test="inheritedConstants[mem]">
+						{+ writeInheritedMembersRow(JSDOC.Parser.symbols.getSymbol(mem), inheritedConstants[mem]) +}
+					</if>
+				</for>
+				</tbody>
+			</table>
+		</if>
+	</if>
+
+
+<!-- ============================== properties summary ===================== -->
+	<if test="properties.length">
+		<a id="smryPropertyTop" ></a>
+		<table id="propertySummary" class="summaryTable" cellspacing="0" >
+			<caption><div>
+				<span>{+Kw.clas.captionProperties+}</span>
+				<a href="#smryTop" class="upArrow" title="{+Kw.clas.moveToSummaryTop+}" >{+Kw.clas.arrowUp+}</a>
+			</div></caption>
+			<tbody>
+			<for each="mem" in="properties">
+				{! var isInherited = (mem.memberOf!=data.alias); !}
+
+				<tr class="{+ writeClassAttributeCSS(mem, isInherited) +}" >
+					<td class="attributes">{+makeAttribute(mem, "<br />", "unknown", true)+}</td>
+					<td>
+						<div class="floatLeft fixedFont aliasFont {+ resolveFixedFontClass(mem) +} symicon {+ resolveClassMemberIcon(mem,"property",isInherited) +}" >
+						{+ writeSummaryMemberName(mem, data.alias) +}
+						<if test="mem.defaultValue"><span class="constantValue" >( {+mem.defaultValue+} )</span></if>
+						</div>
+						{+writeSrcFileLink(mem, "floatLeft")+}
+						<if test="isInherited"><span class="orgClass" >{+Kw.clas.arrowRight+}{+new Link().toSymbol(mem.memberOf)+}</span></if>
+
+						<div class="description" >{+convInlineCodes(mem.linkedSummarizedDesc)+}
+						<if test="mem.deprecated"><br /><span class="deprecatedDesc">{+Kw.clas.deprecated+}: {+resolveLinks(mem.deprecated)+}</span></if>
+						</div>
+					</td>
+				</tr>
+			</for>
+			</tbody>
+		</table>
+
+		<if test="hasInherited.property">
+			<table id="inheritProperties" class="summaryTable" cellspacing="0">
+				<caption><div>
+					<span>{+Kw.clas.captionInheritedProperties+}</span>
+					<a href="#smryTop" class="upArrow" title="{+Kw.clas.moveToSummaryTop+}" >{+Kw.clas.arrowUp+}</a>
+				</div></caption>
+				<tbody style="clear:both;" >
+				<for each="mem" in="contributers">
+					<if test="inheritedProperties[mem]">
+						{+writeInheritedMembersRow(JSDOC.Parser.symbols.getSymbol(mem), inheritedProperties[mem])+}
+					</if>
+				</for>
+				</tbody>
+			</table>
+		</if>
+	</if>
+
+
+<!-- ============================== methods summary ======================== -->
+	<if test="methods.length">
+		<a id="smryMethodTop" ></a>
+		<table id="methodSummary" class="summaryTable" cellspacing="0" >
+			<caption><div>
+				<span>{+Kw.clas.captionMethods+}</span>
+				<a href="#smryTop" class="upArrow" title="{+Kw.clas.moveToSummaryTop+}" >{+Kw.clas.arrowUp+}</a>
+			</div></caption>
+			<tbody>
+			<for each="mem" in="methods">
+				{! var isInherited = (mem.memberOf!=data.alias); !}
+
+				<tr class="{+ writeClassAttributeCSS(mem, isInherited) +}" >
+					<td class="attributes">{+makeAttribute(mem, "<br />", "void", true)+}</td>
+					<td>
+						<div class="floatLeft fixedFont aliasFont {+ resolveFixedFontClass(mem) +} symicon {+ resolveClassMemberIcon(mem,"method",isInherited) +}">
+						{+ writeSummaryMemberName(mem, data.alias) +}{+makeSignature(mem.params)+}
+						</div>
+						{+writeSrcFileLink(mem,"floatLeft")+}
+						<if test="isInherited"><span class="orgClass" >{+Kw.clas.arrowRight+}{+new Link().toSymbol(mem.memberOf)+}</span></if>
+						<div class="description">{+convInlineCodes(mem.linkedSummarizedDesc)+}
+						<if test="mem.deprecated"><br /><span class="deprecatedDesc">{+Kw.clas.deprecated+}: {+resolveLinks(mem.deprecated)+}</span></if>
+						</div>
+					</td>
+				</tr>
+			</for>
+			</tbody>
+		</table>
+
+		<if test="hasInherited.method">
+			<table id="inheritMethods" class="summaryTable" cellspacing="0" >
+				<caption><div>
+					<span>{+Kw.clas.captionInheritedMethods+}</span>
+					<a href="#smryTop" class="upArrow" title="{+Kw.clas.moveToSummaryTop+}" >{+Kw.clas.arrowUp+}</a>
+				</div></caption>
+				<tbody>
+				<for each="mem" in="contributers">
+					<if test="inheritedMethods[mem]">
+						{+ writeInheritedMembersRow(JSDOC.Parser.symbols.getSymbol(mem), inheritedMethods[mem]) +}
+					</if>
+				</for>
+				</tbody>
+			</table>
+		</if>
+	</if>
+
+<!-- ============================== events summary ======================== -->
+	<if test="events.length">
+		<a id="smryEventTop" ></a>
+		<table id="eventSummary" class="summaryTable" cellspacing="0" >
+			<caption><div>
+				<span>{+Kw.clas.captionEvents+}</span>
+				<a href="#smryTop" class="upArrow" title="{+Kw.clas.moveToSummaryTop+}" >{+Kw.clas.arrowUp+}</a>
+			</div></caption>
+			<tbody>
+			<for each="mem" in="events">
+				{! var isInherited = (mem.memberOf!=data.alias); !}
+
+				<tr class="{+ writeClassAttributeCSS(mem, isInherited) +}" >
+					<td class="attributes">{+makeAttribute(mem, "<br />", "void", true)+}</td>
+					<td>
+						<div class="floatLeft fixedFont aliasFont {+ resolveFixedFontClass(mem) +} symicon {+ resolveClassMemberIcon(mem,"event",isInherited) +}">
+						{+ writeSummaryMemberName(mem, data.alias) +}{+ makeSignature(mem.params) +}
+						</div>
+						{+writeSrcFileLink(mem, "floatLeft")+}
+						<if test="isInherited"><span class="orgClass" >{+Kw.clas.arrowRight+}{+new Link().toSymbol(mem.memberOf)+}</span></if>
+						<div class="description">{+convInlineCodes(mem.linkedSummarizedDesc)+}
+						<if test="mem.deprecated"><br /><span class="deprecatedDesc">{+Kw.clas.deprecated+}: {+resolveLinks(mem.deprecated)+}</span></if>
+						</div>
+					</td>
+				</tr>
+			</for>
+			</tbody>
+		</table>
+
+		<if test="hasInherited.event">
+			<table id="inheritEvents" class="summaryTable" cellspacing="0" >
+				<caption><div>
+					<span>{+Kw.clas.captionInheritedEvents+}</span>
+					<a href="#smryTop" class="upArrow" title="{+Kw.clas.moveToSummaryTop+}" >{+Kw.clas.arrowUp+}</a>
+				</div></caption>
+				<tbody>
+				<for each="mem" in="contributers">
+					<if test="inheritedEvents[mem]">
+						{+ writeInheritedMembersRow(JSDOC.Parser.symbols.getSymbol(mem), inheritedEvents[mem]) +}
+					</if>
+				</for>
+				</tbody>
+			</table>
+		</if>
+	</if>
+
+
+<!-- ============================== category title 'details' ==================== -->
+	<div class="spacer" ></div>
+	<table id="dtlTop" class="categoryTitle" cellpadding="0" cellspacing="0" ><tr><th><div>{+Kw.clas.titleDetail+}</div></th><td>
+		<if test="data.hasConstructor"><a href="#dtlConstructorTop" >{+Kw.clas.linkToConstructor+}</a> |</if>
+		{! output += (constants.length?'<a href="#dtlConstantTop" >'+Kw.clas.linkToConstants+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToConstants+'</span>')+" |" !}
+		{! output += (properties.length?'<a href="#dtlPropertyTop" >'+Kw.clas.linkToProperties+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToProperties+'</span>')+" |" !}
+		{! output += (methods.length?'<a href="#dtlMethodTop" >'+Kw.clas.linkToMethods+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToMethods+'</span>')+" |" !}
+		{! output += (events.length?'<a href="#dtlEventTop" >'+Kw.clas.linkToEvents+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToEvents+'</span>')+" |" !}
+		<a href="#smryTop" >{+Kw.clas.linkToSummaryTop +}</a> | <a href="#" >{+Kw.clas.linkToPageTop+}</a>
+	</td></tr></table>
+
+<!-- ============================== constructor details ==================== -->
+	<if test="data.hasConstructor">
+		<a id="dtlConstructorTop" ></a>
+		<div class="details">
+			<div class="sectionTitle"><div>
+				<span>{+Kw.clas.captionConstructor+}</span>
+				<a href="#dtlTop" class="upArrow" title="{+Kw.clas.moveToDetailTop+}" >{+Kw.clas.arrowUp+}</a>
+			</div></div>
+			<div id="constructor" class="smallIndent" >
+				<div class="floatLeft className fixedFont aliasFont {+ resolveClassCSSClass(data) +}" >
+				<span class="attr">{+makeAttribute(data, "", "")+}</span>
+				<span class="bold">{+ data.alias +}</span>{+ makeSignature(data.params) +}
+				</div>
+				{+writeSrcFileLink(data, "floatLeft")+}
+				<a href="#smry_constructor" class="upArrow" title="{+Kw.clas.moveToSummary+}" >{+Kw.clas.arrowUp+}</a>
+			</div>
+		</div>
+
+		<div class="memberDesc" >
+			{+convInlineCodes(data.linkedDesc)+}
+			<table class="detailItemTable" cellspacing="0" >
+				<if test="data.params.length">
+					<tr><td class="detailCaption descCaption">{+Kw.clas.parameters+}</td><td>
+					<table class="paramTable" cellspacing="0" cellpadding="0" >
+
+					<for each="item" in="data.params">
+						<tr><td class="paramAttr attr" >{+item.type?(new Link().toSymbol(item.type)):"unknown"+}</td>
+						<td class="paramName" >{+makeParamNameDesc(item)+}</td>
+						<td class="paramDesc" >{+resolveLinks(item.desc)+}
+						<if test="item.properties">
+							<table class="paramTable" cellspacing="0" cellpadding="0" >
+							<for each="prop" in="item.properties">
+								<tr><td class="paramAttr attr" >{+prop.type?(new Link().toSymbol(prop.type)):"unknown"+}</td>
+								<td class="paramName" >{+makeParamNameDesc(prop)+}</td>
+								<td class="paramDesc" >{+resolveLinks(prop.desc)+}</td></tr>
+							</for>
+							</table>
+						</if>
+						</td></tr>
+					</for>
+
+					</table>
+					</td></tr>
+				</if>
+				<if test="data.returns.length">
+					<tr><td class="detailCaption descCaption">{+Kw.clas.returns+}</td><td>
+					<table class="paramTable" cellspacing="0" cellpadding="0" >
+
+					<for each="item" in="data.returns">
+						<tr><td class="paramAttr attr" >{+(new Link().toSymbol(item.type?item.type:data.alias))+}</td>
+						<td class="paramDesc" >{+resolveLinks(item.desc)+}
+						<if test="item.properties">
+							<table class="paramTable" cellspacing="0" cellpadding="0" >
+							<for each="prop" in="item.properties">
+								<tr><td class="paramAttr attr" >{+prop.type?(new Link().toSymbol(prop.type)):"unknown"+}</td>
+								<td class="paramName" >{+makeParamNameDesc(prop)+}</td>
+								<td class="paramDesc" >{+resolveLinks(prop.desc)+}</td></tr>
+							</for>
+							</table>
+						</if>
+						</td></tr>
+					</for>
+
+					</table>
+					</td></tr>
+				</if>
+				<if test="data.exceptions.length">
+					<tr><td class="detailCaption descCaption">{+Kw.clas.exception+}</td><td>
+					<table class="paramTable" cellspacing="0" cellpadding="0" >
+						<for each="item" in="data.exceptions">
+							<tr><td class="paramAttr attr" >{+(new Link().toSymbol(item.type))+}</td>
+							<td class="paramDesc" >{+resolveLinks(item.desc)+}</td></tr>
+						</for>
+					</table>
+					</td></tr>
+				</if>
+			</table>
+		</div>
+		<div class="spacer" ></div>
+	</if>
+
+<!-- ============================== constant details ========================== -->
+	<if test="constants.length">
+		<a id="dtlConstantTop" ></a>
+		<div id="constantDetail" >
+		<div class="sectionTitle"><div>
+			<span>{+Kw.clas.captionConstants+}</span>
+			<a href="#dtlTop" class="upArrow" title="{+Kw.clas.moveToDetailTop+}" >{+Kw.clas.arrowUp+}</a>
+		</div></div>
+		<for each="mem" in="constants">
+			{!
+				var isInherited = (mem.memberOf != data.alias);
+				var linkName = Link.symbolNameToLinkName(mem);
+			!}
+
+			<div class="{+ writeClassAttributeCSS(mem, isInherited) +}" >
+			<a id="{+linkName+}"> </a>
+			<div class="smallIndent" >
+				<div class="floatLeft symicon {+ resolveClassMemberIcon(mem,"constant",isInherited) +}" >
+				<span class="attr">{+makeAttribute(mem, " ", "unknown")+}</span>
+				<span class="fixedFont aliasFont {+ resolveFixedFontClass(mem) +}" >
+					<if test="mem.isStatic && mem.memberOf != '_global_'">{+mem.memberOf+}.</if><span class="bold">{+mem.name+}</span>
+				</span>
+				</div>
+				{+writeSrcFileLink(mem, "floatLeft")+}
+				<a href="#smry_{+linkName+}" class="upArrow" title="{+Kw.clas.moveToSummary+}" >{+Kw.clas.arrowUp+}</a>
+			</div>
+			<div class="memberDesc" >
+				{+convInlineCodes(mem.linkedDesc)+}
+				<if test="mem.deprecated"><br /><span class="deprecatedDesc">{+Kw.clas.deprecated+}: {+resolveLinks(mem.deprecated)+}</span></if>
+
+				<table class="detailItemTable" cellspacing="0" >
+					<if test="mem.constantValue">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.constantValue+}</td><td>{+mem.constantValue+}</td></tr>
+					</if>
+					<if test="mem.see.length">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.see+}</td><td>{+writeListItems(mem.see)+}</td></tr>
+					</if>
+					<if test="isInherited">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.origin+}</td><td>{+new Link().toSymbol(mem.memberOf)+}</td></tr>
+					</if>
+					<if test="mem.author">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.author+}</td><td>{+mem.author+}</td></tr>
+					</if>
+					<if test="mem.since">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.since+}</td><td>{+resolveLinks(mem.since)+}</td></tr>
+					</if>
+					<if test="mem.example.length">
+						{! var num = mem.example.length>1?1:""; !}
+						<for each="example" in="mem.example">
+						<tr><td class="descCaption">{+ (Kw.clas.example+" "+num) +}</td><td>{+ writeExample(example) +}</td></tr>
+						{! num++; !}
+						</for>
+					</if>
+					<if test="mem.todos && mem.todos.length">
+						<tr><td class="detailCaption descCaption" >{+Kw.clas.todo+}</td><td>{+writeListItems(mem.todos)+}</td></tr>
+					</if>
+					<if test="mem.srcFile != data.srcFile">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.file+}</td><td>{+new Link().toSrc(mem.srcFile).inner(mem.srcAnchor)+}</td></tr>
+					</if>
+				</table>
+			</div>
+
+			<if test="!$mem_last"><hr /></if>
+			</div>
+		</for>
+
+		<div class="spacer" ></div>
+		</div>
+	</if>
+
+<!-- ============================== property details ========================== -->
+	<if test="properties.length">
+		<a id="dtlPropertyTop" ></a>
+		<div id="propertyDetail" >
+		<div class="sectionTitle"><div>
+			<span>{+Kw.clas.captionProperties+}</span>
+			<a href="#dtlTop" class="upArrow" title="{+Kw.clas.moveToDetailTop+}" >{+Kw.clas.arrowUp+}</a>
+		</div></div>
+		<for each="mem" in="properties">
+			{!
+				var isInherited = (mem.memberOf != data.alias);
+				var linkName = Link.symbolNameToLinkName(mem);
+			!}
+
+			<div class="{+ writeClassAttributeCSS(mem, isInherited) +}" >
+			<a id="{+linkName+}"> </a>
+			<div class="smallIndent" >
+				<div class="floatLeft symicon {+ resolveClassMemberIcon(mem,"property",isInherited) +}" >
+				<span class="attr">{+makeAttribute(mem, " ", "unknown")+}</span>
+				<span class="fixedFont aliasFont {+ resolveFixedFontClass(mem) +}" >
+					<if test="mem.isStatic && mem.memberOf != '_global_'">{+mem.memberOf+}.</if><span class="bold">{+mem.name+}</span>
+				</span>
+				</div>
+				{+writeSrcFileLink(mem, "floatLeft")+}
+				<a href="#smry_{+linkName+}" class="upArrow" title="{+Kw.clas.moveToSummary+}" >{+Kw.clas.arrowUp+}</a>
+			</div>
+			<div class="memberDesc" >
+				{+convInlineCodes(mem.linkedDesc)+}
+				<if test="mem.deprecated"><br /><span class="deprecatedDesc">{+Kw.clas.deprecated+}: {+resolveLinks(mem.deprecated)+}</span></if>
+				<table class="detailItemTable" cellspacing="0" >
+
+					<if test="mem.properties && mem.properties.length">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.propProperties+}</td><td>
+							<table class="paramTable" cellspacing="0" cellpadding="0" >
+							<for each="prop" in="mem.properties">
+								<tr><td class="paramAttr attr" >{+prop.type?(new Link().toSymbol(prop.type)):"unknown"+}</td>
+								<td class="paramName" >{+makeParamNameDesc(prop)+}</td>
+								<td class="paramDesc" >{+resolveLinks(prop.desc)+}
+								<if test="prop.defaultValue!=''"><span class="small"> ( {+Kw.clas.propDefault+}: {+prop.defaultValue+} )</span></if>
+								</td></tr>
+							</for>
+							</table>
+						</td></tr>
+					</if>
+
+					<if test="mem.defaultValue">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.propDefault+}</td><td>{+mem.defaultValue+}</td></tr>
+					</if>
+					<if test="mem.see.length">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.see+}</td><td>{+writeListItems(mem.see)+}</td></tr>
+					</if>
+					<if test="isInherited">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.origin+}</td><td>{+new Link().toSymbol(mem.memberOf)+}</td></tr>
+					</if>
+					<if test="mem.author">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.author+}</td><td>{+mem.author+}</td></tr>
+					</if>
+					<if test="mem.since">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.since+}</td><td>{+resolveLinks(mem.since)+}</td></tr>
+					</if>
+					<if test="mem.example.length">
+						{! var num = mem.example.length>1?1:""; !}
+						<for each="example" in="mem.example">
+						<tr><td class="descCaption">{+ (Kw.clas.example+" "+num) +}</td><td>{+ writeExample(example) +}</td></tr>
+						{! num++; !}
+						</for>
+					</if>
+					<if test="mem.todos && mem.todos.length">
+						<tr><td class="detailCaption descCaption" >{+Kw.clas.todo+}</td><td>{+writeListItems(mem.todos)+}</td></tr>
+					</if>
+					<if test="mem.srcFile != data.srcFile">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.file+}</td><td>{+new Link().toSrc(mem.srcFile).inner(mem.srcAnchor)+}</td></tr>
+					</if>
+				</table>
+			</div>
+			<if test="!$mem_last"><hr /></if>
+			</div>
+		</for>
+
+		<div class="spacer" ></div>
+		</div>
+	</if>
+
+<!-- ============================== method details ========================= -->
+	<if test="methods.length">
+		<a id="dtlMethodTop" ></a>
+		<div id="methodDetail" >
+		<div class="sectionTitle"><div>
+			<span>{+Kw.clas.captionMethods+}</span>
+			<a href="#dtlTop" class="upArrow" title="{+Kw.clas.moveToDetailTop+}" >{+Kw.clas.arrowUp+}</a>
+		</div></div>
+		<for each="mem" in="methods">
+			{!
+				var isInherited = (mem.memberOf != data.alias);
+				var linkName = Link.symbolNameToLinkName(mem);
+			!}
+
+			<div class="{+ writeClassAttributeCSS(mem, isInherited) +}" >
+			<a id="{+linkName+}"> </a>
+			<div class="smallIndent" >
+				<div class="floatLeft symicon {+ resolveClassMemberIcon(mem,"method",isInherited) +}" >
+				<span class="attr">{+makeAttribute(mem, " ", "void")+}</span>
+				<span class="fixedFont aliasFont {+ resolveFixedFontClass(mem) +}" >
+					<if test="mem.isStatic && mem.memberOf != '_global_'">{+mem.memberOf+}.</if><span class="bold">{+mem.name.replace(/\^\d+$/,"")+}</span>{+makeSignature(mem.params)+}
+				</span>
+				</div>
+				{+writeSrcFileLink(mem, "floatLeft")+}
+				<a href="#smry_{+linkName+}" class="upArrow" title="{+Kw.clas.moveToSummary+}" >{+Kw.clas.arrowUp+}</a>
+			</div>
+			<div class="memberDesc" >
+				{+convInlineCodes(mem.linkedDesc)+}
+				<if test="mem.deprecated"><br /><span class="deprecatedDesc">{+Kw.clas.deprecated+}: {+resolveLinks(mem.deprecated)+}</span></if>
+				<table class="detailItemTable" cellspacing="0">
+					<if test="mem.params.length">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.parameters+}</td><td>
+						<table class="paramTable" cellspacing="0" cellpadding="0" >
+
+						<for each="item" in="mem.params">
+							<tr><td class="paramAttr attr" >{+item.type?(new Link().toSymbol(item.type)):"unknown"+}</td>
+							<td class="paramName" >{+makeParamNameDesc(item)+}</td>
+							<td class="paramDesc" >{+resolveLinks(item.desc)+}
+							<if test="item.properties && item.properties.length">
+								<table class="paramTable" cellspacing="0" cellpadding="0" >
+								<for each="prop" in="item.properties">
+									<tr><td class="paramAttr attr" >{+prop.type?(new Link().toSymbol(prop.type)):"unknown"+}</td>
+									<td class="paramName" >{+makeParamNameDesc(prop)+}</td>
+									<td class="paramDesc" >{+resolveLinks(prop.desc)+}</td></tr>
+								</for>
+								</table>
+							</if>
+							</td></tr>
+						</for>
+
+						</table>
+						</td></tr>
+					</if>
+					<if test="mem.returns.length">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.returns+}</td><td>
+						<table class="paramTable" cellspacing="0" cellpadding="0" >
+
+						<for each="item" in="mem.returns">
+							<tr><td class="paramAttr attr" >{+(new Link().toSymbol(item.type?item.type:mem.type))+}</td>
+							<td class="paramDesc" >{+resolveLinks(item.desc)+}
+							<if test="item.properties && item.properties.length">
+								<table class="paramTable" cellspacing="0" cellpadding="0" >
+								<for each="prop" in="item.properties">
+									<tr><td class="paramAttr attr" >{+prop.type?(new Link().toSymbol(prop.type)):"unknown"+}</td>
+									<td class="paramName" >{+makeParamNameDesc(prop)+}</td>
+									<td class="paramDesc" >{+resolveLinks(prop.desc)+}</td></tr>
+								</for>
+								</table>
+							</if>
+							</td></tr>
+						</for>
+
+						</table>
+						</td></tr>
+					</if>
+					<if test="mem.exceptions.length">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.exception+}</td><td>
+						<table class="paramTable" cellspacing="0" cellpadding="0" >
+							<for each="item" in="mem.exceptions">
+								<tr><td class="paramAttr attr" >{+(new Link().toSymbol(item.type))+}</td>
+								<td class="paramDesc" >{+resolveLinks(item.desc)+}</td></tr>
+							</for>
+						</table>
+						</td></tr>
+					</if>
+					<if test="mem.see.length">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.see+}</td><td>{+writeListItems(mem.see)+}</td></tr>
+					</if>
+					<if test="isInherited">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.origin+}</td><td>{+new Link().toSymbol(mem.memberOf)+}</td></tr>
+					</if>
+					<if test="mem.author">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.author+}</td><td>{+mem.author+}</td></tr>
+					</if>
+					<if test="mem.since">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.since+}</td><td>{+resolveLinks(mem.since)+}</td></tr>
+					</if>
+					<if test="mem.example.length">
+						{! var num = mem.example.length>1?1:""; !}
+						<for each="example" in="mem.example">
+						<tr><td class="descCaption">{+ (Kw.clas.example+" "+num) +}</td><td>{+ writeExample(example) +}</td></tr>
+						{! num++; !}
+						</for>
+					</if>
+					<if test="mem.todos && mem.todos.length">
+						<tr><td class="detailCaption descCaption" >{+Kw.clas.todo+}</td><td>{+writeListItems(mem.todos)+}</td></tr>
+					</if>
+					<if test="mem.srcFile != data.srcFile">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.file+}</td><td>{+new Link().toSrc(mem.srcFile).inner(mem.srcAnchor)+}</td></tr>
+					</if>
+				</table>
+			</div>
+			<if test="!$mem_last"><hr /></if>
+			</div>
+		</for>
+
+		<div class="spacer" ></div>
+		</div>
+
+	</if>
+
+<!-- ============================== event details ========================= -->
+	<if test="events.length">
+		<a id="dtlEventTop" ></a>
+		<div id="eventDetail" >
+		<div class="sectionTitle"><div>
+			<span>{+Kw.clas.captionEvents+}</span>
+			<a href="#dtlTop" class="upArrow" title="{+Kw.clas.moveToDetailTop+}" >{+Kw.clas.arrowUp+}</a>
+		</div></div>
+		<for each="mem" in="events">
+			{!
+				var isInherited = (mem.memberOf != data.alias);
+				var linkName = Link.symbolNameToLinkName(mem);
+			!}
+
+			<div class="{+ writeClassAttributeCSS(mem, isInherited) +}" >
+			<a id="{+linkName+}"> </a>
+			<div class="smallIndent" >
+				<div class="floatLeft symicon {+ resolveClassMemberIcon(mem,"event",isInherited) +}" >
+				<span class="attr">{+makeAttribute(mem, " ", "void")+}</span>
+				<span class="fixedFont aliasFont {+ resolveFixedFontClass(mem) +}" >
+					<if test="mem.isStatic && mem.memberOf != '_global_'">{+mem.memberOf+}.</if><span class="bold">{+mem.name.replace(/\^\d+$/,"")+}</span>{+makeSignature(mem.params)+}
+				</span>
+				</div>
+				{+writeSrcFileLink(mem, "floatLeft")+}
+				<a href="#smry_{+linkName+}" class="upArrow" title="{+Kw.clas.moveToSummary+}" >{+Kw.clas.arrowUp+}</a>
+			</div>
+			<div class="memberDesc" >
+				{+convInlineCodes(mem.linkedDesc)+}
+				<if test="mem.deprecated"><br /><span class="deprecatedDesc">{+Kw.clas.deprecated+}: {+resolveLinks(mem.deprecated)+}</span></if>
+				<table class="detailItemTable" cellspacing="0">
+					<if test="mem.params.length">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.parameters+}</td><td>
+						<table class="paramTable" cellspacing="0" cellpadding="0" >
+
+						<for each="item" in="mem.params">
+							<tr><td class="paramAttr attr" >{+item.type?(new Link().toSymbol(item.type)):"unknown"+}</td>
+							<td class="paramName" >{+makeParamNameDesc(item)+}</td>
+							<td class="paramDesc" >{+resolveLinks(item.desc)+}
+							<if test="item.properties">
+								<table class="paramTable" cellspacing="0" cellpadding="0" >
+								<for each="prop" in="item.properties">
+									<tr><td class="paramAttr attr" >{+prop.type?(new Link().toSymbol(prop.type)):"unknown"+}</td>
+									<td class="paramName" >{+makeParamNameDesc(prop)+}</td>
+									<td class="paramDesc" >{+resolveLinks(prop.desc)+}</td></tr>
+								</for>
+								</table>
+							</if>
+							</td></tr>
+						</for>
+
+						</table>
+						</td></tr>
+					</if>
+					<if test="mem.returns.length">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.returns+}</td><td>
+						<table class="paramTable" cellspacing="0" cellpadding="0" >
+
+						<for each="item" in="mem.returns">
+							<tr><td class="paramAttr attr" >{+(new Link().toSymbol(item.type?item.type:mem.type))+}</td>
+							<td class="paramDesc" >{+resolveLinks(item.desc)+}
+							<if test="item.properties">
+								<table class="paramTable" cellspacing="0" cellpadding="0" >
+								<for each="prop" in="item.properties">
+									<tr><td class="paramAttr attr" >{+prop.type?(new Link().toSymbol(prop.type)):"unknown"+}</td>
+									<td class="paramName" >{+makeParamNameDesc(prop)+}</td>
+									<td class="paramDesc" >{+resolveLinks(prop.desc)+}</td></tr>
+								</for>
+								</table>
+							</if>
+							</td></tr>
+						</for>
+
+						</table>
+						</td></tr>
+					</if>
+					<if test="mem.exceptions.length">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.exception+}</td><td>
+						<table class="paramTable" cellspacing="0" cellpadding="0" >
+							<for each="item" in="mem.exceptions">
+								<tr><td class="paramAttr attr" >{+(new Link().toSymbol(item.type))+}</td>
+								<td class="paramDesc" >{+resolveLinks(item.desc)+}</td></tr>
+							</for>
+						</table>
+						</td></tr>
+					</if>
+					<if test="mem.see.length">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.see+}</td><td>{+writeListItems(mem.see)+}</td></tr>
+					</if>
+					<if test="isInherited">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.origin+}</td><td>{+new Link().toSymbol(mem.memberOf)+}</td></tr>
+					</if>
+					<if test="mem.author">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.author+}</td><td>{+mem.author+}</td></tr>
+					</if>
+					<if test="mem.since">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.since+}</td><td>{+resolveLinks(mem.since)+}</td></tr>
+					</if>
+					<if test="mem.example.length">
+						{! var num = mem.example.length>1?1:""; !}
+						<for each="example" in="mem.example">
+						<tr><td class="descCaption">{+ (Kw.clas.example+" "+num) +}</td><td>{+ writeExample(example) +}</td></tr>
+						{! num++; !}
+						</for>
+					</if>
+					<if test="mem.todos && mem.todos.length">
+						<tr><td class="detailCaption descCaption" >{+Kw.clas.todo+}</td><td>{+writeListItems(mem.todos)+}</td></tr>
+					</if>
+					<if test="mem.srcFile != data.srcFile">
+						<tr><td class="detailCaption descCaption">{+Kw.clas.file+}</td><td>{+new Link().toSrc(mem.srcFile).inner(mem.srcAnchor)+}</td></tr>
+					</if>
+				</table>
+			</div>
+			<if test="!$mem_last"><hr /></if>
+			</div>
+		</for>
+
+		</div>
+	</if>
+
+	<div class="border" ></div>
+
+<!-- ============================== footer ================================= -->
+	<div class="fineprint">
+	{+ fineprint() +}
+	</div>
+
+</div></div>
+</body>
+</html>
