@@ -140,38 +140,8 @@ div.nspacer {
 	clear: both;
 }
 
-.classNormal, .classNormal a {
-	color: RGB(0,30,140);
-}
-
-.classStatic, .classStatic a {
-	color: RGB(160,90,10);
-}
-
-.classAbstract, .classAbstract a {
-	color: RGB(140,85,165);
-/*	color: RGB(150,75,175); */
-}
-
-.classVirtual, .classVirtual a {
-	color: RGB(0,60,240);
-}
-
-.namespace, .namespace a {
-	color: RGB(130,100,10);
-}
-
-.interface, .interface a {
-	color: RGB(190,80,155);
-/*	color: RGB(150,75,175); */
-}
-
 .deprecatedDesc, .deprecatedDesc a {
 	color: RGB(255,50,50);
-}
-
-.normal, .normal a  {
-	color: #002EBE;
 }
 
 .deprecated, .deprecated a  {
