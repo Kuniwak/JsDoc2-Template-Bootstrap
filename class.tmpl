@@ -132,72 +132,99 @@ var symbolAlias = "{+ data.alias +}";
 
 <!-- ============================== class summary ========================== -->
 	<div class="description">
-		<div class="classDesc" >
+		<p>
 			{+convInlineCodes(data.linkedClassDesc)+}
 			<if test="data.deprecated">
-				<br /><span class="deprecatedDesc">{+Kw.clas.deprecated+}: {+resolveLinks(data.deprecated)+}</span>
+				<br />
+				<span class="deprecatedDesc">{+Kw.clas.deprecated+}: {+resolveLinks(data.deprecated)+}</span>
 			</if>
-		</div>
+		</p>
 
-		<table class="descTable" cellspacing="0" >
+		<table class="table table-bordered">
 			<if test="data.out.namespace">
-				<tr><th class="descCaption" >{+Kw.clas.namespace+}</th><td>{+new Link().toSymbol(data.out.namespace)+}</td></tr>
+				<tr>
+					<th>{+Kw.clas.namespace+}</th>
+					<td>{+new Link().toSymbol(data.out.namespace)+}</td>
+				</tr>
 			</if>
-
 			<if test="data.hasInheritance">
-				<tr><th class="descCaption" >{+Kw.clas.inheritance+}</th><td>
-				{+makeInheritanceLine(data, classStyle)+}
-				</td></tr>
+				<tr>
+					<th>{+Kw.clas.inheritance+}</th>
+					<td>{+makeInheritanceLine(data, classStyle)+}</td>
+				</tr>
 			</if>
-
 			<if test="(data.interfaces && data.inheritedInterfaces) && (data.interfaces.length || data.inheritedInterfaces.length)">
-				<tr><th class="descCaption" >{+Kw.clas.interfaces+}</th><td>
-				<if test="data.interfaces.length">
-				{+data.interfaces.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
-				</if>
-				<if test="data.interfaces.length && data.inheritedInterfaces.length"><br /></if>
-				<if test="data.inheritedInterfaces.length">
-				{+Kw.clas.interfacesFromAugments+}:
-				{+data.inheritedInterfaces.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
-				</if>
-				</td></tr>
+				<tr>
+					<th>{+Kw.clas.interfaces+}</th>
+					<td>
+						<if test="data.interfaces.length">
+						{+data.interfaces.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
+						</if>
+						<if test="data.interfaces.length && data.inheritedInterfaces.length"><br /></if>
+						<if test="data.inheritedInterfaces.length">
+							{+Kw.clas.interfacesFromAugments+}:
+							{+data.inheritedInterfaces.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
+						</if>
+					</td>
+				</tr>
 			</if>
-
 			<if test="data.isInterface">
-				<tr><th class="descCaption" >{+Kw.clas.implementers+}</th><td>
-				{+data.implementers.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
-				</td></tr>
+				<tr>
+					<th>{+Kw.clas.implementers+}</th>
+					<td>{+data.implementers.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}</td>
+				</tr>
 			</if>
-
 			<if test="data.requires.length">
-				<tr><th class="descCaption" >{+Kw.clas.requires+}</th><td>
-				{+data.requires.map(function($){ return new Link().toSymbol($) }).join(", ")+}
-				</td></tr>
+				<tr>
+					<th>{+Kw.clas.requires+}</th>
+					<td>{+data.requires.map(function($){ return new Link().toSymbol($) }).join(", ")+}</td>
+				</tr>
 			</if>
 			<if test="data.see.length">
-				<tr><th class="descCaption" >{+Kw.clas.see+}</th><td>{+writeListItems(data.see)+}</td></tr>
+				<tr>
+					<th>{+Kw.clas.see+}</th>
+					<td>{+writeListItems(data.see)+}</td>
+				</tr>
 			</if>
 			<if test="data.author">
-				<tr><th class="descCaption" >{+Kw.clas.author+}</th><td>{+data.author+}</td></tr>
+				<tr>
+					<th>{+Kw.clas.author+}</th>
+					<td>{+data.author+}</td>
+				</tr>
 			</if>
 			<if test="data.version">
-				<tr><th class="descCaption" >{+Kw.clas.version+}</th><td>{+resolveLinks(data.version)+}</td></tr>
+				<tr>
+					<th>{+Kw.clas.version+}</th>
+					<td>{+resolveLinks(data.version)+}</td>
+				</tr>
 			</if>
 			<if test="data.since">
-				<tr><th class="descCaption" >{+Kw.clas.since+}</th><td>{+data.since+}</td></tr>
+				<tr>
+					<th>{+Kw.clas.since+}</th>
+					<td>{+data.since+}</td>
+				</tr>
 			</if>
 			<if test="data.example.length">
-				{! var num = data.example.length>1?1:""; !}
+				{! var num = (data.example.length > 1) ? 1 : ""; !}
 				<for each="example" in="data.example">
-				<tr><th class="descCaption">{+ (Kw.clas.example+" "+num) +}</th><td>{+ writeExample(example) +}</td></tr>
-				{! num++; !}
+					<tr>
+						<th>{+ (Kw.clas.example+" "+num) +}</th>
+						<td>{+ writeExample(example) +}</td>
+					</tr>
+					{! num++; !}
 				</for>
 			</if>
 			<if test="data.todos && data.todos.length">
-				<tr><th class="descCaption" >{+Kw.clas.todo+}</th><td>{+writeListItems(data.todos)+}</td></tr>
+				<tr>
+					<th>{+Kw.clas.todo+}</th>
+					<td>{+writeListItems(data.todos)+}</td>
+				</tr>
 			</if>
 			<if test="data.srcFile">
-				<tr><th class="descCaption" >{+Kw.clas.file+}</th><td>{+new Link().toSrc(data.srcFile).inner(data.srcAnchor)+}</td></tr>
+				<tr>
+					<th>{+Kw.clas.file+}</th>
+					<td>{+new Link().toSrc(data.srcFile).inner(data.srcAnchor)+}</td>
+				</tr>
 			</if>
 		</table>
 		
@@ -632,7 +659,7 @@ var symbolAlias = "{+ data.alias +}";
 					<if test="mem.example.length">
 						{! var num = mem.example.length>1?1:""; !}
 						<for each="example" in="mem.example">
-						<tr><td class="descCaption">{+ (Kw.clas.example+" "+num) +}</td><td>{+ writeExample(example) +}</td></tr>
+						<tr><td>{+ (Kw.clas.example+" "+num) +}</td><td>{+ writeExample(example) +}</td></tr>
 						{! num++; !}
 						</for>
 					</if>
@@ -716,7 +743,7 @@ var symbolAlias = "{+ data.alias +}";
 					<if test="mem.example.length">
 						{! var num = mem.example.length>1?1:""; !}
 						<for each="example" in="mem.example">
-						<tr><td class="descCaption">{+ (Kw.clas.example+" "+num) +}</td><td>{+ writeExample(example) +}</td></tr>
+						<tr><td>{+ (Kw.clas.example+" "+num) +}</td><td>{+ writeExample(example) +}</td></tr>
 						{! num++; !}
 						</for>
 					</if>
@@ -836,7 +863,7 @@ var symbolAlias = "{+ data.alias +}";
 					<if test="mem.example.length">
 						{! var num = mem.example.length>1?1:""; !}
 						<for each="example" in="mem.example">
-						<tr><td class="descCaption">{+ (Kw.clas.example+" "+num) +}</td><td>{+ writeExample(example) +}</td></tr>
+						<tr><td>{+ (Kw.clas.example+" "+num) +}</td><td>{+ writeExample(example) +}</td></tr>
 						{! num++; !}
 						</for>
 					</if>
@@ -957,7 +984,7 @@ var symbolAlias = "{+ data.alias +}";
 					<if test="mem.example.length">
 						{! var num = mem.example.length>1?1:""; !}
 						<for each="example" in="mem.example">
-						<tr><td class="descCaption">{+ (Kw.clas.example+" "+num) +}</td><td>{+ writeExample(example) +}</td></tr>
+						<tr><td>{+ (Kw.clas.example+" "+num) +}</td><td>{+ writeExample(example) +}</td></tr>
 						{! num++; !}
 						</for>
 					</if>
