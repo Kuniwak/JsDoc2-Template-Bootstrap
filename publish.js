@@ -154,7 +154,7 @@ function publish(symbolSet) {
 	}
 
 	var cssPaths = [
-			'default.css',
+			'common.css',
 			'bootstrap/css/bootstrap.min.css',
 			'google-code-prettify/prettify.css'
 		];
