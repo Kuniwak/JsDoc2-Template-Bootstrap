@@ -30,6 +30,7 @@ function publish(symbolSet) {
 	try {
 		var classTemplate = new JSDOC.JsPlate(publish.conf.templatesDir+"class.tmpl");
 		var classesTemplate = new JSDOC.JsPlate(publish.conf.templatesDir+"allclasses.tmpl");
+    var sourceTemplate =  new JSDOC.JsPlate(publish.conf.templatesDir+"source.tmpl");
 	}
 	catch(e) {
 		print("Couldn't create the required templates: "+e);
@@ -50,6 +51,13 @@ function publish(symbolSet) {
 			var file = files[i];
 			var srcDir = publish.conf.outDir + "symbols/src/";
       //makeSrcFile(file, srcDir);
+      
+      var name = file.replace(/\.\.?[\\\/]/g, "").replace(/[\\\/]/g, "_");
+      name = name.replace(/\:/g, "_");
+      var output = "";
+      output = sourceTemplate.process({ source: IO.readFile(file) });
+      
+      IO.saveFile(srcDir, name + publish.conf.ext, output);
 		}
 		
 		// get a list of all the classes in the symbolset
