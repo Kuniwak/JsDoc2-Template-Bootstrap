@@ -241,18 +241,47 @@ var symbolAlias = "{+ data.alias +}";
 
 <!-- ============================== category title 'summary' ==================== -->
 	<div class="spacer" ></div>
-	<table id="smryTop" class="categoryTitle" cellpadding="0" cellspacing="0" ><tr><th><div>{+Kw.clas.titleSummary+}</div></th><td>
+
+	{+Kw.clas.titleSummary+}
+	<div class="btn-group">
 		<if test="data.isNamespace">
-		{! output += (memNamespaces.length?'<a href="#smryNamespaceTop" >'+Kw.clas.linkToNamespaces+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToNamespaces+'</span>')+" |" !}
-		{! output += (memClasses.length?'<a href="#smryClassTop" >'+Kw.clas.linkToClasses+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToClasses+'</span>')+" |" !}
+			{!
+				output += memNamespaces.length
+					? ('<a href="#smryNamespaceTop" class="btn">' + Kw.clas.linkToNamespaces + '</a>')
+					: ('<a href="#" class="btn disabled">' + Kw.clas.linkToNamespaces + '</span>')
+			!}
+			{!
+				output += memClasses.length
+					? ('<a href="#smryClassTop" class="btn">' + Kw.clas.linkToClasses + '</a>')
+					: ('<a href="#" class="btn disabled">' + Kw.clas.linkToClasses + '</span>')
+			!}
 		</if>
-		<if test="data.hasConstructor"><a href="#smryConstructorTop" >{+Kw.clas.linkToConstructor+}</a> |</if>
-		{! output += (constants.length?'<a href="#smryConstantTop" >'+Kw.clas.linkToConstants+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToConstants+'</span>')+" |" !}
-		{! output += (properties.length?'<a href="#smryPropertyTop" >'+Kw.clas.linkToProperties+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToProperties+'</span>')+" |" !}
-		{! output += (methods.length?'<a href="#smryMethodTop" >'+Kw.clas.linkToMethods+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToMethods+'</span>')+" |" !}
-		{! output += (events.length?'<a href="#smryEventTop" >'+Kw.clas.linkToEvents+'</a>': '<span class="disabledLink" >'+Kw.clas.linkToEvents+'</span>')+" |" !}
-		<a href="#dtlTop" >{+Kw.clas.linkToDetailTop +}</a> | <a href="#" >{+Kw.clas.linkToPageTop+}</a>
-	</td></tr></table>
+		<if test="data.hasConstructor">
+			<a href="#smryConstructorTop btn">{+Kw.clas.linkToConstructor+}</a>
+		</if>
+		{!
+			output += constants.length
+				? ('<a href="#smryConstantTop" class="btn">' + Kw.clas.linkToConstants + '</a>')
+				: ('<a href="#" class="btn disabled">' + Kw.clas.linkToConstants + '</span>')
+		!}
+		{!
+			output += properties.length
+				? ('<a href="#smryPropertyTop" class="btn">' + Kw.clas.linkToProperties + '</a>')
+				: ('<a href="#" class="btn disabled">' + Kw.clas.linkToProperties + '</span>')
+		!}
+		{!
+			output += methods.length
+				? ('<a href="#smryMethodTop" class="btn">' + Kw.clas.linkToMethods + '</a>')
+				: ('<a href="#" class="btn disabled">' + Kw.clas.linkToMethods + '</span>')
+		!}
+		{!
+			output += events.length
+				? ('<a href="#smryEventTop" class="btn">' + Kw.clas.linkToEvents + '</a>')
+				: ('<a href="#" class="btn disabled">' + Kw.clas.linkToEvents + '</span>')
+		!}
+		<a href="#dtlTop" class="btn">{+Kw.clas.linkToDetailTop+}</a>
+		<a href="#" class="btn">{+Kw.clas.linkToPageTop+}</a>
+	</div>
 
 <!-- ============================== constructor summary ==================== -->
 	<if test="data.hasConstructor">
