@@ -149,7 +149,7 @@ function publish(symbolSet) {
 	dstDir = publish.conf.outDir + 'css/';
 	for (var i = 0; i < numOfCssPaths; i++) {
 		cssPath = cssPaths[i];
-		IO.copyFile(publish.conf.templatesDir + 'static/' + jsPath, dstDir);
+		IO.copyFile(publish.conf.templatesDir + 'static/' + cssPath, dstDir);
 	}
 }
 
