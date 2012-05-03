@@ -7,9 +7,12 @@
 <meta name="generator" content="JsDoc Toolkit" />
 <link rel="stylesheet" type="text/css" href="./css/common.css" />
 <link rel="stylesheet" type="text/css" href="./css/classesindex.css" />
+<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
 <if test="publish.hasUserCSS"><link rel="stylesheet" type="text/css" href="./css/user_css.css" /></if>
 <script type="text/javascript" src="./js/utils.js" ></script>
 <script type="text/javascript" src="./js/classesindex.js" ></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="./js/bootstrap.min.js"></script>
 <script type="text/javascript" >
 PageOperator.classes = {+ publish.classAliasArrayString +};
 PageOperator.msgOpenAllBtn  = "{+ Kw.classesIndex.msgOpenAllBtn +}";
@@ -26,17 +29,20 @@ PageOperator.msgCloseBtn = "{+ Kw.classesIndex.msgCloseBtn +}";
 <body>
 <div id="content" >
 
-<div class="titleContainer" >
-	<div class="indexLink" >
-		<a id="linkNewWnd" href="#" target="_blank" >{+Kw.clas.linkNoFrame+}</a> |
-		<if test="publish.hasOverview">
-		{+new Link().toFile("overview.html").withText(Kw.summary.overview).target("detail")+} |
-		</if>
-		<span class="disabledLink" >{+Kw.summary.classIndex+}</span> |
-		{+new Link().toFile("filesindex.html").withText(Kw.summary.fileIndex).target("detail")+}
+<div class="navbar"><div class="navbar-inner"><div class="container">
+	<a class="brand" href="#">{+Kw.classesIndex.caption+}</a>
+
+	<div class="nav-collapse">
+		<ul class="nav pull-right">
+			<li><a id="linkNewWnd" href="#" target="_blank" >{+Kw.clas.linkNoFrame+}</a></li>
+			<if test="publish.hasOverview">
+			<li>{+new Link().toFile("overview.html").withText(Kw.summary.overview).target("detail")+}</li>
+			</if>
+			<li class="active"><a href="#">{+Kw.summary.classIndex+}</a></li>
+			<li>{+new Link().toFile("filesindex.html").withText(Kw.summary.fileIndex).target("detail")+}</li>
+		</ul>
 	</div>
-	<div class="title classNormal aliasFont">{+Kw.classesIndex.caption+}</div>
-</div>
+</div></div></div>
 
 <a href="javascript:void(0)" id="openAllBtn" >&nbsp;</a>
 
