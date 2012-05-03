@@ -69,88 +69,117 @@ PageOperator.msgCloseBtn = "{+ Kw.classesIndex.msgCloseBtn +}";
 !}
 <div class="itemContainer">
 	<div class="relative">
-		<if test="!isGlobal"><div class="arrowBtn arrowBtn_close" id="arw_{+ item.alias +}"></div></if>
+		<if test="!isGlobal">
+			<div class="arrowBtn arrowBtn_close" id="arw_{+ item.alias +}"></div>
+		</if>
 		<div class="className itemName aliasFont {+ classStyle +} {+ resolveClassCSSClass(item) +}">
 			{+link+}
 		</div>
 		<div class="clearBoth"></div>
 	</div>
 	<if test="!isGlobal">
-
-	<div id="mem_{+ item.alias +}" class="itemDesc">
-		<div id="mem_smp_{+ item.alias +}"><div>{+ convInlineCodes(resolveLinks(item.summarizedClassDesc)) +}</div></div>
-		<div id="mem_dtl_{+ item.alias +}" style="display:none;"><div>{+ convInlineCodes(resolveLinks(item.classDesc)) +}</div>
-			<table class="descTable" cellspacing="0">
-				<if test="item.out.namespace">
-					<tr><th class="descCaption">{+Kw.clas.namespace+}</th><td>{+new Link().toSymbol(item.out.namespace)+}</td></tr>
-				</if>
-
-				<if test="item.hasInheritance">
-					<tr><th class="descCaption">{+Kw.clas.inheritance+}</th><td>
-					{+makeInheritanceLine(item, classStyle)+}
-					</td></tr>
-				</if>
-
-				<if test="(item.interfaces && item.inheritedInterfaces) && (item.interfaces.length || item.inheritedInterfaces.length)">
-					<tr><th class="descCaption">{+Kw.clas.interfaces+}</th><td>
-					<if test="item.interfaces.length">
-					{+item.interfaces.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
+		<div id="mem_{+ item.alias +}" class="itemDesc">
+			<div id="mem_smp_{+ item.alias +}">
+				<div>{+ convInlineCodes(resolveLinks(item.summarizedClassDesc)) +}</div>
+			</div>
+			<div id="mem_dtl_{+ item.alias +}" style="display:none;">
+				<div>{+ convInlineCodes(resolveLinks(item.classDesc)) +}</div>
+				<table class="descTable" cellspacing="0">
+					<if test="item.out.namespace">
+						<tr>
+							<th class="descCaption">{+Kw.clas.namespace+}</th>
+							<td>{+new Link().toSymbol(item.out.namespace)+}</td>
+						</tr>
 					</if>
-					<if test="item.interfaces.length && item.inheritedInterfaces.length"><br /></if>
-					<if test="item.inheritedInterfaces.length">
-					{+Kw.clas.interfacesFromAugments+}:
-					{+item.inheritedInterfaces.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
+					<if test="item.hasInheritance">
+						<tr>
+							<th class="descCaption">{+Kw.clas.inheritance+}</th>
+							<td>{+makeInheritanceLine(item, classStyle)+}</td>
+						</tr>
 					</if>
-					</td></tr>
-				</if>
-
-				<if test="item.isInterface">
-					<tr><th class="descCaption">{+Kw.clas.implementers+}</th><td>
-					{+item.implementers.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
-					</td></tr>
-				</if>
-
-				<if test="item.requires.length">
-					<tr><th class="descCaption">{+Kw.clas.requires+}</th><td>
-					{+item.requires.map(function($){ return new Link().toSymbol($) }).join(", ")+}
-					</td></tr>
-				</if>
-				<if test="item.see.length">
-					<tr><th class="descCaption">{+Kw.clas.see+}</th><td>{+writeListItems(item.see)+}</td></tr>
-				</if>
-				<if test="item.author">
-					<tr><th class="descCaption">{+Kw.clas.author+}</th><td>{+item.author+}</td></tr>
-				</if>
-				<if test="item.version">
-					<tr><th class="descCaption">{+Kw.clas.version+}</th><td>{+resolveLinks(item.version)+}</td></tr>
-				</if>
-				<if test="item.since">
-					<tr><th class="descCaption">{+Kw.clas.since+}</th><td>{+item.since+}</td></tr>
-				</if>
-				<if test="item.example.length">
-					{! var num = item.example.length>1?1:""; !}
-					<for each="example" in="item.example">
-					<tr><td class="descCaption">{+ (Kw.clas.example+" "+num) +}</td><td>{+ writeExample(example) +}</td></tr>
-					{! num++; !}
-					</for>
-				</if>
-				<if test="item.todos && item.todos.length">
-					<tr><th class="descCaption">{+Kw.clas.todo+}</th><td>{+writeListItems(item.todos)+}</td></tr>
-				</if>
-				<if test="item.srcFile">
-					<tr><th class="descCaption">{+Kw.clas.file+}</th><td>{+new Link().toSrc(item.srcFile).inner(item.srcAnchor)+}</td></tr>
-				</if>
-			</table>
+					<if test="(item.interfaces && item.inheritedInterfaces) && (item.interfaces.length || item.inheritedInterfaces.length)">
+						<tr>
+							<th class="descCaption">{+Kw.clas.interfaces+}</th>
+							<td>
+								<if test="item.interfaces.length">
+								{+item.interfaces.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
+								</if>
+								<if test="item.interfaces.length && item.inheritedInterfaces.length"><br /></if>
+								<if test="item.inheritedInterfaces.length">
+									{+Kw.clas.interfacesFromAugments+}:
+									{+item.inheritedInterfaces.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}
+								</if>
+							</td>
+						</tr>
+					</if>
+					<if test="item.isInterface">
+						<tr>
+							<th class="descCaption">{+Kw.clas.implementers+}</th>
+							<td>{+item.implementers.sort().map(function($){ return new Link().toSymbol($) }).join(", ")+}</td>
+						</tr>
+					</if>
+					<if test="item.requires.length">
+						<tr>
+							<th class="descCaption">{+Kw.clas.requires+}</th>
+							<td>{+item.requires.map(function($){ return new Link().toSymbol($) }).join(", ")+}</td>
+						</tr>
+					</if>
+					<if test="item.see.length">
+						<tr>
+							<th class="descCaption">{+Kw.clas.see+}</th>
+							<td>{+writeListItems(item.see)+}</td>
+						</tr>
+					</if>
+					<if test="item.author">
+						<tr>
+							<th class="descCaption">{+Kw.clas.author+}</th>
+							<td>{+item.author+}</td>
+						</tr>
+					</if>
+					<if test="item.version">
+						<tr>
+							<th class="descCaption">{+Kw.clas.version+}</th>
+							<td>{+resolveLinks(item.version)+}</td>
+						</tr>
+					</if>
+					<if test="item.since">
+						<tr>
+							<th class="descCaption">{+Kw.clas.since+}</th>
+							<td>{+item.since+}</td>
+						</tr>
+					</if>
+					<if test="item.example.length">
+						{! var num = item.example.length>1?1:""; !}
+						<for each="example" in="item.example">
+						<tr>
+							<td class="descCaption">{+ (Kw.clas.example+" "+num) +}</td>
+							<td>{+ writeExample(example) +}</td>
+						</tr>
+						{! num++; !}
+						</for>
+					</if>
+					<if test="item.todos && item.todos.length">
+						<tr>
+							<th class="descCaption">{+Kw.clas.todo+}</th>
+							<td>{+writeListItems(item.todos)+}</td>
+						</tr>
+					</if>
+					<if test="item.srcFile">
+						<tr>
+							<th class="descCaption">{+Kw.clas.file+}</th>
+							<td>{+new Link().toSrc(item.srcFile).inner(item.srcAnchor)+}</td>
+						</tr>
+					</if>
+				</table>
+			</div>
 		</div>
-	</div>
-
 	</if>
 </div>
 <div class="border"></div>
 </for>
 
 <div class="fineprint">
-{+ fineprint() +}
+	{+ fineprint() +}
 </div>
 
 </div>
