@@ -45,20 +45,6 @@ function publish(symbolSet) {
 	// get an array version of the symbolset, useful for filtering
 	var symbols = symbolSet.toArray();
 	
-	// create the hilited source code files
-	var files = JSDOC.opt.srcFiles;
-		for (var i = 0, l = files.length; i < l; i++) {
-			var file = files[i];
-			var srcDir = publish.conf.outDir + "symbols/src/";
-      //makeSrcFile(file, srcDir);
-      
-      var name = file.replace(/\.\.?[\\\/]/g, "").replace(/[\\\/]/g, "_");
-      name = name.replace(/\:/g, "_");
-      var output = "";
-      output = sourceTemplate.process({ source: IO.readFile(file) });
-      
-      IO.saveFile(srcDir, name + publish.conf.ext, output);
-		}
 		
 		// get a list of all the classes in the symbolset
 		var classes = symbols.filter(isaClass).sort(makeSortby("alias"));
@@ -100,6 +86,21 @@ function publish(symbolSet) {
 	// regenerate the index with different relative links, used in the index pages
 	Link.base = "";
 	publish.classesIndex = classesTemplate.process(classes);
+
+	// create the hilited source code files
+	var files = JSDOC.opt.srcFiles;
+		for (var i = 0, l = files.length; i < l; i++) {
+			var file = files[i];
+			var srcDir = publish.conf.outDir + "symbols/src/";
+      //makeSrcFile(file, srcDir);
+      
+      var name = file.replace(/\.\.?[\\\/]/g, "").replace(/[\\\/]/g, "_");
+      name = name.replace(/\:/g, "_");
+      var output = "";
+      output = sourceTemplate.process({ source: IO.readFile(file) });
+      
+      IO.saveFile(srcDir, name + publish.conf.ext, output);
+		}
 	
 	// create the class index page
 	try {
