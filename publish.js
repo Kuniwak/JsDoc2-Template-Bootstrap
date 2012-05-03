@@ -49,7 +49,7 @@ function publish(symbolSet) {
 		for (var i = 0, l = files.length; i < l; i++) {
 			var file = files[i];
 			var srcDir = publish.conf.outDir + "symbols/src/";
-		makeSrcFile(file, srcDir);
+      //makeSrcFile(file, srcDir);
 		}
 		
 		// get a list of all the classes in the symbolset
@@ -132,7 +132,8 @@ function publish(symbolSet) {
 	var dstDir;
 
 	var jsPaths = [
-			'bootstrap/js/bootstrap.min.js'
+			'bootstrap/js/bootstrap.min.js',
+			'google-code-prettify/prettify.js'
 		];
 	var numOfJsPaths = jsPaths.length;
 	var jsPath;
@@ -145,7 +146,8 @@ function publish(symbolSet) {
 
 	var cssPaths = [
 			'default.css',
-			'bootstrap/css/bootstrap.min.css'
+			'bootstrap/css/bootstrap.min.css',
+			'google-code-prettify/prettify.css'
 		];
 	var numOfCssPaths = cssPaths.length;
 	var cssPath;
@@ -164,7 +166,7 @@ function publish(symbolSet) {
 	var imgPath;
 	
 	dstDir = publish.conf.outDir + 'img/';
-	for (var i = 0; i < numOfCssPaths; i++) {
+	for (var i = 0; i < numOfImgPaths; i++) {
 		imgPath = imgPaths[i];
 		IO.copyFile(publish.conf.templatesDir + 'static/' + imgPath, dstDir);
 	}
@@ -197,6 +199,7 @@ function include(path) {
 }
 
 /** Turn a raw source file into a code-hilited page in the docs. */
+/*
 function makeSrcFile(path, srcDir, name) {
 	if (JSDOC.opt.s) return;
 	
@@ -208,13 +211,14 @@ function makeSrcFile(path, srcDir, name) {
 	var src = {path: path, name:name, charset: IO.encoding, hilited: ""};
 	
 	if (defined(JSDOC.PluginManager)) {
-		JSDOC.PluginManager.run("onPublishSrc", src);
+		JSDOC.PluginManager.run("onPublishSrcWithGCP", src);
 	}
 
 	if (src.hilited) {
-		IO.saveFile(srcDir, name+publish.conf.ext, src.hilited);
+		IO.saveFile(srcDir, name + publish.conf.ext, src.hilited);
 	}
 }
+*/
 
 /** Build output for displaying function parameters. */
 function makeSignature(params) {
