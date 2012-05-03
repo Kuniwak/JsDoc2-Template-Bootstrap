@@ -21,6 +21,7 @@ function publish(symbolSet) {
 	IO.mkPath((publish.conf.outDir+"symbols/src").split("/"));
 	IO.mkPath((publish.conf.outDir+"js").split("/"));
 	IO.mkPath((publish.conf.outDir+"css").split("/"));
+	IO.mkPath((publish.conf.outDir+"img").split("/"));
 		
 	// used to allow Link to check the details of things being linked to
 	Link.symbolSet = symbolSet;
@@ -143,6 +144,7 @@ function publish(symbolSet) {
 	}
 
 	var cssPaths = [
+			'default.css',
 			'bootstrap/css/bootstrap.min.css'
 		];
 	var numOfCssPaths = cssPaths.length;
@@ -152,6 +154,19 @@ function publish(symbolSet) {
 	for (var i = 0; i < numOfCssPaths; i++) {
 		cssPath = cssPaths[i];
 		IO.copyFile(publish.conf.templatesDir + 'static/' + cssPath, dstDir);
+	}
+
+	var imgPaths = [
+			'bootstrap/img/glyphicons-halflings-white.png',
+			'bootstrap/img/glyphicons-halflings.png'
+		];
+	var numOfImgPaths = imgPaths.length;
+	var imgPath;
+	
+	dstDir = publish.conf.outDir + 'img/';
+	for (var i = 0; i < numOfCssPaths; i++) {
+		imgPath = imgPaths[i];
+		IO.copyFile(publish.conf.templatesDir + 'static/' + imgPath, dstDir);
 	}
 }
 
