@@ -1,13 +1,13 @@
 /** Called automatically by JsDoc Toolkit. */
 function publish(symbolSet) {
-	publish.conf = {  // trailing slash expected for dirs
-    name:        "neo-jsdoctpl-bootstrap",
-    version:     "0.0",
-		ext:         ".html",
-		outDir:      JSDOC.opt.d || SYS.pwd+"../out/jsdoc/",
+	publish.conf = {	// trailing slash expected for dirs
+		name:				"neo-jsdoctpl-bootstrap",
+		version:		 "0.0",
+		ext:				 ".html",
+		outDir:			JSDOC.opt.d || SYS.pwd+"../out/jsdoc/",
 		templatesDir: JSDOC.opt.t || SYS.pwd+"../templates/jsdoc/",
-		symbolsDir:  "symbols/",
-		srcDir:      "symbols/src/"
+		symbolsDir:	"symbols/",
+		srcDir:			"symbols/src/"
 	};
 	
 	// is source output is suppressed, just display the links to the source file
@@ -30,7 +30,7 @@ function publish(symbolSet) {
 	try {
 		var classTemplate = new JSDOC.JsPlate(publish.conf.templatesDir+"class.tmpl");
 		var classesTemplate = new JSDOC.JsPlate(publish.conf.templatesDir+"allclasses.tmpl");
-    var sourceTemplate =  new JSDOC.JsPlate(publish.conf.templatesDir+"source.tmpl");
+		var sourceTemplate =	new JSDOC.JsPlate(publish.conf.templatesDir+"source.tmpl");
 	}
 	catch(e) {
 		print("Couldn't create the required templates: "+e);
@@ -73,7 +73,7 @@ function publish(symbolSet) {
 	for (var i = 0, l = classes.length; i < l; i++) {
 		var symbol = classes[i];
 		
-		symbol.events = symbol.getEvents();   // 1 order matters
+		symbol.events = symbol.getEvents();	 // 1 order matters
 		symbol.methods = symbol.getMethods(); // 2
 		
 		Link.currentSymbol= symbol;
@@ -82,25 +82,25 @@ function publish(symbolSet) {
 		
 		IO.saveFile(publish.conf.outDir+"symbols/", ((JSDOC.opt.u)? Link.filemap[symbol.alias] : symbol.alias) + publish.conf.ext, output);
 	}
-	
-	// regenerate the index with different relative links, used in the index pages
-	Link.base = "";
-	publish.classesIndex = classesTemplate.process(classes);
 
 	// create the hilited source code files
+	Link.base = "../../";
+	publish.classesIndex = classesTemplate.process(classes); // kept in memory
 	var files = JSDOC.opt.srcFiles;
 		for (var i = 0, l = files.length; i < l; i++) {
 			var file = files[i];
 			var srcDir = publish.conf.outDir + "symbols/src/";
-      //makeSrcFile(file, srcDir);
-      
-      var name = file.replace(/\.\.?[\\\/]/g, "").replace(/[\\\/]/g, "_");
-      name = name.replace(/\:/g, "_");
-      var output = "";
-      output = sourceTemplate.process({ source: IO.readFile(file) });
-      
-      IO.saveFile(srcDir, name + publish.conf.ext, output);
+			var name = file.replace(/\.\.?[\\\/]/g, "").replace(/[\\\/]/g, "_");
+			name = name.replace(/\:/g, "_");
+			var output = "";
+			output = sourceTemplate.process({ source: IO.readFile(file) });
+			
+			IO.saveFile(srcDir, name + publish.conf.ext, output);
 		}
+	
+	// regenerate the index with different relative links, used in the index pages
+	Link.base = "";
+	publish.classesIndex = classesTemplate.process(classes);
 	
 	// create the class index page
 	try {
