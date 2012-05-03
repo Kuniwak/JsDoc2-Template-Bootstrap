@@ -19,6 +19,8 @@ function publish(symbolSet) {
 	
 	// create the folders and subfolders to hold the output
 	IO.mkPath((publish.conf.outDir+"symbols/src").split("/"));
+	IO.mkPath((publish.conf.outDir+"js").split("/"));
+	IO.mkPath((publish.conf.outDir+"css").split("/"));
 		
 	// used to allow Link to check the details of things being linked to
 	Link.symbolSet = symbolSet;
