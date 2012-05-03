@@ -1,6 +1,8 @@
 /** Called automatically by JsDoc Toolkit. */
 function publish(symbolSet) {
 	publish.conf = {  // trailing slash expected for dirs
+    name:        "neo-jsdoctpl-bootstrap",
+    version:     "0.0",
 		ext:         ".html",
 		outDir:      JSDOC.opt.d || SYS.pwd+"../out/jsdoc/",
 		templatesDir: JSDOC.opt.t || SYS.pwd+"../templates/jsdoc/",
@@ -41,14 +43,14 @@ function publish(symbolSet) {
 	
 	// create the hilited source code files
 	var files = JSDOC.opt.srcFiles;
- 	for (var i = 0, l = files.length; i < l; i++) {
- 		var file = files[i];
- 		var srcDir = publish.conf.outDir + "symbols/src/";
+		for (var i = 0, l = files.length; i < l; i++) {
+			var file = files[i];
+			var srcDir = publish.conf.outDir + "symbols/src/";
 		makeSrcFile(file, srcDir);
- 	}
- 	
- 	// get a list of all the classes in the symbolset
- 	var classes = symbols.filter(isaClass).sort(makeSortby("alias"));
+		}
+		
+		// get a list of all the classes in the symbolset
+		var classes = symbols.filter(isaClass).sort(makeSortby("alias"));
 	
 	// create a filemap in which outfiles must be to be named uniquely, ignoring case
 	if (JSDOC.opt.u) {
@@ -68,7 +70,7 @@ function publish(symbolSet) {
 	
 	// create a class index, displayed in the left-hand column of every class page
 	Link.base = "../";
- 	publish.classesIndex = classesTemplate.process(classes); // kept in memory
+		publish.classesIndex = classesTemplate.process(classes); // kept in memory
 	
 	// create each of the class pages
 	for (var i = 0, l = classes.length; i < l; i++) {
@@ -122,6 +124,33 @@ function publish(symbolSet) {
 	var filesIndex = fileindexTemplate.process(allFiles);
 	IO.saveFile(publish.conf.outDir, "files"+publish.conf.ext, filesIndex);
 	fileindexTemplate = filesIndex = files = null;
+
+	// Twitter Bootstrap
+	var dstDir;
+
+	var jsPaths = [
+			'bootstrap/js/bootstrap.min.js'
+		];
+	var numOfJsPaths = jsPaths.length;
+	var jsPath;
+
+	dstDir = publish.conf.outDir + 'js/';
+	for (var i = 0; i < numOfJsPaths; i++) {
+		jsPath = jsPaths[i];
+		IO.copyFile(publish.conf.templatesDir + 'static/' + jsPath, dstDir);
+	}
+
+	var cssPaths = [
+			'bootstrap/css/bootstrap.min.css'
+		];
+	var numOfCssPaths = cssPaths.length;
+	var cssPath;
+	
+	dstDir = publish.conf.outDir + 'css/';
+	for (var i = 0; i < numOfCssPaths; i++) {
+		cssPath = cssPaths[i];
+		IO.copyFile(publish.conf.templatesDir + 'static/' + jsPath, dstDir);
+	}
 }
 
 
