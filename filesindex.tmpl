@@ -8,9 +8,9 @@
 <link rel="stylesheet" type="text/css" href="./css/common.css" />
 <link rel="stylesheet" type="text/css" href="./css/filesindex.css" />
 <if test="publish.hasUserCSS"><link rel="stylesheet" type="text/css" href="./css/user_css.css" /></if>
-<script type="text/javascript" src="./js/utils.js" ></script>
-<script type="text/javascript" src="./js/filesindex.js" ></script>
-<script type="text/javascript" >
+<script type="text/javascript" src="./js/utils.js"></script>
+<script type="text/javascript" src="./js/filesindex.js"></script>
+<script type="text/javascript">
 PageOperator.files = {+ makePropertyValueArray(data, "outAlias") +};
 PageOperator.msgOpenAllBtn  = "{+ Kw.filesIndex.msgOpenAllBtn +}";
 PageOperator.msgCloseAllBtn = "{+ Kw.filesIndex.msgCloseAllBtn +}";
@@ -21,38 +21,38 @@ PageOperator.msgCloseBtn = "{+ Kw.filesIndex.msgCloseBtn +}";
 </script>
 </head>
 <body>
-<div id="content" >
+<div id="content">
 
-<div class="titleContainer" >
-	<div class="indexLink" >
-		<a id="linkNewWnd" href="#" target="_blank" >{+Kw.clas.linkNoFrame+}</a> |
+<div class="titleContainer">
+	<div class="indexLink">
+		<a id="linkNewWnd" href="#" target="_blank">{+Kw.clas.linkNoFrame+}</a> |
 		<if test="publish.hasOverview">
 		{+new Link().toFile("overview.html").withText(Kw.summary.overview).target("detail")+} |
 		</if>
 		{+new Link().toFile("classesindex.html").withText(Kw.summary.classIndex).target("detail")+} |
-		<span class="disabledLink" >{+Kw.summary.fileIndex+}</span>
+		<span class="disabledLink">{+Kw.summary.fileIndex+}</span>
 	</div>
 	<div class="title classNormal aliasFont">{+Kw.filesIndex.caption+}</div>
 </div>
 
-<a href="javascript:void(0)" id="openAllBtn" >&nbsp;</a>
+<a href="javascript:void(0)" id="openAllBtn">&nbsp;</a>
 
 <for each="item" in="data">
-<div class="itemContainer" >
-	<div class="relative fileNameContainer" >
-		<if test="item.hasComment || item.defines.length"><div class="arrowBtn arrowBtn_close" id="arw_{+ item.outAlias +}" ></div></if>
-		<div class="className itemName fileIcon floatLeft aliasFont" >
+<div class="itemContainer">
+	<div class="relative fileNameContainer">
+		<if test="item.hasComment || item.defines.length"><div class="arrowBtn arrowBtn_close" id="arw_{+ item.outAlias +}"></div></if>
+		<div class="className itemName fileIcon floatLeft aliasFont">
 			{+new Link().toSrc(item.alias).withText(item.fileName).cssClass("classNormal")+}
 		</div>
-		<span class="filePath" >{+ item.dispPath +}</span>
-		<div class="clearBoth" ></div>
+		<span class="filePath">{+ item.dispPath +}</span>
+		<div class="clearBoth"></div>
 	</div>
-	<div id="mem_{+ item.outAlias +}" class="itemDesc" >
+	<div id="mem_{+ item.outAlias +}" class="itemDesc">
 	<if test="item.hasComment || item.defines.length">
-		<div id="mem_smp_{+ item.outAlias +}" ><if test="item.hasDesc"><div>{+ resolveLinks(item.summarizedDesc) +}</div></if></div>
-		<div id="mem_dtl_{+ item.outAlias +}" style="display:none;" ><if test="item.hasDesc"><div>{+ resolveLinks(item.desc) +}</div></if>
+		<div id="mem_smp_{+ item.outAlias +}"><if test="item.hasDesc"><div>{+ resolveLinks(item.summarizedDesc) +}</div></if></div>
+		<div id="mem_dtl_{+ item.outAlias +}" style="display:none;"><if test="item.hasDesc"><div>{+ resolveLinks(item.desc) +}</div></if>
 			<if test="file.hasMember || item.defines.length">
-				<table class="descTable" cellspacing="0" >
+				<table class="descTable" cellspacing="0">
 				<if test="item.author">
 				<tr><th class="caption descCaption">{+Kw.filesIndex.author+}</th><td>{+resolveLinks(item.author)+}</td></tr>
 				</if>
@@ -78,7 +78,7 @@ PageOperator.msgCloseBtn = "{+ Kw.filesIndex.msgCloseBtn +}";
 <div class="border"></div>
 </for>
 
-<div class="fineprint" >
+<div class="fineprint">
 {+ fineprint() +}
 </div>
 

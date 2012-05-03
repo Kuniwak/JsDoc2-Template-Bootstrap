@@ -5,8 +5,8 @@
 <meta http-equiv="content-type" content="text/html; charset={+IO.encoding+}"" />
 <title>{+publish.docTitle+} - {+Kw.overview.title+}</title>
 <meta name="generator" content="JsDoc Toolkit" />
-<script type="text/javascript" src="./js/utils.js" ></script>
-<script type="text/javascript" >
+<script type="text/javascript" src="./js/utils.js"></script>
+<script type="text/javascript">
 window.onload = function() {
 	makeLinkToNewWindow("./?.overview");
 };
@@ -18,21 +18,21 @@ window.onload = function() {
 <if test="publish.hasUserCSS"><link rel="stylesheet" type="text/css" href="./css/user_css.css" /></if>
 </head>
 <body>
-<div id="content" >
+<div id="content">
 
-<div class="titleContainer" >
-	<div class="indexLink" >
-		<a id="linkNewWnd" href="#" target="_blank" >{+Kw.clas.linkNoFrame+}</a> |
-		<span class="disabledLink" >{+Kw.summary.overview+}</span> |
+<div class="titleContainer">
+	<div class="indexLink">
+		<a id="linkNewWnd" href="#" target="_blank">{+Kw.clas.linkNoFrame+}</a> |
+		<span class="disabledLink">{+Kw.summary.overview+}</span> |
 		{+new Link().toFile("classesindex.html").withText(Kw.summary.classIndex).target("detail")+} |
 		{+new Link().toFile("filesindex.html").withText(Kw.summary.fileIndex).target("detail")+}
 	</div>
 	<div class="title classNormal aliasFont">{+publish.docTitle+}</div>
 </div>
-<div class="docOverview" >
+<div class="docOverview">
 {+ data.desc +}
 
-<table class="descTable" cellspacing="0" >
+<table class="descTable" cellspacing="0">
 <if test="data.author">
 <tr><th class="descCaption">{+Kw.overview.author+}</th><td>{+resolveLinks(data.author)+}</td></tr>
 </if>
@@ -46,16 +46,16 @@ window.onload = function() {
 	<div class="className fixedFont bold aliasFont {+ resolveClassCSSClass(mem) +}">
 		{+ new Link().toSymbol(mem.alias) +}
 	</div>
-	<div class="nsDesc" >{+resolveLinks(mem.summarizedClassDesc)+}</div>
+	<div class="nsDesc">{+resolveLinks(mem.summarizedClassDesc)+}</div>
 </for>
 </td></tr>
 </if>
 </table>
 </div>
 
-<div class="footerPadding" ></div>
-<div class="border" ></div>
-<div class="fineprint" >
+<div class="footerPadding"></div>
+<div class="border"></div>
+<div class="fineprint">
 {+ fineprint() +}
 </div>
 </div>

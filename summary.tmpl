@@ -6,13 +6,13 @@
 
 <title>{+(JSDOC.opt.D.title?JSDOC.opt.D.title:"API")+} {+Kw.summary.title+}</title>
 <meta name="generator" content="JsDoc Toolkit" />
-<script type="text/javascript" src="./js/utils.js" ></script>
-<script type="text/javascript" src="./js/summary.js" ></script>
-<script type="text/javascript" src="./js/symbolobjects.js" ></script>
+<script type="text/javascript" src="./js/utils.js"></script>
+<script type="text/javascript" src="./js/summary.js"></script>
+<script type="text/javascript" src="./js/symbolobjects.js"></script>
 <link rel="stylesheet" type="text/css" href="./css/common.css" />
 <link rel="stylesheet" type="text/css" href="./css/summary.css" />
 <if test="publish.hasUserCSS"><link rel="stylesheet" type="text/css" href="./css/user_css.css" /></if>
-<script type="text/javascript" >
+<script type="text/javascript">
 TreeOperator.classes = {+ publish.classAliasArrayString +};
 TreeOperator.filterCaption = "{+Kw.summary.filterCaption+}";
 TreeOperator.msgOpenConfigBtn = "{+ Kw.summary.msgOpenConfigBtn +}";
@@ -23,21 +23,21 @@ TreeOperator.msgCloseClassBtn = "{+ Kw.summary.msgCloseClassBtn +}";
 </head>
 <body>
 <div id="base">
-<div id="filterContainer" >
-	<div id="filter" >
+<div id="filterContainer">
+	<div id="filter">
 		<input type="text" id="filterWord" class="textBox" />
-		<div id="filterConfigBtn" class="expandBtn expandBtn_close" ></div>
+		<div id="filterConfigBtn" class="expandBtn expandBtn_close"></div>
 
-<!--	<br/>debug:<textarea id="filterResult" style="width:150px;height:300px;font-size:12px;" ></textarea>-->
+<!--	<br/>debug:<textarea id="filterResult" style="width:150px;height:300px;font-size:12px;"></textarea>-->
 	</div>
 
-	<div id="filterConfig" >
+	<div id="filterConfig">
 		<input type="checkbox" id="caseSensitive" />{+Kw.summary.filterCaseSensitive+}<br />
 		<input type="radio" name="matchType" id="mtypePrefix"  />{+Kw.summary.prefixMatch+}&nbsp;
 		<input type="radio" name="matchType" id="mtypePertial"  />{+Kw.summary.partialMatch+}
 	</div>
 </div>
-<div id="classListFrame" >
+<div id="classListFrame">
 	<div class="classList">
 		<for each="thisClass" in="data">
 			{+ writeClassSummary(thisClass) +}
