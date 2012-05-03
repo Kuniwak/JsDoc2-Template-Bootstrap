@@ -22,3 +22,41 @@ body {
   margin-bottom: 0;
   color: #555;
 }
+
+.icon-class-mini {
+  background: url("../img/glyphicons-halflings.png") no-repeat;
+}
+
+.icon-namespace {
+	background-position: 0 0px; 
+}
+
+.icon-static-class {
+	background-position: 0 -40px; 
+}
+
+.icon-interface {
+	background-position: 0 -80px; 
+}
+
+.icon-namespace {
+	background-position: 0 0px; 
+}
+
+.icon-static-class {
+	background-position: 0 -40px; 
+}
+
+.icon-interface {
+	background-position: 0 -80px; 
+}
+
+
+.icon-virtual-class {
+	
+}
+		if (item.isNamespace) classStyle = "namespace";
+		if (item.isInterface) classStyle = "interface";
+		if (item.isStaticClass) classStyle = "classStatic";
+		if (item.isAbstractClass) classStyle = "classAbstract";
+		if (item.isVirtualClass) classStyle = "classVirtual";
