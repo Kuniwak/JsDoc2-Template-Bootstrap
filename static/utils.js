@@ -237,7 +237,7 @@ function makeExpires(day) {
  * @param {String} id id
  * @return {DOMElement} DOM要素。存在しない場合はnull。
  */
-function $(id) {
+function aiasGetElement(id) {
 	return document.getElementById(id);
 }
 
@@ -254,14 +254,14 @@ function defined(value) {
 //----------------------------------------------------------------------------------------
 
 function showExamplePlain(id) {
-	$("example_"+id+"_hl").style.display = "none";
-	$("example_"+id+"_pt").style.display = "block";
+	aiasGetElement('example_' + id + '_hl').style.display = 'none';
+	aiasGetElement('example_' + id + '_pt').style.display = 'block';
 	return false;
 }
 
 function showExampleHilited(id) {
-	$("example_"+id+"_hl").style.display = "block";
-	$("example_"+id+"_pt").style.display = "none";
+	aiasGetElement('example_' + id + '_hl').style.display = 'block';
+	aiasGetElement('example_' + id + '_pt').style.display = 'none';
 	return false;
 }
 
@@ -276,7 +276,7 @@ function hSrcLinkMouseOut(elm) {
 //----------------------------------------------------------------------------------------
 
 function makeLinkToNewWindow(pathToTop) {
-	var link = $("linkNewWnd");
+	var link = aiasGetElement('linkNewWnd');
 	if (!link) return;
 	
 	if (window.top==window) {

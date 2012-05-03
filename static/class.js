@@ -2,7 +2,7 @@ var minInherit = (readCookie("aiasframe_mininhrt")=="1");
 var hidePrivates = (readCookie("aiasframe_hideprvt")=="1");
 
 window.onload = function() {
-	var minInhrt = $("minimizeInrerits");
+	var minInhrt = aiasGetElement('minimizeInrerits');
 	if (minInhrt) {
 		minInhrt.onclick = function() {
 			minInherit = this.checked;
@@ -18,7 +18,7 @@ window.onload = function() {
 		updateInreritsMinimizing();
 	}
 	
-	var hidePrivt = $("hidePrivates");
+	var hidePrivt = aiasGetElement('hidePrivates');
 	if (hidePrivt) {
 		hidePrivt.onclick = function() {
 			hidePrivates = this.checked;
@@ -65,7 +65,7 @@ function updateInreritsMinimizing() {
 }
 
 function updateCollapsedLinks(containerId) {
-	var container = $(containerId);
+	var container = aiasGetElement(containerId);
 	if (!container) return;
 
 	var tds = container.getElementsByTagName("td");

@@ -15,7 +15,7 @@ PageOperator.init = function() {
 };
 
 PageOperator._initArrowBtn = function(alias) {
-	var arwBtn = $("arw_"+alias);
+	var arwBtn = aiasGetElement('arw_' + alias);
 	if (!arwBtn) return;
 
 	arwBtn.onclick = function() {
@@ -37,19 +37,16 @@ PageOperator._initArrowBtn = function(alias) {
 };
 
 PageOperator.openFileDesc = function(alias, mode) {
-
-//alert(alias+","+$("mem_smp_"+alias));
-
-	var simpleDesc = $("mem_smp_"+alias);
+	var simpleDesc = aiasGetElement('mem_smp_' + alias);
 	if (!simpleDesc) return;
 
-	simpleDesc.style.display = mode?"none":"block";
-	$("mem_dtl_"+alias).style.display = mode?"block":"none";
+	simpleDesc.style.display = mode ? 'none' : 'block';
+	aiasGetElement('mem_dtl_' + alias).style.display = mode ? 'block' : 'none';
 
-	var arwBtn = $("arw_"+alias);
+	var arwBtn = aiasGetElement('arw_' + alias);
 	arwBtn.isOpened = mode;
-	arwBtn.className = "arrowBtn arrowBtn_"+(mode?"open":"close");
-	arwBtn.title = mode?PageOperator.msgCloseBtn:PageOperator.msgOpenBtn;
+	arwBtn.className = 'arrowBtn arrowBtn_' + (mode ? 'open' : 'close');
+	arwBtn.title = mode ? PageOperator.msgCloseBtn : PageOperator.msgOpenBtn;
 };
 
 PageOperator.openAll = function() {
@@ -57,7 +54,7 @@ PageOperator.openAll = function() {
 		PageOperator.openFileDesc(PageOperator.files[i], true);
 	}
 
-	var btn = $("openAllBtn");
+	var btn = aiasGetElement('openAllBtn');
 	btn.onclick = PageOperator.closeAll;
 	btn.firstChild.nodeValue = PageOperator.msgCloseAllBtn;
 
@@ -69,7 +66,7 @@ PageOperator.closeAll = function() {
 		PageOperator.openFileDesc(PageOperator.files[i], false);
 	}
 
-	var btn = $("openAllBtn");
+	var btn = aiasGetElement('openAllBtn');
 	btn.onclick = PageOperator.openAll;
 	btn.firstChild.nodeValue = PageOperator.msgOpenAllBtn;
 

@@ -44,13 +44,13 @@ TreeOperator.init = function(symbols, aliasMap) {
 
 	var handler = bind(this._handlerModeChange, this);
 
-	var chkCase = $("caseSensitive");
+	var chkCase = aiasGetElement('caseSensitive');
 	chkCase.checked = this._csens;
 	chkCase.onclick = handler;
 
-	$(this._mtype===0?"mtypePrefix":"mtypePertial").checked = true;
-	$("mtypePrefix").onclick = handler;
-	$("mtypePertial").onclick = handler;
+	aiasGetElement((this._mtype === 0) ? 'mtypePrefix' : 'mtypePertial').checked = true;
+	aiasGetElement('mtypePrefix').onclick = handler;
+	aiasGetElement('mtypePertial').onclick = handler;
 
 	//クラス開閉ボタンを初期化する。
 	for (var i=0;i<this.classes.length;i++) {
@@ -80,7 +80,7 @@ TreeOperator.init = function(symbols, aliasMap) {
  * @param {String} alias クラスのネームパス
  */
 TreeOperator._initClassExpandBtn = function(alias) {
-	var btn = $(alias+"_mark");
+	var btn = aiasGetElement(alias + '_mark');
 	if (!btn) return;
 
 	btn.onclick = function() {
@@ -106,7 +106,7 @@ TreeOperator._initClassExpandBtn = function(alias) {
  * フィルタ文字入力ボックスを初期化する。 @private
  */
 TreeOperator._initFilterWordBox = function() {
-	var filterWord = $("filterWord");
+	var filterWord = aiasGetElement('filterWord');
 	filterWord.onfocus = function() {
 		if (filterWord.initFlg || filterWord.nullFlg) {
 			filterWord.style.color = "#353535";
@@ -139,7 +139,7 @@ TreeOperator._initFilterWordBox = function() {
  * フィルタ設定開閉ボタンを初期化する。 @private
  */
 TreeOperator._initConfigBtn = function() {
-	var configBtn = $("filterConfigBtn");
+	var configBtn = aiasGetElement('filterConfigBtn');
 
 	configBtn.onmouseover = function() {
 		configBtn.className = "expandBtn expandBtn_"+(TreeOperator.configOpened?"open":"close")+"_sel";
@@ -166,10 +166,10 @@ TreeOperator._initConfigBtn = function() {
 TreeOperator.openFilterConfig = function(mode) {
 	TreeOperator.configOpened = mode;
 
-	$("filterConfig").style.display = mode?"block":"none";
+	aiasGetElement('filterConfig').style.display = mode ? 'block' : 'none';
 
-	var configBtn = $("filterConfigBtn");
-	configBtn.className = "expandBtn expandBtn_"+(mode?"open":"close");
+	var configBtn = aiasGetElement('filterConfigBtn');
+	configBtn.className = 'expandBtn expandBtn_' + (mode ? 'open' : 'close');
 	configBtn.title = mode?TreeOperator.msgCloseConfigBtn:TreeOperator.msgOpenConfigBtn;
 
 	resize();
@@ -179,8 +179,8 @@ TreeOperator.openFilterConfig = function(mode) {
  * 共通DOMイベントハンドラ。 thisはTreeOperatorオブジェクト。 @private
  */
 TreeOperator._handlerModeChange = function() {
-	this._csens = $("caseSensitive").checked;
-	this._mtype = $("mtypePrefix").checked?0:1;
+	this._csens = aiasGetElement('caseSensitive').checked;
+	this._mtype = aiasGetElement('mtypePrefix').checked ? 0 : 1;
 
 	this._selectFilter();
 	this._prevWord = null;
@@ -280,8 +280,8 @@ TreeOperator._applyFilter = function(box) {
  * @param {Boolean} mode 表示するならtrue
  */
 TreeOperator._dispTreeItemElement = function(alias, isClass, mode) {
-	var id = alias + (isClass?"_c":"_m");
-	$(id).style.display = mode?"block":"none";
+	var id = alias + (isClass ? '_c' : '_m');
+	aiasGetElement(id).style.display = mode ? 'block' : 'none';
 };
 
 
@@ -292,12 +292,12 @@ TreeOperator._dispTreeItemElement = function(alias, isClass, mode) {
  *                         省略した場合、現在の設定を反転させる。
  */
 TreeOperator.setClassExpand = function(alias, mode) {
-	var memBox = $(alias+"_membox");
-	memBox.style.display = mode?"block":"none";
+	var memBox = aiasGetElement(alias + '_membox');
+	memBox.style.display = mode ? 'block' : 'none';
 
-	var btn = $(alias+"_mark");
+	var btn = aiasGetElement(alias + '_mark');
 	btn.isOpened = mode;
-	btn.className = "arrowBtn arrowBtn_"+(mode?"open":"close");
+	btn.className = 'arrowBtn arrowBtn_' + (mode ? 'open' : 'close');
 	btn.title = mode?this.msgCloseClassBtn:this.msgOpenClassBtn;
 
 	resize();
@@ -724,16 +724,16 @@ FilterResult.prototype.diff = function(result) {
 function resize() {
 	if (!document.body || !document.documentElement) return false;
 
-	var base = $("base");
+	var base = aiasGetElement('base');
 //	var scrWidth = document.body.clientWidth || document.documentElement.clientWidth;
 	var scrHeight = document.body.clientHeight || document.documentElement.clientHeight;
 
-	var textBoxWidth = $("filter").offsetWidth -19;
-	$("filterWord").style.width = (textBoxWidth -6) + "px";
-	$("filterConfigBtn").style.left = (textBoxWidth +6) + "px";
+	var textBoxWidth = aiasGetElement('filter').offsetWidth - 19;
+	aiasGetElement('filterWord').style.width = (textBoxWidth - 6) + 'px';
+	aiasGetElement('filterConfigBtn').style.left = (textBoxWidth + 6) + 'px';
 
 
-	var listFrame = $("classListFrame");
+	var listFrame = aiasGetElement('classListFrame');
 // 	listFrame.style.width = scrWidth + "px";
  	listFrame.style.height = (scrHeight - listFrame.offsetTop -1) + "px";
 
