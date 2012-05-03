@@ -3,7 +3,6 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset={+IO.encoding+}" />
 	<meta name="generator" content="JsDoc Toolkit" />
-	{! Link.base = ""; /* all generated links will be relative to this */ !}
 	<title>JsDoc Reference - {+data.alias+}</title>
 
 	<link media="all" rel="stylesheet" href="../css/common.css" type="text/css" />
@@ -17,7 +16,17 @@
 <body onload="prettyPrint()"><div class="container-fluid">
 <!-- ============================== header ================================= -->	
 	<!-- begin static/header.html -->
-	<header class="header">{+include("static/header.html")+}</header>
+	<header class="header navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="brand" href="#"><strong>JsDoc</strong> Reference</a>
+				<ul id="class-file-selector" class="nav">
+					<li><a href="../index.html"><i class="icon-white icon-asterisk"></i>Class Index</a></li>
+					<li><a href="../files.html"><i class="icon-white icon-file"></i>File Index</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
 	<!-- end static/header.html -->
 
 <!-- ============================== classes index ============================ -->
@@ -30,7 +39,7 @@
 		
 		<div id="content" class="span10">
 <!-- ============================== class title ============================ -->
-			<h1 class="classTitle">
+			<div class="page-header"><h1 class="classTitle">
 				{!
 					var classType = "";
 					
@@ -49,7 +58,7 @@
 					}
 				!}
 				{+classType+}{+data.alias+}
-			</h1>
+			</h1></div>
 
 <!-- ============================== class summary ========================== -->
 			<p class="description">

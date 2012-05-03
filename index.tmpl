@@ -15,21 +15,33 @@
 	</head>
 	
 	<body onload="prettyPrint()"><div class="container-fluid">
-		<header class="header">{+include("static/header.html")+}</header>
+		<header class="header navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<a class="brand" href="#"><strong>JsDoc</strong> Reference</a>
+					<ul id="class-file-selector" class="nav">
+						<li><a href="#"><i class="icon-white icon-asterisk"></i>Class Index</a></li>
+						<li><a href="./files.html"><i class="icon-white icon-file"></i>File Index</a></li>
+					</ul>
+				</div>
+			</div>
+		</header>
 		<div class="row-fluid">
 			<div id="index" class="span2">
 				{+publish.classesIndex+}
 			</div>
 			
 			<div id="content" class="span10">
-				<h1 class="classTitle">Class Index</h1>
+				<div class="page-header">
+					<h1 class="classTitle">Class Index</h1>
+				</div>
 				
 				<for each="thisClass" in="data">
-				<div>
-					<h2>{+(new Link().toSymbol(thisClass.alias))+}</h2>
-					{+resolveLinks(summarize(thisClass.classDesc))+}
-				</div>
-				<hr />
+					<div>
+						<h2>{+(new Link().toSymbol(thisClass.alias))+}</h2>
+						{+resolveLinks(summarize(thisClass.classDesc))+}
+					</div>
+					<hr />
 				</for>
 				
 			</div>
