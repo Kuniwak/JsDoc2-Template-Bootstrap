@@ -300,3 +300,10 @@ td.attributes, td.attributes a, .attr, .attr a {
 #inheritConstants, #inheritProperties, #inheritMethods, #inheritEvents {
 	display: none;
 }
+
+
+.navbar .titleIcon_class {
+	/* TODO: Set specified icons */
+	background-image: none;
+}
+

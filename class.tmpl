@@ -23,8 +23,10 @@
 <meta name="generator" content="JsDoc Toolkit" />
 <title>{+publish.docTitle+} - {+data.alias+}</title>
 
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="../js/utils.js" ></script>
 <script type="text/javascript" src="../js/class.js" ></script>
+<script type="text/javascript" src="../js/bootstrap.min.js"></script>
 <script type="text/javascript" >
 var constCntTotal = {+ constants.length +};
 var constCntInterit = {+ data.out.inheritedConstCount +};
@@ -45,6 +47,7 @@ var symbolAlias = "{+ data.alias +}";
 </script>
 <link rel="stylesheet" type="text/css" href="../css/common.css" />
 <link rel="stylesheet" type="text/css" href="../css/class.css" />
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 <if test="publish.hasUserCSS"><link rel="stylesheet" type="text/css" href="../css/user_css.css" /></if>
 <style type="text/css" >
 {+ srcHilite.css +}
@@ -111,17 +114,20 @@ var symbolAlias = "{+ data.alias +}";
 
 <!-- ============================== class title ============================ -->
 <div id="title" >
-	<div class="indexLink" >
-		<a id="linkNewWnd" href="#" target="_blank" >{+Kw.clas.linkNoFrame+}</a> |
-		<if test="publish.hasOverview">
-		{+new Link().toFile("overview.html").withText(Kw.summary.overview).target("detail")+} |
-		</if>
-		{+new Link().toFile("classesindex.html").withText(Kw.summary.classIndex).target("detail")+} |
-		{+new Link().toFile("filesindex.html").withText(Kw.summary.fileIndex).target("detail")+}
-	</div>
-	<div id="classAlias" class="aliasFont {+classStyle+} {+bgStyle+}">
-		<span class="className classType {+ classIcon +} {+ resolveClassCSSClass(data) +}">{+classType+}</span><span {+data.alias==="_global_"?"class='italic'":""+}>{+data.alias+}</span>
-	</div>
+	<div class="navbar"><div class="navbar-inner"><div class="container">
+		<a class="brand {+ classIcon +} {+ resolveClassCSSClass(data) +}" href="#">{+classType+} {+data.alias+}</a>
+
+		<div class="nav-collapse">
+			<ul class="nav pull-right">
+				<li><a id="linkNewWnd" href="#" target="_blank" >{+Kw.clas.linkNoFrame+}</a></li>
+				<if test="publish.hasOverview">
+				<li>{+new Link().toFile("overview.html").withText(Kw.summary.overview).target("detail")+}</li>
+				</if>
+				<li>{+new Link().toFile("classesindex.html").withText(Kw.summary.classIndex).target("detail")+}</li>
+				<li>{+new Link().toFile("filesindex.html").withText(Kw.summary.fileIndex).target("detail")+}</li>
+			</ul>
+		</div>
+	</div></div></div>
 </div>
 
 <!-- ============================== class summary ========================== -->
