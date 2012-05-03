@@ -327,16 +327,6 @@ ul.list li {
 	width: 100%;
 }
 
-.title {
-	padding-left: 4px;
-	margin-top: 4px;
-	font-size:18px;
-	line-height:24px;
-	font-weight: bold;
-	height: 26px;
-	background: transparent url(../images/title_class.png) repeat-x;
-}
-
 .indexLink {
 	margin-top: -2px;
 	text-align: right;
