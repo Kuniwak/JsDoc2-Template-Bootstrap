@@ -22,7 +22,7 @@ h2 {
 }
 
 .classList {
-	font-family: arial, sans-serif;
+	/* font-family: arial, sans-serif; */
 	font-size: 12px;
 	white-space: nowrap;
 	padding: 3px 3px 3px 6px;
