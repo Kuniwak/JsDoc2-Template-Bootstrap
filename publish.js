@@ -207,28 +207,6 @@ function include(path) {
 	return IO.readFile(path);
 }
 
-/** Turn a raw source file into a code-hilited page in the docs. */
-/*
-function makeSrcFile(path, srcDir, name) {
-	if (JSDOC.opt.s) return;
-	
-	if (!name) {
-		name = path.replace(/\.\.?[\\\/]/g, "").replace(/[\\\/]/g, "_");
-		name = name.replace(/\:/g, "_");
-	}
-	
-	var src = {path: path, name:name, charset: IO.encoding, hilited: ""};
-	
-	if (defined(JSDOC.PluginManager)) {
-		JSDOC.PluginManager.run("onPublishSrcWithGCP", src);
-	}
-
-	if (src.hilited) {
-		IO.saveFile(srcDir, name + publish.conf.ext, src.hilited);
-	}
-}
-*/
-
 /** Build output for displaying function parameters. */
 function makeSignature(params) {
 	if (!params) return "()";
