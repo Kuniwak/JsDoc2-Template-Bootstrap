@@ -170,7 +170,10 @@ function publish(symbolSet) {
 	var imgPaths = [
 			'bootstrap/img/glyphicons-halflings-white.png',
 			'bootstrap/img/glyphicons-halflings.png',
-			'img/classicons.png'
+			'img/classicons.png',
+			'img/class.png',
+			'img/interface.png',
+			'img/namespace.png'
 		];
 	var numOfImgPaths = imgPaths.length;
 	var imgPath;
@@ -210,8 +213,8 @@ function include(path) {
 
 /** Build output for displaying function parameters. */
 function makeSignature(params) {
-	if (!params) return "()";
-	var signature = "("
+	if (!params) return "( )";
+	var signature = "( "
 	+
 	params.filter(
 		function($) {
@@ -223,7 +226,7 @@ function makeSignature(params) {
 		}
 	).join(", ")
 	+
-	")";
+	" )";
 	return signature;
 }
 
@@ -237,3 +240,25 @@ function resolveLinks(str, from) {
 	
 	return str;
 }
+
+/**
+ * Get parent symbols
+ * @param {JSDOC.Symbol}
+ * @return {array}
+ */
+function getParentSymbols(symbol) {
+  var newSym = symbol;
+  var result = [];
+  while(newSym) {
+    newSym = JSDOC.Parser.symbols.getSymbol(newSym.augments);
+    if (!newSym) break;
+    result.unshift(newSym);
+  }
+  return result;
+}
+
+/**  */
+function addAttrToLink(link, key, value) {
+  var str = link.toString();
+  return str.replace(/>/, ' ' + key + '="' + value + '">');
+};
