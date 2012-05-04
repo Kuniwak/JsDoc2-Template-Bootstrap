@@ -2,6 +2,13 @@ body {
 	padding-top: 60px;
 }
 
+#index a {
+	color: #333;
+}
+#index a:hover {
+	color: #000;
+}
+
 #class-file-selector a {
   padding-left: 11px;
   padding-right: 11px;
@@ -37,6 +44,10 @@ body {
 
 .icon-jsdoc.icon-jsdoc-constant {
 	background-position: 0 -66px;
+}
+
+#index .icon-jsdoc {
+	margin-right: 4px;
 }
 
 .jsdoc-private {
