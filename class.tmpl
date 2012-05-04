@@ -91,7 +91,7 @@
 
 <!-- ============================== constructor summary ==================== -->
 			<if test="!data.isBuiltin() && (data.isNamespace || data.is('CONSTRUCTOR'))">
-			<table class="summaryTable table table-bordered table-condensed" summary="A summary of the constructor documented in the class {+data.alias+}.">
+			<table class="summaryTable table table-bordered table-condensed table-striped" summary="A summary of the constructor documented in the class {+data.alias+}.">
 				<caption>{+classType+}Summary</caption>
 				<thead>
 					<tr>
@@ -120,7 +120,7 @@
 			<if test="data.properties.length">
 				{! var ownProperties = data.properties.filter(function($){return $.memberOf == data.alias && !$.isNamespace}).sort(makeSortby("name")); !}
 				<if test="ownProperties.length">
-				<table class="summaryTable table table-bordered table-condensed" summary="A summary of the fields documented in the class {+data.alias+}.">
+				<table class="summaryTable table table-bordered table-condensed table-striped" summary="A summary of the fields documented in the class {+data.alias+}.">
 					<caption>Field Summary</caption>
 					<thead>
 						<tr>
@@ -182,7 +182,7 @@
 			<if test="data.methods.length">
 				{! var ownMethods = data.methods.filter(function($){return $.memberOf == data.alias  && !$.isNamespace}).sort(makeSortby("name")); !}
 				<if test="ownMethods.length">
-				<table class="summaryTable table table-bordered table-condensed" summary="A summary of the methods documented in the class {+data.alias+}.">
+				<table class="summaryTable table table-bordered table-condensed table-striped" summary="A summary of the methods documented in the class {+data.alias+}.">
 					<caption>Method Summary</caption>
 					<thead>
 						<tr>
@@ -241,7 +241,7 @@
 			<if test="data.events.length">
 				{! var ownEvents = data.events.filter(function($){return $.memberOf == data.alias  && !$.isNamespace}).sort(makeSortby("name")); !}
 				<if test="ownEvents.length">
-				<table class="summaryTable table table-bordered table-condensed" summary="A summary of the events documented in the class {+data.alias+}.">
+				<table class="summaryTable table table-bordered table-condensed table-striped" summary="A summary of the events documented in the class {+data.alias+}.">
 					<caption>Event Summary</caption>
 					<thead>
 						<tr>
