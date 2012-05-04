@@ -14,19 +14,21 @@
 				} else {
 					type += 'class';
 				}
-
-
 				var name = item.name;
+				var icon = '<i class="' + type + '"></i>';
+
+
 				var indent = item.alias.split('.').length - 1;
-				name = '<span class="indent" style="padding-left:' + (indent * 14) + 'px;">' + name + '</span>';
+				var content = '<span class="indent" style="padding-left:' + (indent * 14) + 'px;">' + icon + name + '</span>';
 				if (item.isPrivate) {
-					name = '<span class="jsdoc-private">' + name + '</span>';
+					content1:w
+					= '<span class="jsdoc-private">' + content + '</span>';
 				}
 
 				if (item.deprecated) {
-					name += '<span class="label label-important pull-right">deprecated</span>';
+					content += '<span class="label label-important pull-right">deprecated</span>';
 				}
-				output += new Link().toClass(item.alias).withText('<i class="' + type + '"></i>' + name);
+				output += new Link().toClass(item.alias).withText(content);
 			}
 		!}</li>
 		</for>
