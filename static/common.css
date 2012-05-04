@@ -23,22 +23,18 @@ body {
   color: #555;
 }
 
-.icon-class-mini {
-  background: url("../img/glyphicons-halflings.png") no-repeat;
-}
-
-.icon-namespace {
+.icon-jsdoc-namespace {
 	background-position: 0 0;
 }
 
-.icon-class {
+.icon-jsdoc-class {
 	background-position: 0 -22px;
 }
 
-.icon-interface {
+.icon-jsdoc-interface {
 	background-position: 0 -44px;
 }
 
-.icon-constant {
+.icon-jsdoc-constant {
 	background-position: 0 -66px;
 }

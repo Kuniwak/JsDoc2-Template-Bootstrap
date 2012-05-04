@@ -3,11 +3,18 @@
 		<li class="nav-header">Classes</li>
 		<for each="item" in="data">
 		<li>{!
-			if (item.alias == "_global_") {
-				output += "<i>"+new Link().toClass(item.alias)+"</i>";
-			}
-			else {
-				output += new Link().toClass(item.alias);
+			if (item.alias !== "_global_") {
+				var type = 'icon-jsdoc icon-jsdoc-';
+				if (item.isNamespace) {
+					type += 'namespace';
+				} else if (item.isInterface) {
+					type += 'interface';
+				} else if (item.isConstant) {
+					type += 'constant';
+				} else {
+					type += 'class';
+				}
+				output += new Link().toClass(item.alias).withText("<i class='" + type + "'></i>" + item.name);
 			}
 		!}</li>
 		</for>
