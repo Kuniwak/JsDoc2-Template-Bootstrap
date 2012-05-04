@@ -38,3 +38,7 @@ body {
 .icon-jsdoc-constant {
 	background-position: 0 -66px;
 }
+
+.jsdoc-private {
+	color: #bbb;
+}

@@ -3,7 +3,7 @@
 		<li class="nav-header">Classes</li>
 		<for each="item" in="data">
 		<li>{!
-			if (item.alias !== "_global_") {
+			if (true || item.alias !== "_global_") {
 				var type = 'icon-jsdoc icon-jsdoc-';
 				if (item.isNamespace) {
 					type += 'namespace';
@@ -14,7 +14,19 @@
 				} else {
 					type += 'class';
 				}
-				output += new Link().toClass(item.alias).withText("<i class='" + type + "'></i>" + item.name);
+
+
+				var name = item.name;
+				var indent = item.alias.split('.').length - 1;
+				name = '<span class="indent" style="padding-left:' + (indent * 14) + 'px;">' + name + '</span>';
+				if (item.isPrivate) {
+					name = '<span class="jsdoc-private">' + name + '</span>';
+				}
+
+				if (item.deprecated) {
+					name += '<span class="label label-important pull-right">deprecated</span>';
+				}
+				output += new Link().toClass(item.alias).withText("<i class='" + type + "'></i>" + name);
 			}
 		!}</li>
 		</for>
