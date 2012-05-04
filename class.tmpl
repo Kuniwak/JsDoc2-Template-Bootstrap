@@ -300,9 +300,9 @@
 <!-- ============================== constructor details ==================== -->		
 			<if test="!data.isBuiltin() && (data.isNamespace || data.is('CONSTRUCTOR'))">
 			<div class="details"><a name="constructor"> </a>
-				<div class="sectionTitle">
+				<h2 class="sectionTitle">
 					{+classType+}Detail
-				</div>
+				</h2>
 				
 				<div class="fixedFont">{!
 					if (data.isPrivate) output += "&lt;private&gt; ";
@@ -390,9 +390,9 @@
 
 <!-- ============================== field details ========================== -->
 			<if test="defined(ownProperties) && ownProperties.length">
-				<div class="sectionTitle">
+				<h2 class="sectionTitle">
 					Field Detail
-				</div>
+				</h2>
 				<for each="member" in="ownProperties">
 					<a name="{+Link.symbolNameToLinkName(member)+}"> </a>
 					<div class="fixedFont">{!
@@ -458,9 +458,9 @@
 
 <!-- ============================== method details ========================= -->
 			<if test="defined(ownMethods) && ownMethods.length">
-				<div class="sectionTitle">
+				<h2 class="sectionTitle">
 					Method Detail
-				</div>
+				</h2>
 				<for each="member" in="ownMethods">
 					<a name="{+Link.symbolNameToLinkName(member)+}"> </a>
 					<div class="fixedFont">{!
@@ -557,9 +557,9 @@
 			
 <!-- ============================== event details ========================= -->
 			<if test="defined(ownEvents) && ownEvents.length">
-				<div class="sectionTitle">
+				<h2 class="sectionTitle">
 					Event Detail
-				</div>
+				</h2>
 				<for each="member" in="ownEvents">
 					<a name="{+Link.symbolNameToLinkName(member)+}"> </a>
 					<div class="fixedFont">{!
