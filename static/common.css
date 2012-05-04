@@ -23,19 +23,19 @@ body {
   color: #555;
 }
 
-.icon-jsdoc-namespace {
+.icon-jsdoc.icon-jsdoc-namespace {
 	background-position: 0 0;
 }
 
-.icon-jsdoc-class {
+.icon-jsdoc.icon-jsdoc-class {
 	background-position: 0 -22px;
 }
 
-.icon-jsdoc-interface {
+.icon-jsdoc.icon-jsdoc-interface {
 	background-position: 0 -44px;
 }
 
-.icon-jsdoc-constant {
+.icon-jsdoc.icon-jsdoc-constant {
 	background-position: 0 -66px;
 }
 
