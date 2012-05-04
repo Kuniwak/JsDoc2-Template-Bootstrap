@@ -169,7 +169,8 @@ function publish(symbolSet) {
 
 	var imgPaths = [
 			'bootstrap/img/glyphicons-halflings-white.png',
-			'bootstrap/img/glyphicons-halflings.png'
+			'bootstrap/img/glyphicons-halflings.png',
+			'img/classicons.png'
 		];
 	var numOfImgPaths = imgPaths.length;
 	var imgPath;
