@@ -28,35 +28,17 @@ body {
 }
 
 .icon-namespace {
-	background-position: 0 0px; 
+	background-position: 0 0;
 }
 
-.icon-static-class {
-	background-position: 0 -40px; 
-}
-
-.icon-interface {
-	background-position: 0 -80px; 
-}
-
-.icon-namespace {
-	background-position: 0 0px; 
-}
-
-.icon-static-class {
-	background-position: 0 -40px; 
+.icon-class {
+	background-position: 0 -22px;
 }
 
 .icon-interface {
-	background-position: 0 -80px; 
+	background-position: 0 -44px;
 }
 
-
-.icon-virtual-class {
-	
+.icon-constant {
+	background-position: 0 -66px;
 }
-		if (item.isNamespace) classStyle = "namespace";
-		if (item.isInterface) classStyle = "interface";
-		if (item.isStaticClass) classStyle = "classStatic";
-		if (item.isAbstractClass) classStyle = "classAbstract";
-		if (item.isVirtualClass) classStyle = "classVirtual";
