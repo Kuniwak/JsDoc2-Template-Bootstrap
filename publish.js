@@ -265,4 +265,4 @@ function getParentSymbols(symbol) {
 function addAttrToLink(link, key, value) {
   var str = link.toString();
   return str.replace(/>/, ' ' + key + '="' + value + '">');
-};
+}
