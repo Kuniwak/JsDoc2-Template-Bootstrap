@@ -244,7 +244,7 @@ function resolveLinks(str, from) {
 /**
  * Get parent symbols
  * @param {JSDOC.Symbol}
- * @return {array}
+ * @return {Array[JSDOC.Symbol]}
  */
 function getParentSymbols(symbol) {
   var newSym = symbol;
@@ -257,7 +257,11 @@ function getParentSymbols(symbol) {
   return result;
 }
 
-/**  */
+/**
+ * @param {Link} link Link object that will be added attribute.
+ * @param {string} key Attribute key string.
+ * @param {string|number} value Attribute value.
+ */
 function addAttrToLink(link, key, value) {
   var str = link.toString();
   return str.replace(/>/, ' ' + key + '="' + value + '">');
