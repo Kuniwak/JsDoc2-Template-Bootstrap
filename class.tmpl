@@ -82,10 +82,37 @@
 				{+ data.version +}.<br />
 			</if>
 			{!
-				var instanceMethods = data.methods.filter(function(symbol){ return !symbol.isStatic }).sort(makeSortby("name"));
-				var instanceProperties = data.properties.filter(function(symbol){ return !symbol.isStatic }).sort(makeSortby("name"));
-				var staticMethods = data.methods.filter(function(symbol){return symbol.isStatic}).sort(makeSortby("name"));
-				var staticProperties = data.properties.filter(function(symbol){return symbol.isStatic}).sort(makeSortby("name"));
+				var staticMethods = [];
+				var instanceMethods = [];
+				var staticProperties = [];
+				var instanceProperties = [];
+				var nestedNamespaces = [];
+				var constructorMembers = [];
+				
+				data.methods.forEach(function(symbol) {
+					if (symbol.is('CONSTRUCTOR')) {
+						constructorMembers.push(symbol);
+					} else if (symbol.isStatic) {
+						staticMethods.push(symbol);
+					} else {
+						instanceMethods.push(symbol);
+					}
+				});
+				staticMethods = staticMethods.sort(makeSortby("alias"));
+				instanceMethods = instanceMethods.sort(makeSortby("alias"));
+				
+				data.properties.forEach(function(symbol) {
+					if (symbol.isNamespace) {
+						nestedNamespaces.push(symbol);
+					} else if (symbol.isStatic) {
+						staticProperties.push(symbol);
+					} else {
+						instanceProperties.push(symbol);
+					}
+				});
+				nestedNamespaces = nestedNamespaces.sort(makeSortby("alias"));
+				staticProperties = staticProperties.sort(makeSortby("alias"));
+				instanceProperties = instanceProperties.sort(makeSortby("alias"));
 			!}
 			<if test="!data.isNamespace">
 				<div class="jsdoc-inheritance-nav">
@@ -162,7 +189,7 @@
 			-->
 
 <!-- ============================== constructor summary ==================== -->
-			<if test="!data.isBuiltin() && (data.isNamespace || data.is('CONSTRUCTOR'))">
+			<if test="!data.isBuiltin() && data.is('CONSTRUCTOR')">
 				<h3>Constructor</h3>
 				<div class="jsdoc-members">
 					<div class="jsdoc-member">
@@ -175,111 +202,206 @@
 							<if test="data.isInner"><span class="label label-jsdoc label-jsdoc-inner">INNER</span></if>
 							<if test="data.isStatic"><span class="label label-jsdoc label-jsdoc-static">STATIC</span></if>
 						</div>
-							<div class="description">
-								{+resolveLinks(summarize(data.desc)) || 'No description.'+}
-								<span class="pull-right">{+ new Link().toSrc(data.srcFile).withText('code »') +}</span>
-							</div>
+						<div class="description">
+							{+resolveLinks(summarize(data.desc)) || 'No description.'+}
+							<span class="pull-right">
+								{+ addLineNumHashToLink(new Link().toSrc(data.srcFile).withText('code »'), data.srcLineNum) +}
+							</span>
+						</div>
 					</div>
 				</div>
-			</if>
+			<else /><if test="!data.isBuiltin() && data.isNamespace">
+				<h3>Namespace</h3>
+				<div class="jsdoc-members">
+					<div class="jsdoc-member">
+						<div class="fixedFont">
+							<b>{+ addAttrToLink(new Link().toSymbol(data.alias), 'name', data.name)+}</b>
+							<if test="classType != 'Namespace '">{+ makeSignature(data.params) +}</if>
+							<if test="data.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">DEPRECATED</span></if>
+							<if test="data.isPrivate"><span class="label label-jsdoc label-jsdoc-private">PRIVATE</span></if>
+							<if test="data.isProtected"><span class="label label-jsdoc label-jsdoc-protected">PROTECTED</span></if>
+							<if test="data.isInner"><span class="label label-jsdoc label-jsdoc-inner">INNER</span></if>
+							<if test="data.isStatic"><span class="label label-jsdoc label-jsdoc-static">STATIC</span></if>
+						</div>
+						<div class="description">
+							{+resolveLinks(summarize(data.desc)) || 'No description.'+}
+							<span class="pull-right">
+								{+ addLineNumHashToLink(new Link().toSrc(data.srcFile).withText('code »'), data.srcLineNum) +}
+							</span>
+						</div>
+					</div>
+				</div>
+			</if></if>
 
 <!-- ============================== instance members summary ===================== -->
-			<h3>Instance members</h3>
-			<if test="instanceMethods.length">
-				<h4>Instance Methods<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
-				<div class="jsdoc-members">
-					<for each="member" in="instanceMethods">
-						<div class="jsdoc-member">
-							<div class="fixedFont">
-								<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
-								<if test="member.type && member.type !== 'void'"> : {+new Link().toSymbol(member.type)+}</if>
-								<if test="member.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">DEPRECATED</span></if>
-								<if test="member.isPrivate"><span class="label label-jsdoc label-jsdoc-private">PRIVATE</span></if>
-								<if test="member.isProtected"><span class="label label-jsdoc label-jsdoc-protected">PROTECTED</span></if>
-								<if test="member.isInner"><span class="label label-jsdoc label-jsdoc-inner">INNER</span></if>
-								<span class="jsdoc-inherits-from pull-right">{+new Link().toSymbol(member.memberOf)+}</span>
+			{!
+				var instanceMethodsLength = instanceMethods.length;
+				var instancePropertiesLength = instanceProperties.length;
+			!}
+			<if test="instanceMethodsLength || instancePropertiesLength">
+				<h3>Instance members</h3>
+				<if test="instanceMethodsLength">
+					<h4>Instance Methods<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
+					<div class="jsdoc-members">
+						<for each="member" in="instanceMethods">
+							<div class="jsdoc-member">
+								<div class="fixedFont">
+									<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
+									<if test="member.type && member.type !== 'void'"> : {+new Link().toSymbol(member.type)+}</if>
+									<if test="member.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">DEPRECATED</span></if>
+									<if test="member.isPrivate"><span class="label label-jsdoc label-jsdoc-private">PRIVATE</span></if>
+									<if test="member.isProtected"><span class="label label-jsdoc label-jsdoc-protected">PROTECTED</span></if>
+									<if test="member.isInner"><span class="label label-jsdoc label-jsdoc-inner">INNER</span></if>
+									<span class="jsdoc-inherits-from pull-right">{+new Link().toSymbol(member.memberOf)+}</span>
+								</div>
+								<div class="description">
+									{+resolveLinks(summarize(member.desc)) || 'No description.'+}
+									<span class="pull-right">
+										{+ addLineNumHashToLink(new Link().toSrc(data.srcFile).withText('code »'), member.srcLineNum) +}
+									</span>
+								</div>
 							</div>
-							<div class="description">
-								{+resolveLinks(summarize(member.desc)) || 'No description.'+}
-								<span class="pull-right">{+ new Link().toSrc(data.srcFile).withText('code »') +}</span>
+						</for>
+					</div>
+				</if>
+				<if test="instancePropertiesLength">
+					<h4>Instance Properties<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
+					<div class="jsdoc-members">
+						<for each="member" in="instanceProperties">
+							<div class="jsdoc-member">
+								<div class="fixedFont">
+									<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
+									<if test="member.type"> : {+new Link().toSymbol(member.type)+}</if>
+									<if test="member.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">DEPRECATED</span></if>
+									<if test="member.isPrivate"><span class="label label-jsdoc label-jsdoc-private">PRIVATE</span></if>
+									<if test="member.isProtected"><span class="label label-jsdoc label-jsdoc-protected">PROTECTED</span></if>
+									<if test="member.isInner"><span class="label label-jsdoc label-jsdoc-inner">INNER</span></if>
+									<span class="jsdoc-inherits-from pull-right">{+new Link().toSymbol(member.memberOf)+}</span>
+								</div>
+								<div class="description">
+									{+resolveLinks(summarize(member.desc)) || 'No description.'+}
+									<span class="pull-right">
+										{+ addLineNumHashToLink(new Link().toSrc(data.srcFile).withText('code »'), member.srcLineNum) +}
+									</span>
+								</div>
 							</div>
-						</div>
-					</for>
-				</div>
+						</for>
+					</div>
+				</if>
 			</if>
-			<if test="instanceProperties.length">
-				<h4>Instance Properties<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
-				<div class="jsdoc-members">
-					<for each="member" in="instanceProperties">
-						<div class="jsdoc-member">
-							<div class="fixedFont">
-								<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
-								<if test="member.type"> : {+new Link().toSymbol(member.type)+}</if>
-								<if test="member.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">DEPRECATED</span></if>
-								<if test="member.isPrivate"><span class="label label-jsdoc label-jsdoc-private">PRIVATE</span></if>
-								<if test="member.isProtected"><span class="label label-jsdoc label-jsdoc-protected">PROTECTED</span></if>
-								<if test="member.isInner"><span class="label label-jsdoc label-jsdoc-inner">INNER</span></if>
-								<span class="jsdoc-inherits-from pull-right">{+new Link().toSymbol(member.memberOf)+}</span>
-							</div>
-							<div class="description">
-								{+resolveLinks(summarize(member.desc)) || 'No description.'+}
-								<span class="pull-right">{+ new Link().toSrc(data.srcFile).withText('code »') +}</span>
-							</div>
-						</div>
-					</for>
-				</div>
-			</if>
-			<hr />
 
 <!-- ============================== static members summary ======================== -->
-			<h3>Statice members</h3>
-			<if test="staticMethods.length">
-				<h4>Static Methods<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
-				<div class="jsdoc-members">
-					<for each="member" in="staticMethods">
-						<div class="jsdoc-member">
-							<div class="fixedFont">
-								<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
-								<if test="member.type && member.type !== 'void'"> : {+new Link().toSymbol(member.type)+}</if>
-								<if test="member.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">DEPRECATED</span></if>
-								<if test="member.isPrivate"><span class="label label-jsdoc label-jsdoc-private">PRIVATE</span></if>
-								<if test="member.isProtected"><span class="label label-jsdoc label-jsdoc-protected">PROTECTED</span></if>
-								<if test="member.isInner"><span class="label label-jsdoc label-jsdoc-inner">INNER</span></if>
-								<span class="label label-jsdoc label-jsdoc-static">STATIC</span>
-								<span class="jsdoc-inherits-from pull-right">{+new Link().toSymbol(member.memberOf)+}</span>
+			{!
+				var nestedNamespacesLength = nestedNamespaces.length;
+				var constructorMembersLength = constructorMembers.length;
+				var staticMethodsLength = staticMethods.length;
+				var staticPropertiesLength = staticProperties.length;
+			!}
+			<if test="nestedNamespacesLength || constructorMembersLength || staticMethodsLength || staticPropertiesLength">
+				<h3>Static members</h3>
+				<if test="nestedNamespacesLength">
+					<h4>Nested namespaces<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
+					<div class="jsdoc-members">
+						<for each="member" in="nestedNamespaces">
+							<div class="jsdoc-member">
+								<div class="fixedFont">
+									<i class="icon-jsdoc icon-jsdoc-namespace"></i>
+									<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
+									<if test="member.type && member.type !== 'void'"> : {+new Link().toSymbol(member.type)+}</if>
+									<if test="member.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">DEPRECATED</span></if>
+									<if test="member.isPrivate"><span class="label label-jsdoc label-jsdoc-private">PRIVATE</span></if>
+									<if test="member.isProtected"><span class="label label-jsdoc label-jsdoc-protected">PROTECTED</span></if>
+									<if test="member.isInner"><span class="label label-jsdoc label-jsdoc-inner">INNER</span></if>
+									<span class="label label-jsdoc label-jsdoc-static">STATIC</span>
+									<span class="jsdoc-inherits-from pull-right">{+new Link().toSymbol(member.memberOf)+}</span>
+								</div>
+								<div class="description">
+									{+resolveLinks(summarize(member.desc)) || 'No description.'+}
+									<span class="pull-right">
+										{+ addLineNumHashToLink(new Link().toSrc(data.srcFile).withText('code »'), member.srcLineNum) +}
+									</span>
+								</div>
 							</div>
-							<div class="description">
-								{+resolveLinks(summarize(member.desc)) || 'No description.'+}
-								<span class="pull-right">{+ new Link().toSrc(data.srcFile).withText('code »') +}</span>
+						</for>
+					</div>
+				</if>
+				<if test="constructorMembersLength">
+					<h4>Constructor members<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
+					<div class="jsdoc-members">
+						<for each="member" in="constructorMembers">
+							<div class="jsdoc-member">
+								<div class="fixedFont">
+									<i class="icon-jsdoc icon-jsdoc-class"></i>
+									<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
+									<if test="member.type && member.type !== 'void'"> : {+new Link().toSymbol(member.type)+}</if>
+									<if test="member.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">DEPRECATED</span></if>
+									<if test="member.isPrivate"><span class="label label-jsdoc label-jsdoc-private">PRIVATE</span></if>
+									<if test="member.isProtected"><span class="label label-jsdoc label-jsdoc-protected">PROTECTED</span></if>
+									<if test="member.isInner"><span class="label label-jsdoc label-jsdoc-inner">INNER</span></if>
+									<span class="label label-jsdoc label-jsdoc-static">STATIC</span>
+									<span class="jsdoc-inherits-from pull-right">{+new Link().toSymbol(member.memberOf)+}</span>
+								</div>
+								<div class="description">
+									{+resolveLinks(summarize(member.desc)) || 'No description.'+}
+									<span class="pull-right">
+										{+ addLineNumHashToLink(new Link().toSrc(data.srcFile).withText('code »'), member.srcLineNum) +}
+									</span>
+								</div>
 							</div>
-						</div>
-					</for>
-				</div>
+						</for>
+					</div>
+				</if>
+				<if test="staticMethodsLength">
+					<h4>Static Methods<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
+					<div class="jsdoc-members">
+						<for each="member" in="staticMethods">
+							<div class="jsdoc-member">
+								<div class="fixedFont">
+									<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
+									<if test="member.type && member.type !== 'void'"> : {+new Link().toSymbol(member.type)+}</if>
+									<if test="member.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">DEPRECATED</span></if>
+									<if test="member.isPrivate"><span class="label label-jsdoc label-jsdoc-private">PRIVATE</span></if>
+									<if test="member.isProtected"><span class="label label-jsdoc label-jsdoc-protected">PROTECTED</span></if>
+									<if test="member.isInner"><span class="label label-jsdoc label-jsdoc-inner">INNER</span></if>
+									<span class="label label-jsdoc label-jsdoc-static">STATIC</span>
+									<span class="jsdoc-inherits-from pull-right">{+new Link().toSymbol(member.memberOf)+}</span>
+								</div>
+								<div class="description">
+									{+resolveLinks(summarize(member.desc)) || 'No description.'+}
+									<span class="pull-right">
+										{+ addLineNumHashToLink(new Link().toSrc(data.srcFile).withText('code »'), member.srcLineNum) +}
+									</span>
+								</div>
+							</div>
+						</for>
+					</div>
+				</if>
+				<if test="staticPropertiesLength">
+					<h4>Static Properties<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
+					<div class="jsdoc-members">
+						<for each="member" in="staticProperties">
+							<div class="jsdoc-member">
+								<div class="fixedFont">
+									<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
+									<if test="member.type"> : {+new Link().toSymbol(member.type)+}</if>
+									<if test="member.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">DEPRECATED</span></if>
+									<if test="member.isPrivate"><span class="label label-jsdoc label-jsdoc-private">PRIVATE</span></if>
+									<if test="member.isProtected"><span class="label label-jsdoc label-jsdoc-protected">PROTECTED</span></if>
+									<if test="member.isInner"><span class="label label-jsdoc label-jsdoc-inner">INNER</span></if>
+									<span class="label label-jsdoc label-jsdoc-static">STATIC</span>
+									<span class="jsdoc-inherits-from pull-right">{+new Link().toSymbol(member.memberOf)+}</span>
+								</div>
+								<div class="description">
+									{+resolveLinks(summarize(member.desc)) || 'No description.'+}
+									<span class="pull-right">
+										{+ addLineNumHashToLink(new Link().toSrc(data.srcFile).withText('code »'), member.srcLineNum) +}
+									</span>
+								</div>
+							</div>
+						</for>
+					</div>
+				</if>
 			</if>
-			<if test="staticProperties.length">
-				<h4>Static Properties<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
-				<div class="jsdoc-members">
-					<for each="member" in="staticProperties">
-						<div class="jsdoc-member">
-							<div class="fixedFont">
-								<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
-								<if test="member.type"> : {+new Link().toSymbol(member.type)+}</if>
-								<if test="member.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">DEPRECATED</span></if>
-								<if test="member.isPrivate"><span class="label label-jsdoc label-jsdoc-private">PRIVATE</span></if>
-								<if test="member.isProtected"><span class="label label-jsdoc label-jsdoc-protected">PROTECTED</span></if>
-								<if test="member.isInner"><span class="label label-jsdoc label-jsdoc-inner">INNER</span></if>
-								<span class="label label-jsdoc label-jsdoc-static">STATIC</span>
-								<span class="jsdoc-inherits-from pull-right">{+new Link().toSymbol(member.memberOf)+}</span>
-							</div>
-							<div class="description">
-								{+resolveLinks(summarize(member.desc)) || 'No description.'+}
-								<span class="pull-right">{+ new Link().toSrc(data.srcFile).withText('code »') +}</span>
-							</div>
-						</div>
-					</for>
-				</div>
-			</if>
-			<hr />
 
 <!-- ============================== footer ================================= -->
 	<footer class="footer">

@@ -47,7 +47,7 @@ function publish(symbolSet) {
 	
 		
 		// get a list of all the classes in the symbolset
-		var classes = symbols.filter(isaClass).sort(makeSortby("alias"));
+		var classes = smartSort(symbols.filter(isaClass));
 	
 	// create a filemap in which outfiles must be to be named uniquely, ignoring case
 	if (JSDOC.opt.u) {
@@ -83,7 +83,7 @@ function publish(symbolSet) {
 		IO.saveFile(publish.conf.outDir+"symbols/", ((JSDOC.opt.u)? Link.filemap[symbol.alias] : symbol.alias) + publish.conf.ext, output);
 	}
 
-	// create the hilited source code files
+	// create the source code files
 	Link.base = "../../";
 	publish.classesIndex = classesTemplate.process(classes); // kept in memory
 	var files = JSDOC.opt.srcFiles;
@@ -241,8 +241,10 @@ function resolveLinks(str, from) {
 	return str;
 }
 
+// extend methods ////////////////////////////////////////
+
 /**
- * Get parent symbols
+ * Get parent symbols.
  * @param {JSDOC.Symbol}
  * @return {Array[JSDOC.Symbol]}
  */
@@ -258,6 +260,7 @@ function getParentSymbols(symbol) {
 }
 
 /**
+ * Add attributes to Link object.
  * @param {Link} link Link object that will be added attribute.
  * @param {string} key Attribute key string.
  * @param {string|number} value Attribute value.
@@ -265,4 +268,47 @@ function getParentSymbols(symbol) {
 function addAttrToLink(link, key, value) {
   var str = link.toString();
   return str.replace(/>/, ' ' + key + '="' + value + '">');
+}
+
+/**
+ * Add attributes to Link object.
+ * @param {Link} link Link object that will be added attribute.
+ * @param {string} hash Hash string exclude #.
+ */
+function addHashToLink(link, hash) {
+  var str = link.toString();
+  return str.replace(/href="([^"#]*)"/, "href=\"$1#" + hash + "\"");
+}
+
+/**
+ * Add attributes to Link object.
+ * @param {Link} link Link object that will be added attribute.
+ * @param {number} [srcNumLine] Code line number.
+ */
+function addLineNumHashToLink(link, srcNumLine) {
+  if (srcNumLine && srcNumLine > 0) {
+    return addHashToLink(link, "line" + srcNumLine);
+  }
+  return link;
+}
+
+/**
+ * @param {Array[JSDOC.Symbol]} symbols A symbols array.
+ * @return {Array[JSDOC.Symbol]} The sorted symbols array.
+ */
+var smartSort = function(symbols) {
+  return symbols.sort(makeSortWithCaseSensitiveBy('alias'));
+};
+
+/** Make a symbol sorter by some attribute. */
+function makeSortWithCaseSensitiveBy(attribute) {
+	return function(a, b) {
+		if (a[attribute] != undefined && b[attribute] != undefined) {
+			a = a[attribute];
+			b = b[attribute];
+			if (a < b) return -1;
+			if (a > b) return 1;
+			return 0;
+		}
+	}
 }
