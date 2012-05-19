@@ -203,7 +203,7 @@ body {
 }
 
 .label-jsdoc.label-jsdoc-protected {
-	background-color: #7a43b6;
+	background-color: #c3325f;
 }
 
 .label-jsdoc.label-jsdoc-static {
@@ -215,11 +215,27 @@ body {
 }
 
 .label-jsdoc.label-jsdoc-deprecated {
-	background-color: #9d261d;
+	background-color: #b94a48;
 }
 
 .label-jsdoc.label-jsdoc-singleton {
 	background-color: #c3325f;
+}
+
+.label-jsdoc.label-jsdoc-see {
+	background-color: #5bc0de;
+}
+
+.label-jsdoc.label-jsdoc-requires {
+	background-color: #3a87ad;
+}
+
+.label-jsdoc.label-jsdoc-since {
+	background-color: #62c462;
+}
+
+.label-jsdoc.label-jsdoc-exceptions {
+	background-color: #fbb450;
 }
 
 .jsdoc-member-detail {
@@ -243,4 +259,21 @@ body {
 
 .jsdoc-member-summary {
 	margin-top: 5px;
+}
+
+.jsdoc-member-summary pre {
+	margin-top: 10px;
+}
+
+.jsdoc-member-info {
+	padding-top: 5px;
+}
+
+.jsdoc-symbol-enum {
+	padding-right: 5px;
+}
+
+.accordion-button:hover {
+	background-color: #fcfcfc;
+	cursor: pointer;
 }

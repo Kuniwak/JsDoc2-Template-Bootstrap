@@ -22,23 +22,23 @@
 					var content = '<span class="indent" style="padding-left:' + (indent * 14) + 'px;">' + icon + name + '</span>';
 
 					if (item.deprecated) {
-						content += ' <span class="pull-right label label-jsdoc label-jsdoc-deprecated">DEPRECATED</span>';
+						content += ' <span class="pull-right label label-jsdoc label-jsdoc-deprecated">Deprecated</span>';
 					}
 
 					if (item.isPrivate) {
-						content += ' <span class="pull-right label label-jsdoc label-jsdoc-private">PRIVATE</span>';
+						content += ' <span class="pull-right label label-jsdoc label-jsdoc-private">Private</span>';
 					}
 
 					if (item.isProtected) {
-						content += ' <span class="pull-right label label-jsdoc label-jsdoc-protected">PROTECTED</span>';
+						content += ' <span class="pull-right label label-jsdoc label-jsdoc-protected">Protected</span>';
 					}
 
 					if (item.isInner) {
-						content += ' <span class="pull-right label label-jsdoc label-jsdoc-inner">INNER</span>';
+						content += ' <span class="pull-right label label-jsdoc label-jsdoc-inner">Inner</span>';
 					}
 
 					if (item.hasMethod('getInstance')) {
-						content += ' <span class="pull-right label label-jsdoc label-jsdoc-singleton">SINGLETON</span>';
+						content += ' <span class="pull-right label label-jsdoc label-jsdoc-singleton">Singleton</span>';
 					}
 					output += new Link().toClass(item.alias).withText(content);
 				}

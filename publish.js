@@ -154,9 +154,10 @@ function publish(symbolSet) {
 	var dstDir;
 
 	var jsPaths = [
+      'jquery-1.7.2.min.js',
+      'accordion.js',
 			'bootstrap/js/bootstrap.min.js',
-			'google-code-prettify/prettify.js',
-	  'class.js'
+			'google-code-prettify/prettify.js'
 		];
 	var numOfJsPaths = jsPaths.length;
 	var jsPath;
@@ -379,7 +380,7 @@ function convInlineCodes(desc) {
  * @return {String} The replaced description.
  */
 function createDescription(desc) {
-  return convInlineCodes(resolveLinks(desc));
+  return convInlineCodes(resolveLinks(desc || 'No description.'));
 }
 
 
@@ -389,12 +390,18 @@ function createDescription(desc) {
  * @return {String} The replaced description.
  */
 function createTypeLink(type) {
-  var aliases = type.split('|');
-  var result = [];
-  aliases.forEach(function(alias) {
-    result.push(new Link().toSymbol(alias).toString());
-  });
-  return '<span class="jsdoc-typedesc">' + result.join('/') + '</span>';
+  var text = '';
+  if (type) {
+    var aliases = type.split('|');
+    var result = [];
+    aliases.forEach(function(alias) {
+      result.push(new Link().toSymbol(alias).toString());
+    });
+    text = result.join('/');
+  } else {
+    text = 'unknown';
+  }
+  return '<span class="jsdoc-typedesc">' + text + '</span>';
 }
 
 

@@ -14,9 +14,10 @@
 			background: url("{+Link.base+}img/classicons.png") no-repeat;
 		}
 	</style>
-	<script src="http://code.jquery.com/jquery-1.7.2.min.js" type="text/javascript"></script>
+	<script src="{+Link.base+}js/jquery-1.7.2.min.js" type="text/javascript"></script>
 	<script src="{+Link.base+}js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="{+Link.base+}js/prettify.js" type="text/javascript"></script>
+	<script src="{+Link.base+}js/accordion.js" type="text/javascript"></script>
 </head>
 
 <body onload="prettyPrint()"><div class="container-fluid">
@@ -37,18 +38,42 @@
 		</div>
 		
 		<div id="content" class="span9">
-			<div class="page-header">
-				<h1 class="classTitle">Class Index</h1>
+			<h1 class="classTitle">Class Index</h1>
+			<div class="jsdoc-members">
+				<for each="thisClass" in="data">
+					<div class="jsdoc-member accordion-button">
+						<div class="jsdoc-member-definition">
+							<b>{+ addAttrToLink(new Link().toSymbol(thisClass.alias), 'id', thisClass.name)+}</b>
+							{+ makeSignature(thisClass.params) +}
+							<if test="thisClass.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">DEPRECATED</span></if>
+							<if test="thisClass.isPrivate"><span class="label label-jsdoc label-jsdoc-private">PRIVATE</span></if>
+							<if test="thisClass.isProtected"><span class="label label-jsdoc label-jsdoc-protected">PROTECTED</span></if>
+							<if test="thisClass.isInner"><span class="label label-jsdoc label-jsdoc-inner">INNER</span></if>
+							<if test="thisClass.isStatic"><span class="label label-jsdoc label-jsdoc-static">STATIC</span></if>
+						</div>
+						<div class="jsdoc-member-description">
+							<div class="jsdoc-member-summary">
+								{+ createDescription(thisClass.desc) +}
+								<span class="pull-right">
+									{+ addLineNumHashToLink(new Link().toSrc(thisClass.srcFile).withText('code »'), thisClass.srcLineNum) +}
+								</span>
+								<if test="thisClass.deprecated"><div class="alert alert-error">{+ createDescription(thisClass.deprecated) +}</div></if>
+							</div>
+							<if test="thisClass.params.length">
+								<div class="jsdoc-member-detail accordion-content">
+									<b>Parameters</b>
+									<dl>
+										<for each="param" in="thisClass.params">
+											<dt>{+ param.name +} : {+ createTypeLink(param.type) +}</dt>
+											<dd>{+ createDescription(param.desc) +}</dd>
+										</for>
+									</dl>
+								</div>
+							</if>
+						</div>
+					</div>
+				</for>
 			</div>
-			
-			<for each="thisClass" in="data">
-				<div>
-					<h2>{+(new Link().toSymbol(thisClass.alias))+}</h2>
-					{+resolveLinks(summarize(thisClass.classDesc))+}
-				</div>
-				<hr />
-			</for>
-			
 		</div>
 	</div>
 	<footer class="footer">
