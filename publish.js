@@ -1,3 +1,16 @@
+// This script licensed under the MIT.
+// http://orgachem.mit-license.org
+//
+// Original script is licensed under the MIT.
+// jsdoc-toolkit project:
+// http://code.google.com/p/jsdoc-toolkit/
+
+/**
+ * @fileoverview Script for a document publication.
+ * @author orga.chem.job@gmail.com (Orga Chem)
+ */
+
+
 /** Called automatically by JsDoc Toolkit. */
 function publish(symbolSet) {
 	publish.conf = {	// trailing slash expected for dirs
@@ -93,7 +106,7 @@ function publish(symbolSet) {
 			var name = file.replace(/\.\.?[\\\/]/g, "").replace(/[\\\/]/g, "_");
 			name = name.replace(/\:/g, "_");
 			var output = "";
-			output = sourceTemplate.process({ source: IO.readFile(file) });
+			output = sourceTemplate.process({ source: escapeHTML(IO.readFile(file)) });
 			
 			IO.saveFile(srcDir, name + publish.conf.ext, output);
 		}
@@ -142,7 +155,8 @@ function publish(symbolSet) {
 
 	var jsPaths = [
 			'bootstrap/js/bootstrap.min.js',
-			'google-code-prettify/prettify.js'
+			'google-code-prettify/prettify.js',
+	  'class.js'
 		];
 	var numOfJsPaths = jsPaths.length;
 	var jsPath;
@@ -211,22 +225,25 @@ function include(path) {
 	return IO.readFile(path);
 }
 
-/** Build output for displaying function parameters. */
+/**
+ * Build output for displaying function parameters.
+ * Output format is:
+ * <pre>
+ * ( Type1 param1, Type2 param2, [Type3 optionalParam])
+ * </pre>
+ * @param {JSDOC.DocTag[]} params Array has DocTag object of parameters.
+ */
 function makeSignature(params) {
-	if (!params) return "( )";
-	var signature = "( "
-	+
-	params.filter(
-		function($) {
-			return $.name.indexOf(".") == -1; // don't show config params in signature
-		}
-	).map(
-		function($) {
-			return $.name;
-		}
-	).join(", ")
-	+
-	" )";
+	if (!params) return '( )';
+	var signature = params.filter(function(docTag) {
+				return docTag.name.indexOf('.') == -1; // don't show config params in signature
+		}).map(function(docTag) {
+        var result = createTypeLink(docTag.type) + ' ' + docTag.name;
+        if (docTag.isOptional) result = '[' + result + ']';
+        return result;
+		}).join(', ');
+
+	signature = '( ' + signature + ' )';
 	return signature;
 }
 
@@ -249,15 +266,31 @@ function resolveLinks(str, from) {
  * @return {Array[JSDOC.Symbol]}
  */
 function getParentSymbols(symbol) {
-  var newSym = symbol;
-  var result = [];
-  while(newSym) {
+	var newSym = symbol;
+	var result = [];
+	while (newSym) {
     newSym = JSDOC.Parser.symbols.getSymbol(newSym.augments);
     if (!newSym) break;
     result.unshift(newSym);
   }
-  return result;
+	return result;
 }
+
+/**
+ * Get parent symbols.
+ * @param {JSDOC.Symbol}
+ * @return {Array[JSDOC.Symbol]}
+ */
+function getParentNamespaces(symbol) {
+  var namespaces = symbol.alias.split('.').slice(0, -1);
+  var symbols = [];
+  while (namespaces.length) {
+    symbols.push(JSDOC.Parser.symbols.getSymbol(namespaces.join('.')));
+    namespaces.pop();
+  }
+  return symbols;
+}
+
 
 /**
  * Add attributes to Link object.
@@ -266,9 +299,10 @@ function getParentSymbols(symbol) {
  * @param {string|number} value Attribute value.
  */
 function addAttrToLink(link, key, value) {
-  var str = link.toString();
-  return str.replace(/>/, ' ' + key + '="' + value + '">');
+	var str = link.toString();
+	return str.replace(/>/, ' ' + key + '="' + value + '">');
 }
+
 
 /**
  * Add attributes to Link object.
@@ -276,9 +310,10 @@ function addAttrToLink(link, key, value) {
  * @param {string} hash Hash string exclude #.
  */
 function addHashToLink(link, hash) {
-  var str = link.toString();
-  return str.replace(/href="([^"#]*)"/, "href=\"$1#" + hash + "\"");
+	var str = link.toString();
+	return str && str.replace(/href="([^"#]*)"/, "href=\"$1#" + hash + "\"");
 }
+
 
 /**
  * Add attributes to Link object.
@@ -286,19 +321,21 @@ function addHashToLink(link, hash) {
  * @param {number} [srcNumLine] Code line number.
  */
 function addLineNumHashToLink(link, srcNumLine) {
-  if (srcNumLine && srcNumLine > 0) {
-    return addHashToLink(link, "line" + srcNumLine);
-  }
-  return link;
+	if (srcNumLine && srcNumLine > 0) {
+	return addHashToLink(link, "line" + srcNumLine);
+	}
+	return link;
 }
+
 
 /**
  * @param {Array[JSDOC.Symbol]} symbols A symbols array.
  * @return {Array[JSDOC.Symbol]} The sorted symbols array.
  */
 var smartSort = function(symbols) {
-  return symbols.sort(makeSortWithCaseSensitiveBy('alias'));
+	return symbols.sort(makeSortWithCaseSensitiveBy('alias'));
 };
+
 
 /** Make a symbol sorter by some attribute. */
 function makeSortWithCaseSensitiveBy(attribute) {
@@ -311,4 +348,56 @@ function makeSortWithCaseSensitiveBy(attribute) {
 			return 0;
 		}
 	}
+}
+
+
+/**
+ * @param {string} alias Alias of the Symbol.
+ */
+function linkFactory(alias) {
+  if (PrimitiveObjLink.isPrimitive(alias)) {
+    return new PrimitiveObjLink().toSymbol(alias);
+  } else {
+    return new Link().toSymbol(alias);
+  }
+}
+
+
+/**
+ * @link tag replace to the Symbol Link.
+ * @param {String} desc Description text.
+ * @return {String} The replaced description.
+ */
+function convInlineCodes(desc) {
+	return desc.replace(/<pre>/ig, '<pre class="prettyprint linenums">');
+}
+
+
+/**
+ * Create formatted description.
+ * @param {String} desc Description text.
+ * @return {String} The replaced description.
+ */
+function createDescription(desc) {
+  return convInlineCodes(resolveLinks(desc));
+}
+
+
+/**
+ * Create type definition from a complex type description.
+ * @param {String} desc Description text.
+ * @return {String} The replaced description.
+ */
+function createTypeLink(type) {
+  var aliases = type.split('|');
+  var result = [];
+  aliases.forEach(function(alias) {
+    result.push(new Link().toSymbol(alias).toString());
+  });
+  return '<span class="jsdoc-typedesc">' + result.join('/') + '</span>';
+}
+
+
+function escapeHTML(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }

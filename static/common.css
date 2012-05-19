@@ -180,8 +180,17 @@ body {
 	border-width: 1px 0;
 }
 
-.jsdoc-inheritance-nav {
+.jsdoc-hierarchy-nav {
 	margin-top: 10px;
+}
+
+.jsdoc-hierarchy-caption {
+	padding-right: 10px;
+	font-size: 11px;
+	font-weight: bold;
+	color: #999;
+	text-shadow: 0 1px 0 hsla(0, 100%, 100%, 0.5);
+	text-transform: uppercase;
 }
 
 /* Labels */
@@ -211,4 +220,27 @@ body {
 
 .label-jsdoc.label-jsdoc-singleton {
 	background-color: #c3325f;
+}
+
+.jsdoc-member-detail {
+	margin-top: 10px;
+	display: none;
+}
+
+.jsdoc-member-detail dl {
+	margin-top: 0;
+	margin-left: 5px;
+}
+
+.jsdoc-member-detail dt {
+	line-height: 26px;
+}
+
+.jsdoc-typedesc {
+	color: gray;
+	font-weight: normal;
+}
+
+.jsdoc-member-summary {
+	margin-top: 5px;
 }
