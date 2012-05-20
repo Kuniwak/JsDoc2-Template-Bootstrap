@@ -277,3 +277,32 @@ body {
 	background-color: #fcfcfc;
 	cursor: pointer;
 }
+
+.container-jsdoc-protected {
+	background-color: hsl(319, 73%, 99%);
+}
+
+.accordion-button.container-jsdoc-protected:hover {
+	background-color: hsl(319, 73%, 98%);
+}
+
+.container-jsdoc-private {
+	background-color: hsl(56, 77%, 99%);
+}
+
+.accordion-button.container-jsdoc-private:hover {
+	background-color: hsl(56, 77%, 98%);
+}
+
+.container-jsdoc-deprecated {
+	background-color: hsl(0, 76%, 99%);
+}
+
+.accordion-button.container-jsdoc-deprecated:hover {
+	background-color: hsl(0, 76%, 98%);
+}
+
+.jsdoc-visibility-options {
+	padding: 5px 7px;
+	color: black;
+}
