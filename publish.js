@@ -23,6 +23,9 @@ function publish(symbolSet) {
 		srcDir:			"symbols/src/"
 	};
 	
+  // overwrite to a better Link module
+  eval(include('extends/Link.js'));
+
 	// is source output is suppressed, just display the links to the source file
 	if (JSDOC.opt.s && defined(Link) && Link.prototype._makeSrcLink) {
 		Link.prototype._makeSrcLink = function(srcFilePath) {
@@ -294,42 +297,6 @@ function getParentNamespaces(symbol) {
 
 
 /**
- * Add attributes to Link object.
- * @param {Link} link Link object that will be added attribute.
- * @param {string} key Attribute key string.
- * @param {string|number} value Attribute value.
- */
-function addAttrToLink(link, key, value) {
-	var str = link.toString();
-	return str.replace(/>/, ' ' + key + '="' + value + '">');
-}
-
-
-/**
- * Add attributes to Link object.
- * @param {Link} link Link object that will be added attribute.
- * @param {string} hash Hash string exclude #.
- */
-function addHashToLink(link, hash) {
-	var str = link.toString();
-	return str && str.replace(/href="([^"#]*)"/, "href=\"$1#" + hash + "\"");
-}
-
-
-/**
- * Add attributes to Link object.
- * @param {Link} link Link object that will be added attribute.
- * @param {number} [srcNumLine] Code line number.
- */
-function addLineNumHashToLink(link, srcNumLine) {
-	if (srcNumLine && srcNumLine > 0) {
-	return addHashToLink(link, "line" + srcNumLine);
-	}
-	return link;
-}
-
-
-/**
  * @param {Array[JSDOC.Symbol]} symbols A symbols array.
  * @return {Array[JSDOC.Symbol]} The sorted symbols array.
  */
@@ -349,18 +316,6 @@ function makeSortWithCaseSensitiveBy(attribute) {
 			return 0;
 		}
 	}
-}
-
-
-/**
- * @param {string} alias Alias of the Symbol.
- */
-function linkFactory(alias) {
-  if (PrimitiveObjLink.isPrimitive(alias)) {
-    return new PrimitiveObjLink().toSymbol(alias);
-  } else {
-    return new Link().toSymbol(alias);
-  }
 }
 
 

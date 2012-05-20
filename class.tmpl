@@ -155,7 +155,7 @@
 				<div class="jsdoc-members">
 					<div class="jsdoc-member{+ data.params.length || data.returns.length ? ' accordion-button' : '' +}">
 						<div class="jsdoc-member-definition">
-							<b>{+ addAttrToLink(new Link().toSymbol(data.alias).withText(data.name), 'name', data.name)+}</b>
+							<b>{+ new Link().toSymbol(data.alias).withText(data.name).setAttribute('id', data.name) +}</b>
 							<if test="classType != 'Namespace '">{+ makeSignature(data.params) +}</if>
 							<if test="data.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">Deprecated</span></if>
 							<if test="data.isPrivate"><span class="label label-jsdoc label-jsdoc-private">Private</span></if>
@@ -167,7 +167,7 @@
 							<div class="jsdoc-member-content">
 								<div class="jsdoc-member-summary">
 									{+ createDescription(data.desc) +}
-									<span class="pull-right">{+ addLineNumHashToLink(new Link().toSrc(data.srcFile).withText('code »'), data.srcLineNum) +}</span>
+									<span class="pull-right">{+ new Link().toSrc(data.srcFile).withText('code »').inner('line' + data.srcLineNum) +}</span>
 								</div>
 								<if test="data.example.length">
 									<for each="example" in="data.example">
@@ -241,7 +241,7 @@
 				<div class="jsdoc-members">
 					<div class="jsdoc-member{+ data.params.length || data.returns.length ? ' accordion-button' : '' +}">
 						<div class="jsdoc-member-definition">
-							<b>{+ addAttrToLink(new Link().toSymbol(data.alias), 'name', data.name)+}</b>
+							<b>{+ new Link().toSymbol(data.alias).setAttribute('id', data.name) +}</b>
 							<if test="classType != 'Namespace '">{+ makeSignature(data.params) +}</if>
 							<if test="data.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">Deprecated</span></if>
 							<if test="data.isPrivate"><span class="label label-jsdoc label-jsdoc-private">Private</span></if>
@@ -253,7 +253,7 @@
 							<div class="jsdoc-member-summary">
 								{+ createDescription(data.desc) +}
 								<span class="pull-right">
-									{+ addLineNumHashToLink(new Link().toSrc(data.srcFile).withText('code »'), data.srcLineNum) +}
+									{+ new Link().toSrc(data.srcFile).withText('code »').inner('line' + data.srcLineNum) +}
 								</span>
 							</div>
 						</div>
@@ -275,7 +275,7 @@
 							<div class="jsdoc-member{+ member.params.length || member.returns.length ? ' accordion-button' : '' +}{+ member.isPrivate ? ' container-jsdoc-private' : '' +}{+ member.isProtected ? ' container-jsdoc-protected' : '' +}{+ member.deprecated ? ' container-jsdoc-deprecated' : '' +}">
 								<div class="jsdoc-member-definition">
 									<div class="jsdoc-member-content">
-										<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
+										<b>{+ new Link().toSymbol(member.alias).withText(member.name).setAttribute('id', member.name)+}</b>
 										<span class="signature">{+ makeSignature(member.params) +}</span>
 										<if test="member.type && member.type !== 'void'"> : {+ createTypeLink(member.type) +}</if>
 										<if test="member.isPrivate"><span class="label label-jsdoc label-jsdoc-private">Private</span></if>
@@ -288,7 +288,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ addLineNumHashToLink(new Link().toSrc(member.srcFile).withText('code »'), member.srcLineNum) +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner('line' + member.srcLineNum) +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
@@ -365,7 +365,7 @@
 						<for each="member" in="instanceProperties">
 							<div class="jsdoc-member{+ member.params.length || member.returns.length ? ' accordion-button' : '' +}{+ member.isPrivate ? ' container-jsdoc-private' : '' +}{+ member.isProtected ? ' container-jsdoc-protected' : '' +}">
 								<div class="jsdoc-member-definition">
-									<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
+									<b>{+ new Link().toSymbol(member.alias).withText(member.name).setAttribute('id', member.name) +}</b>
 									<if test="member.type"> : {+new Link().toSymbol(member.type)+}</if>
 									<if test="member.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">Deprecated</span></if>
 									<if test="member.isPrivate"><span class="label label-jsdoc label-jsdoc-private">Private</span></if>
@@ -377,7 +377,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ addLineNumHashToLink(new Link().toSrc(member.srcFile).withText('code »'), member.srcLineNum) +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner('line' + member.srcLineNum) +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
@@ -466,7 +466,7 @@
 							<div class="jsdoc-member{+ member.params.length || member.returns.length ? ' accordion-button' : '' +}{+ member.isPrivate ? ' container-jsdoc-private' : '' +}{+ member.isProtected ? ' container-jsdoc-protected' : '' +}">
 								<div class="jsdoc-member-definition">
 									<i class="icon-jsdoc icon-jsdoc-namespace"></i>
-									<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
+									<b>{+ new Link().toSymbol(member.alias).withText(member.name).setAttribute('id', member.name) +}</b>
 									<if test="member.type && member.type !== 'void'"> : {+new Link().toSymbol(member.type)+}</if>
 									<if test="member.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">Deprecated</span></if>
 									<if test="member.isPrivate"><span class="label label-jsdoc label-jsdoc-private">Private</span></if>
@@ -479,7 +479,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ addLineNumHashToLink(new Link().toSrc(member.srcFile).withText('code »'), member.srcLineNum) +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner('line' + member.srcLineNum) +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
@@ -557,7 +557,7 @@
 							<div class="jsdoc-member{+ member.params.length || member.returns.length ? ' accordion-button' : '' +}{+ member.isPrivate ? ' container-jsdoc-private' : '' +}{+ member.isProtected ? ' container-jsdoc-protected' : '' +}">
 								<div class="jsdoc-member-definition">
 									<i class="icon-jsdoc icon-jsdoc-class"></i>
-									<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
+									<b>{+ new Link().toSymbol(member.alias).withText(member.name).setAttribute('id', member.name)+}</b>
 									<span class="signature">{+ makeSignature(member.params) +}</span>
 									<if test="member.type && member.type !== 'void'"> : {+new Link().toSymbol(member.type)+}</if>
 									<if test="member.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">Deprecated</span></if>
@@ -571,7 +571,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ addLineNumHashToLink(new Link().toSrc(member.srcFile).withText('code »'), member.srcLineNum) +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner('line' + member.srcLineNum) +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
@@ -648,9 +648,9 @@
 						<for each="member" in="staticMethods">
 							<div class="jsdoc-member{+ member.params.length || member.returns.length ? ' accordion-button' : '' +}{+ member.isPrivate ? ' container-jsdoc-private' : '' +}{+ member.isProtected ? ' container-jsdoc-protected' : '' +}">
 								<div class="jsdoc-member-definition">
-									<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
+									<b>{+ new Link().toSymbol(member.alias).withText(member.name).setAttribute('id', member.name) +}</b>
 									<span class="signature">{+ makeSignature(member.params) +}</span>
-									<if test="member.type && member.type !== 'void'"> : {+new Link().toSymbol(member.type)+}</if>
+									<if test="member.type && member.type !== 'void'"> : {+new Link().toSymbol(member.type) +}</if>
 									<if test="member.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">Deprecated</span></if>
 									<if test="member.isPrivate"><span class="label label-jsdoc label-jsdoc-private">Private</span></if>
 									<if test="member.isProtected"><span class="label label-jsdoc label-jsdoc-protected">Protected</span></if>
@@ -662,7 +662,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ addLineNumHashToLink(new Link().toSrc(member.srcFile).withText('code »'), member.srcLineNum) +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner('line' + member.srcLineNum) +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
@@ -739,7 +739,7 @@
 						<for each="member" in="staticProperties">
 							<div class="jsdoc-member{+ member.params.length || member.returns.length ? ' accordion-button' : '' +}{+ member.isPrivate ? ' container-jsdoc-private' : '' +}{+ member.isProtected ? ' container-jsdoc-protected' : '' +}">
 								<div class="jsdoc-member-definition">
-									<b>{+ addAttrToLink(new Link().toSymbol(member.alias).withText(member.name), 'name', member.name)+}</b>
+									<b>{+ new Link().toSymbol(member.alias).withText(member.name).setAttribute('id', member.name)+}</b>
 									<if test="member.type"> : {+new Link().toSymbol(member.type)+}</if>
 									<if test="member.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">Deprecated</span></if>
 									<if test="member.isPrivate"><span class="label label-jsdoc label-jsdoc-private">Private</span></if>
@@ -752,7 +752,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ addLineNumHashToLink(new Link().toSrc(member.srcFile).withText('code »'), member.srcLineNum) +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner('line' + member.srcLineNum) +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">

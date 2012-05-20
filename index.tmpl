@@ -43,7 +43,7 @@
 				<for each="thisClass" in="data">
 					<div class="jsdoc-member accordion-button">
 						<div class="jsdoc-member-definition">
-							<b>{+ addAttrToLink(new Link().toSymbol(thisClass.alias), 'id', thisClass.name)+}</b>
+							<b>{+ new Link().toSymbol(thisClass.alias).setAttribute('id', thisClass.name)+}</b>
 							{+ makeSignature(thisClass.params) +}
 							<if test="thisClass.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">DEPRECATED</span></if>
 							<if test="thisClass.isPrivate"><span class="label label-jsdoc label-jsdoc-private">PRIVATE</span></if>
@@ -55,7 +55,7 @@
 							<div class="jsdoc-member-summary">
 								{+ createDescription(thisClass.desc) +}
 								<span class="pull-right">
-									{+ addLineNumHashToLink(new Link().toSrc(thisClass.srcFile).withText('code »'), thisClass.srcLineNum) +}
+									{+ new Link().toSrc(thisClass.srcFile).withText('code »').inner('line' + thisClass.srcLineNum) +}
 								</span>
 								<if test="thisClass.deprecated"><div class="alert alert-error">{+ createDescription(thisClass.deprecated) +}</div></if>
 							</div>
