@@ -8,19 +8,19 @@ h2. Feature
 
 h3. Overview
 
-!https://github.com/OrgaChem/JsDoc2-Template-Bootstrap/blob/master/docs/overview.png!
+https://github.com/OrgaChem/JsDoc2-Template-Bootstrap/blob/master/docs/overview.png
 
 h3. Beautiful code preview
 
-!https://github.com/OrgaChem/JsDoc2-Template-Bootstrap/blob/master/docs/code.png!
+https://github.com/OrgaChem/JsDoc2-Template-Bootstrap/blob/master/docs/code.png
 
 h3. Inheritance tree
 
-!https://github.com/OrgaChem/JsDoc2-Template-Bootstrap/blob/master/docs/inheritance.png!
+https://github.com/OrgaChem/JsDoc2-Template-Bootstrap/blob/master/docs/inheritance.png
 
 h3. Functional members documents
 
-!https://github.com/OrgaChem/JsDoc2-Template-Bootstrap/blob/master/docs/member.png!
+https://github.com/OrgaChem/JsDoc2-Template-Bootstrap/blob/master/docs/member.png
 
 h2. Install
 
