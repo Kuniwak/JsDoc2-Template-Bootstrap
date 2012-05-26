@@ -144,7 +144,7 @@ AnchorElement = function() {
 
 
 AnchorElement.prototype.toString = function() {
-  return '<a ' + this.attributesMap.toString() + '>' + this.content + '</a>';
+  return '<a ' + this.attributesMap + '>' + this.content + '</a>';
 };
 
 
