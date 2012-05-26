@@ -222,6 +222,10 @@ body {
 	background-color: #c3325f;
 }
 
+.label-jsdoc.label-jsdoc-interface {
+	background-color: #ee5f5b;
+}
+
 .label-jsdoc.label-jsdoc-see {
 	background-color: #5bc0de;
 }

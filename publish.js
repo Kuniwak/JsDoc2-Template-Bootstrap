@@ -159,7 +159,6 @@ function publish(symbolSet) {
 	var jsPaths = [
       'jquery-1.7.2.min.js',
       'accordion.js',
-      'visibilityconfig.js',
 			'google-code-prettify/prettify.js'
 		];
 	var numOfJsPaths = jsPaths.length;

@@ -17,7 +17,6 @@
 	<script src="{+Link.base+}js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="{+Link.base+}js/prettify.js" type="text/javascript"></script>
 	<script src="{+Link.base+}js/accordion.js" type="text/javascript"></script>
-	<script src="{+Link.base+}js/visibilityconfig.js" type="text/javascript"></script>
 </head>
 
 <body onload="prettyPrint()"><div class="container-fluid">
@@ -30,21 +29,6 @@
 				<ul id="class-file-selector" class="nav">
 					<li><a href="{+Link.base+}index.html">Class Index</a></li>
 					<li><a href="{+Link.base+}files.html">File Index</a></li>
-				</ul>
-				<ul class="nav pull-right">
-					<li id="fat-menu" class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-white icon-wrench"></i> Settings <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-							<div class="jsdoc-visibility-options">
-								<input id="jsdoc-visibility-private" checked="checked" type="checkbox"> Visible 
-								<span class="label label-jsdoc label-jsdoc-private">Privates</span>
-							</div>
-							<div class="jsdoc-visibility-options">
-								<input id="jsdoc-visibility-protected" checked="checked" type="checkbox"> Visible 
-								<span class="label label-jsdoc label-jsdoc-protected">Protecteds</span>
-							</div>
-						</ul>
-					</li>
 				</ul>
 			</div>
 		</div>
@@ -89,6 +73,7 @@
 					
 				!}
 				<img src="{+ classIcon +}" alt="{+classType+}" class="jsdoc-large-icon" />{+data.alias+}
+				<if test="data.isInterface"><span class="label label-jsdoc label-jsdoc-interface">Interface</span></if>
 				<if test="data.hasMethod('getInstance')"><span class="label label-jsdoc label-jsdoc-singleton">Singleton</span></if>
 				<if test="data.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">Deprecated</span></if>
 				<if test="data.isPrivate"><span class="label label-jsdoc label-jsdoc-private">Private</span></if>
@@ -157,10 +142,12 @@
 						<div class="jsdoc-member-definition">
 							<b>{+ new Link().toSymbol(data.alias).withText(data.name).setAttribute('id', data.name) +}</b>
 							<if test="classType != 'Namespace '">{+ makeSignature(data.params) +}</if>
-							<if test="data.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">Deprecated</span></if>
-							<if test="data.isPrivate"><span class="label label-jsdoc label-jsdoc-private">Private</span></if>
-							<if test="data.isProtected"><span class="label label-jsdoc label-jsdoc-protected">Protected</span></if>
-							<if test="data.isInner"><span class="label label-jsdoc label-jsdoc-inner">Inner</span></if>
+							<if test="data.isInterface"><span class="label label-jsdoc label-jsdoc-interface">Interface</span> </if>
+							<if test="data.hasMethod('getInstance')"><span class="label label-jsdoc label-jsdoc-singleton">Singleton</span> </if>
+							<if test="data.deprecated"><span class="label label-jsdoc label-jsdoc-deprecated">Deprecated</span> </if>
+							<if test="data.isPrivate"><span class="label label-jsdoc label-jsdoc-private">Private</span> </if>
+							<if test="data.isProtected"><span class="label label-jsdoc label-jsdoc-protected">Protected</span> </if>
+							<if test="data.isInner"><span class="label label-jsdoc label-jsdoc-inner">Inner</span> </if>
 							<if test="data.isStatic"><span class="label label-jsdoc label-jsdoc-static">Static</span></if>
 						</div>
 						<div class="jsdoc-member-description">

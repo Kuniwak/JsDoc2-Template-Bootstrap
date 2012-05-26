@@ -22,19 +22,23 @@
 					var content = '<span class="indent" style="padding-left:' + (indent * 14) + 'px;">' + icon + name + '</span>';
 
 					if (item.deprecated) {
-						content += ' <span class="pull-right label label-jsdoc label-jsdoc-deprecated">Deprecated</span>';
+						content += ' <span class="pull-right label label-jsdoc label-jsdoc-deprecated">Deprecated</span> ';
 					}
 
 					if (item.isPrivate) {
-						content += ' <span class="pull-right label label-jsdoc label-jsdoc-private">Private</span>';
+						content += ' <span class="pull-right label label-jsdoc label-jsdoc-private">Private</span> ';
 					}
 
 					if (item.isProtected) {
-						content += ' <span class="pull-right label label-jsdoc label-jsdoc-protected">Protected</span>';
+						content += ' <span class="pull-right label label-jsdoc label-jsdoc-protected">Protected</span> ';
 					}
 
 					if (item.isInner) {
-						content += ' <span class="pull-right label label-jsdoc label-jsdoc-inner">Inner</span>';
+						content += ' <span class="pull-right label label-jsdoc label-jsdoc-inner">Inner</span> ';
+					}
+
+					if (item.isInterface) {
+						content += ' <span class="pull-right label label-jsdoc label-jsdoc-interface">Interface</span> ';
 					}
 
 					if (item.hasMethod('getInstance')) {
