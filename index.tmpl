@@ -57,7 +57,7 @@
 							<div class="jsdoc-member-content">
 								<div class="jsdoc-member-summary">
 									{+ createDescription(thisClass.desc) +}
-									<span class="pull-right">{+ new Link().toSrc(thisClass.srcFile).withText('code »').inner('line' + thisClass.srcLineNum) +}</span>
+									<span class="pull-right">{+ new Link().toSrc(thisClass.srcFile).withText('code »').inner(thisClass.srcLineNum ? 'line' + thisClass.srcLineNum : '') +}</span>
 								</div>
 								<if test="thisClass.example.length">
 									<for each="example" in="thisClass.example">

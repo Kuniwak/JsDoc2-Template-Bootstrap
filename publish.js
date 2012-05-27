@@ -109,7 +109,7 @@ function publish(symbolSet) {
 			var name = file.replace(/\.\.?[\\\/]/g, "").replace(/[\\\/]/g, "_");
 			name = name.replace(/\:/g, "_");
 			var output = "";
-			output = sourceTemplate.process({ source: escapeHTML(IO.readFile(file)) });
+			output = sourceTemplate.process({ file: file, source: escapeHTML(IO.readFile(file)) });
 			
 			IO.saveFile(srcDir, name + publish.conf.ext, output);
 		}

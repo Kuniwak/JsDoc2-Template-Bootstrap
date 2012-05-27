@@ -49,7 +49,7 @@
 					<div class="jsdoc-member-summary">
 						{+ createDescription(item.desc) +}
 					</div>
-					<if test="item.author || item.version || locations.length">
+					<if test="item.author || item.version || (locations && locations.length)">
 						<div class="jsdoc-member-detail">
 							<dl>
 								<if test="item.author">
@@ -61,7 +61,7 @@
 										<dd>{+item.version+}</dd>
 								</if>
 								{! var locations = item.comment.getTag('location').map(function($){return $.toString().replace(/(^\$ ?| ?\$$)/g, '').replace(/^HeadURL: https:/g, 'http:');}) !}
-								<if test="locations.length">
+								<if test="locations && locations.length">
 									<dt class="heading">Location:</dt>
 										<for each="location" in="locations">
 										<dd><a href="{+location+}">{+location+}</a></dd>

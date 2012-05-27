@@ -154,7 +154,7 @@
 							<div class="jsdoc-member-content">
 								<div class="jsdoc-member-summary">
 									{+ createDescription(data.desc) +}
-									<span class="pull-right">{+ new Link().toSrc(data.srcFile).withText('code »').inner('line' + data.srcLineNum) +}</span>
+									<span class="pull-right">{+ new Link().toSrc(data.srcFile).withText('code »').inner(data.srcLineNum ? 'line' + data.srcLineNum : '') +}</span>
 								</div>
 								<if test="data.example.length">
 									<for each="example" in="data.example">
@@ -240,7 +240,7 @@
 							<div class="jsdoc-member-summary">
 								{+ createDescription(data.desc) +}
 								<span class="pull-right">
-									{+ new Link().toSrc(data.srcFile).withText('code »').inner('line' + data.srcLineNum) +}
+									{+ new Link().toSrc(data.srcFile).withText('code »').inner(data.srcLineNum ? 'line' + data.srcLineNum : '') +}
 								</span>
 							</div>
 						</div>
@@ -275,7 +275,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner('line' + member.srcLineNum) +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
@@ -364,7 +364,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner('line' + member.srcLineNum) +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
@@ -466,7 +466,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner('line' + member.srcLineNum) +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
@@ -558,7 +558,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner('line' + member.srcLineNum) +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
@@ -649,7 +649,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner('line' + member.srcLineNum) +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
@@ -739,7 +739,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner('line' + member.srcLineNum) +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
