@@ -324,7 +324,21 @@ function makeSortWithCaseSensitiveBy(attribute) {
  * @return {String} The replaced description.
  */
 function convInlineCodes(desc) {
-	return desc.replace(/<pre>/ig, '<pre class="prettyprint linenums">');
+  var result = desc.replace(/<pre>/ig, '<pre class="prettyprint linenums">');
+  result = desc.replace(/\{@link ([^} ]+) ?\}/gi, "<code>$1</code>");
+	return result;
+}
+
+
+/** Find symbol {@link ...} strings in text and turn into html links */
+function createInlineCodes(str, from) {
+	str = str.replace(/\{@link ([^} ]+) ?\}/gi,
+		function(match, symbolName) {
+			return new Link().toSymbol(symbolName);
+		}
+	);
+	
+	return str;
 }
 
 
