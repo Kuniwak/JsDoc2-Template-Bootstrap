@@ -197,7 +197,7 @@ Link.getSymbol= function(alias) {
   var symbol = Link.symbolSet.getSymbol(alias);
   
   if (symbol) return symbol;
-  if ('#' !== alias.charAt(0) || !Link.currentSymbol) return null;
+  if ('#' !== alias.toString().charAt(0) || !Link.currentSymbol) return null;
   return null;
 };
 
