@@ -1,3 +1,22 @@
-.ss-background, .ss-container {
+.ss-background {
 	border: 0;
+	width: 100%;
+	text-align: center;
+	margin-top: 5px;
+}
+
+.ss-container {
+	border: 0;
+	padding: 0;
+}
+
+.img-caption {
+	font-size: 9pt;
+	letter-spacing: 2px;
+	margin: 10px 0 3px 0;
+}
+
+.ss {
+	width: auto;
+	margin: 2px;
 }
