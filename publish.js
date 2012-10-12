@@ -173,7 +173,8 @@ function publish(symbolSet) {
 	var cssPaths = [
 			'common.css',
 			'bootstrap/css/bootstrap.min.css',
-			'google-code-prettify/prettify.css'
+			'google-code-prettify/prettify.css',
+			'print.css'
 		];
 	var numOfCssPaths = cssPaths.length;
 	var cssPath;
