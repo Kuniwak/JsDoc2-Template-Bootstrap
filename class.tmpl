@@ -85,13 +85,142 @@
 				{+ data.version +}.<br />
 			</if>
 			{!
-				var staticMethods = [];
-				var instanceMethods = [];
-				var staticProperties = [];
-				var instanceProperties = [];
-				var nestedNamespaces = [];
-				var constructorMembers = [];
+				var constructorMembers, staticMethods, instanceMethods;
 				
+				if (data.isNamespace) {
+					constructorMembers = [];
+					staticMethods = [];
+					instanceMethods = [];
+					data.methods.forEach(function(symbol) {
+						if (symbol.is('CONSTRUCTOR')) {
+							constructorMembers.push(symbol);
+						} else if (symbol.isStatic) {
+							staticMethods.push(symbol);
+						} else {
+							instanceMethods.push(symbol);
+						}
+					});
+					constructorMembers = constructorMembers.sort(makeSortby("alias"));
+					staticMethods = staticMethods.sort(makeSortby("alias"));
+					instanceMethods = instanceMethods.sort(makeSortby("alias"));
+				}
+				else {
+					var tempCtorMembers = [], tempStaticMethods = [], tempInstanceMethods = [];
+					var ancestors = getParentSymbols(data);
+
+					// Adds this symbol to the tail.
+					ancestors.push(data);
+
+					var ancestorNamepathes = [];
+					ancestors.forEach(function(symbol) {
+						ancestorNamepathes.unshift(symbol.alias);
+					});
+
+					data.methods.forEach(function(symbol) {
+						var index = ancestorNamepathes.indexOf(symbol.memberOf);
+						LOG.inform(symbol.alias + ': ' + symbol.memberOf + '[' + index + ']');
+						if (index >= 0) {
+							if (symbol.is('CONSTRUCTOR')) {
+								if (!tempCtorMembers[index]) tempCtorMembers[index] = [];
+								tempCtorMembers[index].push(symbol);
+							}
+							else if (symbol.isStatic) {
+								if (!tempStaticMethods[index]) tempStaticMethods[index] = [];
+								tempStaticMethods[index].push(symbol);
+							}
+							else {
+								if (!tempInstanceMethods[index]) tempInstanceMethods[index] = [];
+								tempInstanceMethods[index].push(symbol);
+							}
+						}
+					});
+
+					constructorMembers = Array.prototype.concat.apply([],
+							tempCtorMembers.map(function(arr) {
+						return arr.sort(makeSortby("name"));
+					}));
+
+					instanceMethods = Array.prototype.concat.apply([],
+							tempInstanceMethods.map(function(arr) {
+						return arr.sort(makeSortby("name"));
+					}));
+
+					staticMethods = Array.prototype.concat.apply([],
+							tempStaticMethods.map(function(arr) {
+						return arr.sort(makeSortby("name"));
+					}));
+				}
+
+				var staticProps, instanceProps, nestedNamespaces;
+
+				if (data.isNamespace) {
+					nestedNamespaces = [];
+					staticProps = [];
+					instanceProps = [];
+					data.properties.forEach(function(symbol) {
+						if (symbol.is('CONSTRUCTOR')) {
+							nestedNamespaces.push(symbol);
+						} else if (symbol.isStatic) {
+							staticProps.push(symbol);
+						} else {
+							instanceProps.push(symbol);
+						}
+					});
+					nestedNamespaces = nestedNamespaces.sort(makeSortby("alias"));
+					staticProps = staticProps.sort(makeSortby("alias"));
+					instanceProps = instanceProps.sort(makeSortby("alias"));
+				}
+				else {
+					var tempNestedNSes = [], tempStaticProps = [], tempInstanceProps = [];
+					var ancestors = getParentSymbols(data);
+
+					// Adds this symbol to the tail.
+					ancestors.push(data);
+
+					var ancestorNamepathes = [];
+					ancestors.forEach(function(symbol) {
+						ancestorNamepathes.unshift(symbol.alias);
+					});
+
+					data.properties.forEach(function(symbol) {
+						var index = ancestorNamepathes.indexOf(symbol.memberOf);
+						LOG.inform(symbol.alias + ': ' + symbol.memberOf + '[' + index + ']');
+						if (index >= 0) {
+							if (symbol.is('CONSTRUCTOR')) {
+								if (!tempNestedNSes[index]) tempNestedNSes[index] = [];
+								tempNestedNSes[index].push(symbol);
+							}
+							else if (symbol.isStatic) {
+								if (!tempStaticProps[index]) tempStaticProps[index] = [];
+								tempStaticProps[index].push(symbol);
+							}
+							else {
+								if (!tempInstanceProps[index]) tempInstanceProps[index] = [];
+								tempInstanceProps[index].push(symbol);
+							}
+						}
+					});
+
+					nestedNamespaces = Array.prototype.concat.apply([],
+							tempNestedNSes.map(function(arr) {
+						return arr.sort(makeSortby("name"));
+					}));
+
+					instanceProps = Array.prototype.concat.apply([],
+							tempInstanceProps.map(function(arr) {
+						return arr.sort(makeSortby("name"));
+					}));
+
+					staticProps = Array.prototype.concat.apply([],
+							tempStaticProps.map(function(arr) {
+						return arr.sort(makeSortby("name"));
+					}));
+				}
+				/*
+				*/
+
+				/*
+				var constructorMembers = [], staticMethods = [], instanceMethods = [];
 				data.methods.forEach(function(symbol) {
 					if (symbol.is('CONSTRUCTOR')) {
 						constructorMembers.push(symbol);
@@ -101,6 +230,7 @@
 						instanceMethods.push(symbol);
 					}
 				});
+				constructorMembers = constructorMembers.sort(makeSortby("alias"));
 				staticMethods = staticMethods.sort(makeSortby("alias"));
 				instanceMethods = instanceMethods.sort(makeSortby("alias"));
 				
@@ -108,27 +238,28 @@
 					if (symbol.isNamespace) {
 						nestedNamespaces.push(symbol);
 					} else if (symbol.isStatic) {
-						staticProperties.push(symbol);
+						staticProps.push(symbol);
 					} else {
-						instanceProperties.push(symbol);
+						instanceProps.push(symbol);
 					}
 				});
 				nestedNamespaces = nestedNamespaces.sort(makeSortby("alias"));
-				staticProperties = staticProperties.sort(makeSortby("alias"));
-				instanceProperties = instanceProperties.sort(makeSortby("alias"));
+				staticProps = staticProps.sort(makeSortby("alias"));
+				instanceProps = instanceProps.sort(makeSortby("alias"));
+				*/
 			!}
 			<div class="jsdoc-hierarchy-nav">
 				<ul class="breadcrumb">
 					<if test="data.isNamespace">
 						<li class="jsdoc-hierarchy-caption">Hierarchy</li>
 							<for each="namespaceSymbol" in="getParentNamespaces(data)">
-								<li>{+ new Link().toSymbol(namespaceSymbol.alias) +}<span class="divider">«</span></li>
+								<li>{+ new Link().toSymbol(namespaceSymbol.alias) +}<span class="divider">&#171;</span></li>
 							</for>
 						<li class="active">{+ data.name +}</li>
 					<else />
 						<li class="jsdoc-hierarchy-caption">Inheritance</li>
 							<for each="classSymbol" in="getParentSymbols(data)">
-								<li>{+ new Link().toSymbol(classSymbol.alias) +}<span class="divider">«</span></li>
+								<li>{+ new Link().toSymbol(classSymbol.alias) +}<span class="divider">&#171;</span></li>
 							</for>
 						<li class="active">{+ data.name +}</li>
 					</if>
@@ -155,7 +286,7 @@
 							<div class="jsdoc-member-content">
 								<div class="jsdoc-member-summary">
 									{+ createDescription(data.desc) +}
-									<span class="pull-right">{+ new Link().toSrc(data.srcFile).withText('code »').inner(data.srcLineNum ? 'line' + data.srcLineNum : '') +}</span>
+									<span class="pull-right">{+ new Link().toSrc(data.srcFile).withText('code &#187;').inner(data.srcLineNum ? 'line' + data.srcLineNum : '') +}</span>
 								</div>
 								<if test="data.example.length">
 									<for each="example" in="data.example">
@@ -241,7 +372,7 @@
 							<div class="jsdoc-member-summary">
 								{+ createDescription(data.desc) +}
 								<span class="pull-right">
-									{+ new Link().toSrc(data.srcFile).withText('code »').inner(data.srcLineNum ? 'line' + data.srcLineNum : '') +}
+									{+ new Link().toSrc(data.srcFile).withText('code &#187;').inner(data.srcLineNum ? 'line' + data.srcLineNum : '') +}
 								</span>
 							</div>
 						</div>
@@ -252,9 +383,9 @@
 <!-- ============================== instance members summary ===================== -->
 			{!
 				var instanceMethodsLength = instanceMethods.length;
-				var instancePropertiesLength = instanceProperties.length;
+				var instancePropsLength = instanceProps.length;
 			!}
-			<if test="instanceMethodsLength || instancePropertiesLength">
+			<if test="instanceMethodsLength || instancePropsLength">
 				<h3>Instance members</h3>
 				<if test="instanceMethodsLength">
 					<h4>Instance Methods<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
@@ -276,7 +407,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code &#187;').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
@@ -347,10 +478,10 @@
 						</for>
 					</div>
 				</if>
-				<if test="instancePropertiesLength">
+				<if test="instancePropsLength">
 					<h4>Instance Properties<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
 					<div class="jsdoc-members">
-						<for each="member" in="instanceProperties">
+						<for each="member" in="instanceProps">
 							<div class="jsdoc-member{+ member.params.length || member.returns.length ? ' accordion-button' : '' +}{+ member.isPrivate ? ' container-jsdoc-private' : '' +}{+ member.isProtected ? ' container-jsdoc-protected' : '' +}">
 								<div class="jsdoc-member-definition">
 									<b>{+ new Link().toSymbol(member.alias).withText(member.name).setAttribute('id', member.name) +}</b>
@@ -365,7 +496,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code &#187;').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
@@ -443,9 +574,9 @@
 				var nestedNamespacesLength = nestedNamespaces.length;
 				var constructorMembersLength = constructorMembers.length;
 				var staticMethodsLength = staticMethods.length;
-				var staticPropertiesLength = staticProperties.length;
+				var staticPropsLength = staticProps.length;
 			!}
-			<if test="nestedNamespacesLength || constructorMembersLength || staticMethodsLength || staticPropertiesLength">
+			<if test="nestedNamespacesLength || constructorMembersLength || staticMethodsLength || staticPropsLength">
 				<h3>Static members</h3>
 				<if test="nestedNamespacesLength">
 					<h4>Nested namespaces<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
@@ -467,7 +598,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code &#187;').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
@@ -559,7 +690,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code &#187;').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
@@ -650,7 +781,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code &#187;').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
@@ -721,10 +852,10 @@
 						</for>
 					</div>
 				</if>
-				<if test="staticPropertiesLength">
+				<if test="staticPropsLength">
 					<h4>Static Properties<span class="jsdoc-inherits-caption pull-right">Defined By</span></h4>
 					<div class="jsdoc-members">
-						<for each="member" in="staticProperties">
+						<for each="member" in="staticProps">
 							<div class="jsdoc-member{+ member.params.length || member.returns.length ? ' accordion-button' : '' +}{+ member.isPrivate ? ' container-jsdoc-private' : '' +}{+ member.isProtected ? ' container-jsdoc-protected' : '' +}">
 								<div class="jsdoc-member-definition">
 									<b>{+ new Link().toSymbol(member.alias).withText(member.name).setAttribute('id', member.name)+}</b>
@@ -740,7 +871,7 @@
 									<div class="jsdoc-member-content">
 										<div class="jsdoc-member-summary">
 											{+ createDescription(member.desc) +}
-											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code »').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
+											<span class="pull-right">{+ new Link().toSrc(member.srcFile).withText('code &#187;').inner(member.srcLineNum ? 'line' + member.srcLineNum : '') +}</span>
 										</div>
 										<if test="member.example.length">
 											<for each="example" in="member.example">
