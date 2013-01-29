@@ -53,12 +53,13 @@
 							<if test="thisClass.isProtected"><span class="label label-jsdoc label-jsdoc-protected">Protected</span> </if>
 							<if test="thisClass.isInner"><span class="label label-jsdoc label-jsdoc-inner">Inner</span> </if>
 							<if test="thisClass.isStatic"><span class="label label-jsdoc label-jsdoc-static">Static</span></if>
+							<if test="thisClass.isEnumerable"><span class="label label-jsdoc label-jsdoc-enum">Enumerable</span></if>
 						</div>
 						<div class="jsdoc-member-description">
 							<div class="jsdoc-member-content">
 								<div class="jsdoc-member-summary">
 									{+ createDescription(thisClass.desc) +}
-									<span class="pull-right">{+ new Link().toSrc(thisClass.srcFile).withText('code »').inner(thisClass.srcLineNum ? 'line' + thisClass.srcLineNum : '') +}</span>
+									<span class="pull-right">{+ new Link().toSrc(thisClass.srcFile).withText('code &#187;').inner(thisClass.srcLineNum ? 'line' + thisClass.srcLineNum : '') +}</span>
 								</div>
 								<if test="thisClass.example.length">
 									<for each="example" in="thisClass.example">

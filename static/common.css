@@ -23,16 +23,6 @@ body {
 	padding-top: 0.2em;
 }
 
-.footer {
-  margin-top: 45px;
-  border-top: 1px solid #e5e5e5;
-}
-
-.footer p {
-  margin-bottom: 0;
-  color: #555;
-}
-
 .jsdoc-large-icon {
 	vertical-align: middle;
 	margin-right: 0.5em;
@@ -199,7 +189,7 @@ body {
 }
 
 .label-jsdoc.label-jsdoc-private {
-	background-color: #f89406;
+	background-color: #ffb142;
 }
 
 .label-jsdoc.label-jsdoc-protected {
@@ -219,15 +209,15 @@ body {
 }
 
 .label-jsdoc.label-jsdoc-singleton {
-	background-color: #c3325f;
+	background-color: #ff80a7;
 }
 
 .label-jsdoc.label-jsdoc-interface {
-	background-color: #ee5f5b;
+	background-color: #f14b9b;
 }
 
 .label-jsdoc.label-jsdoc-see {
-	background-color: #5bc0de;
+	background-color: #6fb8ce;
 }
 
 .label-jsdoc.label-jsdoc-requires {
@@ -235,11 +225,23 @@ body {
 }
 
 .label-jsdoc.label-jsdoc-since {
-	background-color: #62c462;
+	background-color: #65d3ce;
 }
 
 .label-jsdoc.label-jsdoc-exceptions {
-	background-color: #fbb450;
+	background-color: #fcdf0b;
+}
+
+.label-jsdoc.label-jsdoc-enum {
+	background-color: #8f8f8f;
+}
+
+.label-jsdoc.label-jsdoc-const {
+	background-color: #65be65;
+}
+
+.label-jsdoc.label-jsdoc-define {
+	background-color: #a0e040;
 }
 
 .jsdoc-member-detail {
@@ -309,4 +311,30 @@ body {
 .jsdoc-visibility-options {
 	padding: 5px 7px;
 	color: black;
+}
+
+.footer {
+  text-align: center;
+  padding: 30px 0;
+  margin-top: 70px;
+  border-top: 1px solid #e5e5e5;
+  background-color: #f5f5f5;
+}
+
+.footer p {
+  margin-bottom: 0;
+  color: #777;
+}
+
+.footer-links {
+  margin: 10px 0;
+}
+
+.footer-links li {
+  display: inline;
+  padding: 0 2px;
+}
+
+.footer-links li:first-child {
+  padding-left: 0;
 }
