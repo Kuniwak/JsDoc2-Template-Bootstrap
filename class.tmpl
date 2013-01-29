@@ -86,11 +86,16 @@
 			</if>
 			{!
 				var constructorMembers, staticMethods, instanceMethods;
+				var staticProps, instanceProps, nestedNamespaces;
 				
 				if (data.isNamespace) {
 					constructorMembers = [];
 					staticMethods = [];
 					instanceMethods = [];
+					nestedNamespaces = [];
+					staticProps = [];
+					instanceProps = [];
+
 					data.methods.forEach(function(symbol) {
 						if (symbol.is('CONSTRUCTOR')) {
 							constructorMembers.push(symbol);
@@ -100,65 +105,9 @@
 							instanceMethods.push(symbol);
 						}
 					});
-					constructorMembers = constructorMembers.sort(makeSortby("alias"));
-					staticMethods = staticMethods.sort(makeSortby("alias"));
-					instanceMethods = instanceMethods.sort(makeSortby("alias"));
-				}
-				else {
-					var tempCtorMembers = [], tempStaticMethods = [], tempInstanceMethods = [];
-					var ancestors = getParentSymbols(data);
 
-					// Adds this symbol to the tail.
-					ancestors.push(data);
-
-					var ancestorNamepathes = [];
-					ancestors.forEach(function(symbol) {
-						ancestorNamepathes.unshift(symbol.alias);
-					});
-
-					data.methods.forEach(function(symbol) {
-						var index = ancestorNamepathes.indexOf(symbol.memberOf);
-						LOG.inform(symbol.alias + ': ' + symbol.memberOf + '[' + index + ']');
-						if (index >= 0) {
-							if (symbol.is('CONSTRUCTOR')) {
-								if (!tempCtorMembers[index]) tempCtorMembers[index] = [];
-								tempCtorMembers[index].push(symbol);
-							}
-							else if (symbol.isStatic) {
-								if (!tempStaticMethods[index]) tempStaticMethods[index] = [];
-								tempStaticMethods[index].push(symbol);
-							}
-							else {
-								if (!tempInstanceMethods[index]) tempInstanceMethods[index] = [];
-								tempInstanceMethods[index].push(symbol);
-							}
-						}
-					});
-
-					constructorMembers = Array.prototype.concat.apply([],
-							tempCtorMembers.map(function(arr) {
-						return arr.sort(makeSortby("name"));
-					}));
-
-					instanceMethods = Array.prototype.concat.apply([],
-							tempInstanceMethods.map(function(arr) {
-						return arr.sort(makeSortby("name"));
-					}));
-
-					staticMethods = Array.prototype.concat.apply([],
-							tempStaticMethods.map(function(arr) {
-						return arr.sort(makeSortby("name"));
-					}));
-				}
-
-				var staticProps, instanceProps, nestedNamespaces;
-
-				if (data.isNamespace) {
-					nestedNamespaces = [];
-					staticProps = [];
-					instanceProps = [];
 					data.properties.forEach(function(symbol) {
-						if (symbol.is('CONSTRUCTOR')) {
+						if (symbol.isNamespace) {
 							nestedNamespaces.push(symbol);
 						} else if (symbol.isStatic) {
 							staticProps.push(symbol);
@@ -166,36 +115,60 @@
 							instanceProps.push(symbol);
 						}
 					});
+
+					constructorMembers = constructorMembers.sort(makeSortby("alias"));
+					staticMethods = staticMethods.sort(makeSortby("alias"));
+					instanceMethods = instanceMethods.sort(makeSortby("alias"));
 					nestedNamespaces = nestedNamespaces.sort(makeSortby("alias"));
 					staticProps = staticProps.sort(makeSortby("alias"));
 					instanceProps = instanceProps.sort(makeSortby("alias"));
 				}
 				else {
+					var tempCtorMembers = [], tempStaticMethods = [], tempInstanceMethods = [];
 					var tempNestedNSes = [], tempStaticProps = [], tempInstanceProps = [];
 					var ancestors = getParentSymbols(data);
 
 					// Adds this symbol to the tail.
 					ancestors.push(data);
 
+					// Prepares inheritance order sorting, and initialize temporary arrays.
 					var ancestorNamepathes = [];
-					ancestors.forEach(function(symbol) {
+					var ancestorslength = ancestors.length;
+					ancestors.forEach(function(symbol, index) {
+						tempCtorMembers[index] = [];
+						tempNestedNSes[index] = [];
+						tempStaticMethods[index] = [];
+						tempStaticProps[index] = [];
+						tempInstanceMethods[index] = [];
+						tempInstanceProps[index] = [];
 						ancestorNamepathes.unshift(symbol.alias);
+					});
+
+					data.methods.forEach(function(symbol) {
+						var index = ancestorNamepathes.indexOf(symbol.memberOf);
+						if (index >= 0) {
+							if (symbol.is('CONSTRUCTOR')) {
+								tempCtorMembers[index].push(symbol);
+							}
+							else if (symbol.isStatic) {
+								tempStaticMethods[index].push(symbol);
+							}
+							else {
+								tempInstanceMethods[index].push(symbol);
+							}
+						}
 					});
 
 					data.properties.forEach(function(symbol) {
 						var index = ancestorNamepathes.indexOf(symbol.memberOf);
-						LOG.inform(symbol.alias + ': ' + symbol.memberOf + '[' + index + ']');
 						if (index >= 0) {
-							if (symbol.is('CONSTRUCTOR')) {
-								if (!tempNestedNSes[index]) tempNestedNSes[index] = [];
+							if (symbol.isNamespace) {
 								tempNestedNSes[index].push(symbol);
 							}
 							else if (symbol.isStatic) {
-								if (!tempStaticProps[index]) tempStaticProps[index] = [];
 								tempStaticProps[index].push(symbol);
 							}
 							else {
-								if (!tempInstanceProps[index]) tempInstanceProps[index] = [];
 								tempInstanceProps[index].push(symbol);
 							}
 						}
@@ -215,38 +188,22 @@
 							tempStaticProps.map(function(arr) {
 						return arr.sort(makeSortby("name"));
 					}));
-				}
-				/*
-				*/
 
-				/*
-				var constructorMembers = [], staticMethods = [], instanceMethods = [];
-				data.methods.forEach(function(symbol) {
-					if (symbol.is('CONSTRUCTOR')) {
-						constructorMembers.push(symbol);
-					} else if (symbol.isStatic) {
-						staticMethods.push(symbol);
-					} else {
-						instanceMethods.push(symbol);
-					}
-				});
-				constructorMembers = constructorMembers.sort(makeSortby("alias"));
-				staticMethods = staticMethods.sort(makeSortby("alias"));
-				instanceMethods = instanceMethods.sort(makeSortby("alias"));
-				
-				data.properties.forEach(function(symbol) {
-					if (symbol.isNamespace) {
-						nestedNamespaces.push(symbol);
-					} else if (symbol.isStatic) {
-						staticProps.push(symbol);
-					} else {
-						instanceProps.push(symbol);
-					}
-				});
-				nestedNamespaces = nestedNamespaces.sort(makeSortby("alias"));
-				staticProps = staticProps.sort(makeSortby("alias"));
-				instanceProps = instanceProps.sort(makeSortby("alias"));
-				*/
+					constructorMembers = Array.prototype.concat.apply([],
+							tempCtorMembers.map(function(arr) {
+						return arr.sort(makeSortby("name"));
+					}));
+
+					instanceMethods = Array.prototype.concat.apply([],
+							tempInstanceMethods.map(function(arr) {
+						return arr.sort(makeSortby("name"));
+					}));
+
+					staticMethods = Array.prototype.concat.apply([],
+							tempStaticMethods.map(function(arr) {
+						return arr.sort(makeSortby("name"));
+					}));
+				}
 			!}
 			<div class="jsdoc-hierarchy-nav">
 				<ul class="breadcrumb">

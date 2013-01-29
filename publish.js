@@ -293,7 +293,7 @@ function getParentNamespaces(symbol) {
     symbols.push(JSDOC.Parser.symbols.getSymbol(namespaces.join('.')));
     namespaces.pop();
   }
-  return symbols;
+  return symbols.reverse();
 }
 
 
