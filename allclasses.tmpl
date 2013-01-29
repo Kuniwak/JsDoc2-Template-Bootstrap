@@ -3,7 +3,7 @@
 		<li class="nav-header">Classes</li>
 		<for each="item" in="data">
 			<li>{!
-				if (true || item.alias !== "_global_") {
+				if (item.alias !== "_global_") {
 					var type = 'icon-jsdoc icon-jsdoc-';
 					if (item.isNamespace) {
 						type += 'namespace';
